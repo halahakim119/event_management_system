@@ -15,16 +15,53 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    ForgotPasswordRoute.name: (routeData) {
+      final args = routeData.argsAs<ForgotPasswordRouteArgs>(
+          orElse: () => const ForgotPasswordRouteArgs());
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ForgotPasswordScreen(key: args.key),
+      );
+    },
+    LoginRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const LoginScreen(),
+      );
+    },
+    ResetPasswordRoute.name: (routeData) {
+      final args = routeData.argsAs<ResetPasswordRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ResetPasswordScreen(
+          key: args.key,
+          verificationCode: args.verificationCode,
+          code: args.code,
+        ),
+      );
+    },
+    SignupRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SignupScreen(),
+      );
+    },
+    VeificationRoute.name: (routeData) {
+      final args = routeData.argsAs<VeificationRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: VeificationScreen(
+          key: args.key,
+          code: args.code,
+          verificationCode: args.verificationCode,
+          typeForm: args.typeForm,
+        ),
+      );
+    },
     HomeRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const HomeScreen(),
-      );
-    },
-    SplashRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const SplashScreen(),
       );
     },
     MainRoute.name: (routeData) {
@@ -33,7 +70,173 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const MainScreen(),
       );
     },
+    SplashRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SplashScreen(),
+      );
+    },
+    AuthRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AuthScreen(),
+      );
+    },
+    LanguagesRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const LanguagesScreen(),
+      );
+    },
   };
+}
+
+/// generated route for
+/// [ForgotPasswordScreen]
+class ForgotPasswordRoute extends PageRouteInfo<ForgotPasswordRouteArgs> {
+  ForgotPasswordRoute({
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ForgotPasswordRoute.name,
+          args: ForgotPasswordRouteArgs(key: key),
+          initialChildren: children,
+        );
+
+  static const String name = 'ForgotPasswordRoute';
+
+  static const PageInfo<ForgotPasswordRouteArgs> page =
+      PageInfo<ForgotPasswordRouteArgs>(name);
+}
+
+class ForgotPasswordRouteArgs {
+  const ForgotPasswordRouteArgs({this.key});
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'ForgotPasswordRouteArgs{key: $key}';
+  }
+}
+
+/// generated route for
+/// [LoginScreen]
+class LoginRoute extends PageRouteInfo<void> {
+  const LoginRoute({List<PageRouteInfo>? children})
+      : super(
+          LoginRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LoginRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ResetPasswordScreen]
+class ResetPasswordRoute extends PageRouteInfo<ResetPasswordRouteArgs> {
+  ResetPasswordRoute({
+    Key? key,
+    required String verificationCode,
+    required String code,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ResetPasswordRoute.name,
+          args: ResetPasswordRouteArgs(
+            key: key,
+            verificationCode: verificationCode,
+            code: code,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ResetPasswordRoute';
+
+  static const PageInfo<ResetPasswordRouteArgs> page =
+      PageInfo<ResetPasswordRouteArgs>(name);
+}
+
+class ResetPasswordRouteArgs {
+  const ResetPasswordRouteArgs({
+    this.key,
+    required this.verificationCode,
+    required this.code,
+  });
+
+  final Key? key;
+
+  final String verificationCode;
+
+  final String code;
+
+  @override
+  String toString() {
+    return 'ResetPasswordRouteArgs{key: $key, verificationCode: $verificationCode, code: $code}';
+  }
+}
+
+/// generated route for
+/// [SignupScreen]
+class SignupRoute extends PageRouteInfo<void> {
+  const SignupRoute({List<PageRouteInfo>? children})
+      : super(
+          SignupRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SignupRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [VeificationScreen]
+class VeificationRoute extends PageRouteInfo<VeificationRouteArgs> {
+  VeificationRoute({
+    Key? key,
+    required String code,
+    required String verificationCode,
+    String? typeForm,
+    List<PageRouteInfo>? children,
+  }) : super(
+          VeificationRoute.name,
+          args: VeificationRouteArgs(
+            key: key,
+            code: code,
+            verificationCode: verificationCode,
+            typeForm: typeForm,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'VeificationRoute';
+
+  static const PageInfo<VeificationRouteArgs> page =
+      PageInfo<VeificationRouteArgs>(name);
+}
+
+class VeificationRouteArgs {
+  const VeificationRouteArgs({
+    this.key,
+    required this.code,
+    required this.verificationCode,
+    this.typeForm,
+  });
+
+  final Key? key;
+
+  final String code;
+
+  final String verificationCode;
+
+  final String? typeForm;
+
+  @override
+  String toString() {
+    return 'VeificationRouteArgs{key: $key, code: $code, verificationCode: $verificationCode, typeForm: $typeForm}';
+  }
 }
 
 /// generated route for
@@ -46,6 +249,20 @@ class HomeRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MainScreen]
+class MainRoute extends PageRouteInfo<void> {
+  const MainRoute({List<PageRouteInfo>? children})
+      : super(
+          MainRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MainRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -65,15 +282,29 @@ class SplashRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [MainScreen]
-class MainRoute extends PageRouteInfo<void> {
-  const MainRoute({List<PageRouteInfo>? children})
+/// [AuthScreen]
+class AuthRoute extends PageRouteInfo<void> {
+  const AuthRoute({List<PageRouteInfo>? children})
       : super(
-          MainRoute.name,
+          AuthRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'MainRoute';
+  static const String name = 'AuthRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [LanguagesScreen]
+class LanguagesRoute extends PageRouteInfo<void> {
+  const LanguagesRoute({List<PageRouteInfo>? children})
+      : super(
+          LanguagesRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'LanguagesRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

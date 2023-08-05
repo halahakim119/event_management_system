@@ -3,7 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../translations/local_keys.g.dart';
+
 import '../theme/presentation/theme_cubit.dart';
 
 @RoutePage()
@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 context.read<ThemeCubit>().toggleTheme();
               },
             ),
-            Text(LocaleKeys.welcome.tr()),
+          
             ElevatedButton(
               onPressed: () async {
                 await context.setLocale(Locale('ar'));

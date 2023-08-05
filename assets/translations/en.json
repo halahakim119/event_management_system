@@ -1,3 +1,36 @@
 {
-    "welcome":"hi"
+
+    "Welcome":"Welcome",
+    "Next":"Next",
+    "select_your_language": "select your language:",
+    "You_can_change_language_anytime_in_the_settings": "You can change the language anytime in the settings.",
+    "Name":"Name",
+    "Phone_Number":"Phone Number",
+    "Password":"Password",
+    "Confirm_Password":"Confirm Password",
+    "Province":"Province",
+    "Login":"Login",
+    "Sign_Up":"Sign Up",
+    "Where_do_you_live":"Where do you live?",
+    "Forgot_Password": "Forgot Password?",
+    "AlAnbar": "AlAnbar",
+    "AlMuthanna": "AlMuthanna",
+    "AlQadisiyah": "AlQadisiyah",
+    "AlNajaf": "AlNajaf",
+    "Erbil": "Erbil",
+    "AlSulaymaniyah": "AlSulaymaniyah",
+    "Babil": "Babil",
+    "Baghdad": "Baghdad",
+    "Basra": "Basra",
+    "DhiQar": "DhiQar",
+    "Diyala": "Diyala",
+    "Duhok": "Duhok",
+    "Karbala": "Karbala",
+    "Kirkuk": "Kirkuk",
+    "Maysan": "Maysan",
+    "Ninawa": "Ninawa",
+    "Saladin": "Saladin",
+    "Wasit": "Wasit",
+    "Halabja": "Halabja"
+
 }

@@ -1,3 +1,36 @@
 {
-    "welcome":"مرحبا"
+    "Welcome": "أهلاً وسهلاً",
+    "Next": "التالي",
+    "select_your_language": "اختر لغتك",
+    "You_can_change_language_anytime_in_the_settings": "يمكنك تغيير اللغة في أي وقت من خلال الإعدادات.",
+    "Name": "الاسم",
+    "Phone_Number": "رقم الهاتف",
+    "Password": "كلمة المرور",
+    "Confirm_Password": "تأكيد كلمة المرور",
+    "Province": "المحافظة",
+    "Login": "تسجيل الدخول",
+    "Sign_Up": "انشاء حساب",
+    "Where_do_you_live": "أين تعيش؟",
+    "Forgot_Password": "نسيت كلمة المرور؟",
+    "AlAnbar": "الأنبار",
+    "AlMuthanna": "المثنى",
+    "AlQadisiyah": "القادسية",
+    "AlNajaf": "النجف",
+    "Erbil": "أربيل",
+    "AlSulaymaniyah": "السليمانية",
+    "Babil": "بابل",
+    "Baghdad": "بغداد",
+    "Basra": "البصرة",
+    "DhiQar": "ذي قار",
+    "Diyala": "ديالى",
+    "Duhok": "دهوك",
+    "Karbala": "كربلاء",
+    "Kirkuk": "كركوك",
+    "Maysan": "ميسان",
+    "Ninawa": "نينوى",
+    "Saladin": "صلاح الدين",
+    "Wasit": "واسط",
+    "Halabja": "حلبجة"
+
+    
 }
