@@ -1,13 +1,12 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:event_management_system/core/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../../../core/injection/injection_container.dart';
-
+import '../../../../../core/router/app_router.dart';
 import '../../../../../core/utils/custom_text_field.dart';
-import '../../../../user/data/models/user_model.dart';
+import '../../../../user/data/models/user_profile_model.dart';
 import '../../../../user/presentation/logic/bloc/user_bloc.dart';
 import '../../logic/bloc/authentication_bloc.dart';
 @RoutePage()
@@ -80,8 +79,8 @@ class _VeificationScreenContentState extends State<_VeificationScreenContent> {
     });
   }
 
-  UserModel? user;
-  final userBox = Hive.box<UserModel>('userBox');
+  UserProfileModel? user;
+  final userBox = Hive.box<UserProfileModel>('userBox');
 
   void getUserData() {
     if (userBox.isNotEmpty) {
@@ -120,7 +119,7 @@ class _VeificationScreenContentState extends State<_VeificationScreenContent> {
                           actions: [
                             TextButton(
                               onPressed: () {
-                                context.router.popAndPush(const LoginRoute());
+                                context.router.popAndPush(const AuthRoute());
                               },
                               child: const Text('OK'),
                             ),

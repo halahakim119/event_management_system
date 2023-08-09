@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:event_management_system/translations/codegen_loader.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,11 +6,13 @@ import 'core/injection/injection_container.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'features/theme/presentation/theme_cubit.dart';
+import 'translations/codegen_loader.g.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await EasyLocalization.ensureInitialized();
   await init();
+  await EasyLocalization.ensureInitialized();
+
   runApp(EasyLocalization(
     path: 'assets/translations',
     supportedLocales: const [

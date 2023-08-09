@@ -30,8 +30,8 @@ class EditUserUseCase {
   EditUserUseCase(this.repository);
 
   Future<Either<Failure, Unit>> editUser(String id, String token, String name,
-      String password, String province) async {
-    return repository.editUser(id, token, name, password, province);
+     String province) async {
+    return repository.editUser(id, token, name, province);
   }
 }
 

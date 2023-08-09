@@ -43,7 +43,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<EditUserEvent>((event, emit) async {
       emit(UserLoading());
       final result = await editUserUseCase.editUser(event.userId, event.token,
-          event.name, event.password, event.province);
+          event.name, event.province);
       return emit(result.fold(
         (failure) => UserError(message: failure.message),
         (_) => UserEdited(),

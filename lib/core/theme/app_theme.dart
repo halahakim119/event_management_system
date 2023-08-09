@@ -11,6 +11,7 @@ class AppTheme {
     subThemesData: const FlexSubThemesData(
       thinBorderWidth: 0.5,
       thickBorderWidth: 0.5,
+    
       defaultRadius: 25.0,
       textButtonRadius: 25.0,
       elevatedButtonRadius: 25.0,

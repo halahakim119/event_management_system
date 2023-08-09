@@ -31,14 +31,12 @@ class EditUserEvent extends UserEvent {
   final String token;
   final String name;
 
-  final String password;
   final String province;
 
-  const EditUserEvent(
-      this.userId, this.token, this.name, this.password, this.province);
+  const EditUserEvent(this.userId, this.token, this.name, this.province);
 
   @override
-  List<Object> get props => [userId, token, name];
+  List<Object> get props => [userId, token, name, province];
 }
 
 class VerifyPhoneNumberEvent extends UserEvent {

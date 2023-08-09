@@ -79,7 +79,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       );
       return;
     }
-    final authenticationBloc = BlocProvider.of<AuthenticationBloc>(context);
+    final authenticationBloc = sl<AuthenticationBloc>();
     authenticationBloc.add(
       VerifyPhoneResetPasswordRequested(
         code: widget.code,
@@ -99,7 +99,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
               actions: [
                 TextButton(
                   onPressed: () {
-                    context.router.popAndPush(const LoginRoute());
+                    context.router.popAndPush(const AuthRoute());
                   },
                   child: const Text('OK'),
                 ),

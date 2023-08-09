@@ -72,24 +72,4 @@ class UserModel extends UserEntity {
       events: events,
     );
   }
-
-  factory UserModel.fromJsonProfileData(Map<String, dynamic> json) {
-    return UserModel(
-      id: json['id'],
-      name: json['name'],
-      phoneNumber: json['phoneNumber'],
-      token: json['token'],
-      province: json['province'],
-    );
-  }
-
-  Map<String, dynamic> toJsonProfileData() {
-    return {
-      'id': id,
-      'name': name,
-      'phoneNumber': phoneNumber,
-      'token': token,
-      'province': province,
-    };
-  }
 }

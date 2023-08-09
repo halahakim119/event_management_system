@@ -1,12 +1,10 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:hive/hive.dart';
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/utils/api_provider.dart';
-import '../../../user/data/models/user_model.dart';
+import '../../../user/data/models/user_profile_model.dart';
 import '../../../user/domain/entities/user_entity.dart';
 
 abstract class AuthenticationRemoteDataSource {
@@ -39,7 +37,7 @@ abstract class AuthenticationRemoteDataSource {
 
 class AuthenticationRemoteDataSourceImpl
     implements AuthenticationRemoteDataSource {
-  final Box<UserModel> _userBox;
+  final Box<UserProfileModel> _userBox;
 
   final ApiProvider _apiProvider;
 
@@ -81,14 +79,15 @@ class AuthenticationRemoteDataSourceImpl
         'number': phoneNumber,
         'password': password,
       });
-
+     
       final userJson = jsonResponse['user'] as Map<String, dynamic>;
 
-      final userData = UserModel.fromJson(userJson);
+      final userData = UserProfileModel.fromJson(userJson);
 
       await _userBox.put('userBox', userData);
 
       return Right(userData.toEntity());
+    
     } on ApiException catch (e) {
       return Left(ApiExceptionFailure(e.message));
     } catch (e) {
@@ -119,7 +118,7 @@ class AuthenticationRemoteDataSourceImpl
       {required String phoneNumber}) async {
     try {
       final response = await _apiProvider.post(
-        'signin/phone/resetPassword/verify',
+        'phone/user/resetPassword/verify',
         {'number': phoneNumber},
       );
 
@@ -142,7 +141,7 @@ class AuthenticationRemoteDataSourceImpl
   }) async {
     try {
       await _apiProvider.post(
-        'signin/phone/resetPassword/resetPassword',
+        'phone/user/resetPassword/resetPassword',
         {
           'code': code,
           'verificationCode': verificationCode,

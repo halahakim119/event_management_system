@@ -13,6 +13,7 @@ class ServerFailure extends Failure {
   }
 }
 
+
 class ApiExceptionFailure extends Failure {
   final String message;
 
@@ -20,6 +21,6 @@ class ApiExceptionFailure extends Failure {
 
   @override
   String toString() {
-    return 'ApiExceptionFailure: $message';
+    return message;
   }
 }

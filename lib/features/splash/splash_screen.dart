@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:event_management_system/core/router/app_router.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
+import '../../core/router/app_router.dart';
 import '../user/data/models/user_model.dart';
+import '../user/data/models/user_profile_model.dart';
 
 @RoutePage()
 class SplashScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   UserModel? user;
-  final userBox = Hive.box<UserModel>('userBox');
+  late Box<UserModel> userBox;
   bool isExist = false;
 
   @override
@@ -41,6 +41,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    initUserBox();
     Future.delayed(const Duration(seconds: 3), () async {
       checkUserBoxAndNavigate();
     });
@@ -53,6 +54,16 @@ class _SplashScreenState extends State<SplashScreen> {
       await context.router.popAndPush(const LanguagesRoute());
     }
   }
+
+  void initUserBox() async {
+    Box<UserProfileModel> box;
+    if(Hive.isBoxOpen('userbox')) {
+        box = Hive.box('userbox');
+    } else {
+        box = await Hive.openBox('userbox');
+    }
+}
+
 
   @override
   Widget build(BuildContext context) {

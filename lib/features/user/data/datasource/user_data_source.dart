@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:event_management_system/features/user/data/models/user_profile_model.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,7 +13,7 @@ import '../models/user_model.dart';
 abstract class UserDataSource {
   Future<Either<Failure, String>> deleteUser(String id, String token);
   Future<Either<Failure, Unit>> editUser(
-      String id, String token, String name, String number, String province);
+      String id, String token, String name, String province);
   Future<Either<Failure, UserModel>> getUser(String id);
   Future<Either<Failure, Map<String, dynamic>>> verifyPhoneNumber(
       String id, String number, String token);
@@ -21,12 +22,11 @@ abstract class UserDataSource {
 }
 
 class UserDataSourceImpl implements UserDataSource {
-  final Box<UserModel> _userBox;
+  final Box<UserProfileModel> _userBox;
 
   final AuthenticationRemoteDataSource authenticationRemoteDataSource;
 
-  UserDataSourceImpl(
-      this._userBox, this_infoBox, this.authenticationRemoteDataSource);
+  UserDataSourceImpl(this._userBox, this.authenticationRemoteDataSource);
 
   @override
   Future<Either<Failure, String>> deleteUser(String id, String token) async {
@@ -63,7 +63,7 @@ class UserDataSourceImpl implements UserDataSource {
 
   @override
   Future<Either<Failure, Unit>> editUser(String id, String token, String name,
-      String password, String province) async {
+       String province) async {
     try {
       final response = await http.post(
         Uri.parse('http://35.180.62.182/api/phone/user/edit'),
@@ -71,6 +71,8 @@ class UserDataSourceImpl implements UserDataSource {
           'id': id,
           'token': token,
           'name': name,
+          'province': province,
+     
         },
       );
 

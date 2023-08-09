@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:event_management_system/features/user/data/datasource/user_data_source.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -15,8 +15,13 @@ import '../../features/theme/data/theme_mode_adapter.dart';
 import '../../features/theme/data/theme_repository.dart';
 import '../../features/theme/domain/theme_interactor.dart';
 import '../../features/theme/presentation/theme_cubit.dart';
-import '../../features/user/data/models/user_model.dart';
-import '../../features/user/data/models/user_model_adapter.dart';
+
+import '../../features/user/data/models/user_profile_model.dart';
+import '../../features/user/data/models/user_profile_model_adapter.dart';
+import '../../features/user/data/repositories/user_repository_impl.dart';
+import '../../features/user/domain/repositories/user_repository.dart';
+import '../../features/user/domain/usecases/user_crud_use_cases.dart';
+import '../../features/user/presentation/logic/bloc/user_bloc.dart';
 import '../utils/api_provider.dart';
 
 final sl = GetIt.instance;
@@ -38,12 +43,20 @@ Future<void> init() async {
   sl.registerFactory<ThemeCubit>(() => ThemeCubit(sl<ThemeInteractor>()));
 
 //! Register Hive Adapters
-  sl.registerLazySingleton<Box<UserModel>>(
-      () => Hive.box<UserModel>('userBox'));
-  Hive.registerAdapter<UserModel>(UserModelAdapter());
+
+  Hive.registerAdapter<UserProfileModel>(UserProfileModelAdapter());
 
   //! Open the Hive box
-  await Hive.openBox<UserModel>('userBox'); // Open the box before accessing it
+Box<UserProfileModel> userBox;
+if (!Hive.isBoxOpen('userBox')) {
+    userBox = await Hive.openBox<UserProfileModel>('userBox');
+} else {
+    userBox = Hive.box<UserProfileModel>('userBox');
+}
+
+
+  sl.registerLazySingleton<Box<UserProfileModel>>(() => userBox);
+
 
   //! API Provider
   sl.registerLazySingleton<ApiProvider>(() => ApiProvider());
@@ -53,7 +66,7 @@ Future<void> init() async {
   sl.registerLazySingleton<AuthenticationRemoteDataSource>(
     () => AuthenticationRemoteDataSourceImpl(
       sl<ApiProvider>(),
-      sl<Box<UserModel>>(),
+      sl<Box<UserProfileModel>>(),
     ),
   );
 
@@ -79,4 +92,33 @@ Future<void> init() async {
   sl.registerLazySingleton(() => VerifyPhoneSignUp(sl()));
   sl.registerLazySingleton(() => ResetPassword(sl()));
   sl.registerLazySingleton(() => VerifyPhoneResetPassword(sl()));
+
+  
+    //! user
+  // Data sources
+  sl.registerLazySingleton<UserDataSource>(() => UserDataSourceImpl(
+    sl<Box<UserProfileModel>>(),
+    sl<AuthenticationRemoteDataSource>(), 
+  ));
+
+  // Repositories
+  sl.registerLazySingleton<UserRepository>(
+    () => UserRepositoryImpl(userDataSource: sl()),
+  );
+
+  // BLoC
+  sl.registerFactory(() => UserBloc(
+        deleteUserUseCase: sl(),
+        editUserUseCase: sl(),
+        getUserUseCase: sl(),
+        updatePhoneNumberUseCase: sl(),
+        verifyPhoneNumberUseCase: sl(),
+      ));
+
+  // Use cases
+  sl.registerLazySingleton(() => DeleteUserUseCase(sl()));
+  sl.registerLazySingleton(() => EditUserUseCase(sl()));
+  sl.registerLazySingleton(() => GetUserUseCase(sl()));
+  sl.registerLazySingleton(() => UpdatePhoneNumberUseCase(sl()));
+  sl.registerLazySingleton(() => VerifyPhoneNumberUseCase(sl()));
 }

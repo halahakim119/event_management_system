@@ -7,7 +7,7 @@ abstract class ThemeRepository {
 }
 
 class ThemeRepositoryImpl implements ThemeRepository {
-  static const String _themeBoxName = 'themeBox';
+
   static const String _themeModeKey = 'themeMode';
 
   final Box _themeBox;

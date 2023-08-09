@@ -25,10 +25,10 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<Either<Failure, Unit>> editUser(String id, String token, String name,
-      String password, String province) async {
+    String province) async {
     try {
       final result =
-          await userDataSource.editUser(id, token, name, password, province);
+          await userDataSource.editUser(id, token, name, province);
       return result.fold(
         (failure) => Left(failure),
         (_) => const Right(unit),
