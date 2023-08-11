@@ -29,7 +29,7 @@ class EditUserUseCase {
 
   EditUserUseCase(this.repository);
 
-  Future<Either<Failure, Unit>> editUser(String id, String token, String name,
+  Future<Either<Failure, String>> editUser(String id, String token, String name,
      String province) async {
     return repository.editUser(id, token, name, province);
   }
@@ -51,7 +51,7 @@ class UpdatePhoneNumberUseCase {
 
   UpdatePhoneNumberUseCase(this.repository);
 
-  Future<Either<Failure, Unit>> updatePhoneNumber(
+  Future<Either<Failure, String>> updatePhoneNumber(
       String code, String verificationCode) async {
     return repository.updatePhoneNumber(code, verificationCode);
   }

@@ -9,6 +9,7 @@ import '../../../../../core/utils/custom_text_field.dart';
 import '../../../../user/data/models/user_profile_model.dart';
 import '../../../../user/presentation/logic/bloc/user_bloc.dart';
 import '../../logic/bloc/authentication_bloc.dart';
+
 @RoutePage()
 class VeificationScreen extends StatelessWidget {
   final String code;
@@ -74,9 +75,7 @@ class _VeificationScreenContentState extends State<_VeificationScreenContent> {
   }
 
   void _onBoxChange() {
-    setState(() {
-      getUserData();
-    });
+    getUserData();
   }
 
   UserProfileModel? user;
@@ -196,7 +195,26 @@ class _VeificationScreenContentState extends State<_VeificationScreenContent> {
                 child: BlocConsumer<UserBloc, UserState>(
                   listener: (context, state) {
                     if (state is PhoneNumberUpdated) {
-                      context.router.pop();
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('success'),
+                            content: Text(state.message),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  context.router.popUntil((route) {
+                                    return route.settings.name ==
+                                        EditProfileRoute.name;
+                                  });
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
                     }
                     if (state is UserError) {
                       showDialog(

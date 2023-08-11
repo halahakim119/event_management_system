@@ -12,12 +12,12 @@ import '../models/user_model.dart';
 
 abstract class UserDataSource {
   Future<Either<Failure, String>> deleteUser(String id, String token);
-  Future<Either<Failure, Unit>> editUser(
+  Future<Either<Failure, String>> editUser(
       String id, String token, String name, String province);
   Future<Either<Failure, UserModel>> getUser(String id);
   Future<Either<Failure, Map<String, dynamic>>> verifyPhoneNumber(
       String id, String number, String token);
-  Future<Either<Failure, Unit>> updatePhoneNumber(
+  Future<Either<Failure, String>> updatePhoneNumber(
       String code, String verificationCode);
 }
 
@@ -63,7 +63,7 @@ class UserDataSourceImpl implements UserDataSource {
   }
 
   @override
-  Future<Either<Failure, Unit>> editUser(
+  Future<Either<Failure, String>> editUser(
       String id, String token, String name, String province) async {
     try {
       final response = await http.post(
@@ -90,7 +90,7 @@ class UserDataSourceImpl implements UserDataSource {
         // Save the updated user data back to the box
         _userBox.putAt(0, user);
 
-        return const Right(unit);
+        return const Right('updated succesffuly');
       } else if (response.statusCode == 400) {
         if (jsonResponse.containsKey('ERROR')) {
           final errorMessage = jsonResponse['ERROR'];
@@ -138,7 +138,7 @@ class UserDataSourceImpl implements UserDataSource {
   }
 
   @override
-  Future<Either<Failure, Unit>> updatePhoneNumber(
+  Future<Either<Failure, String>> updatePhoneNumber(
       String code, String verificationCode) async {
     try {
       final response = await http.post(
@@ -159,7 +159,7 @@ class UserDataSourceImpl implements UserDataSource {
 
         // Save the updated user data back to the box
         _userBox.putAt(0, user);
-        return const Right(unit);
+        return const Right('phpne number updated');
       } else if (response.statusCode == 400) {
         if (jsonResponse.containsKey('ERROR')) {
           final errorMessage = jsonResponse['ERROR'];

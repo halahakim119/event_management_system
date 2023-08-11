@@ -24,14 +24,13 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> editUser(String id, String token, String name,
-    String province) async {
+  Future<Either<Failure, String>> editUser(
+      String id, String token, String name, String province) async {
     try {
-      final result =
-          await userDataSource.editUser(id, token, name, province);
+      final result = await userDataSource.editUser(id, token, name, province);
       return result.fold(
         (failure) => Left(failure),
-        (_) => const Right(unit),
+        (message) => Right(message),
       );
     } catch (e) {
       return Left(ServerFailure('Failed to update user name'));
@@ -66,14 +65,14 @@ class UserRepositoryImpl implements UserRepository {
   }
 
   @override
-  Future<Either<Failure, Unit>> updatePhoneNumber(
+  Future<Either<Failure, String>> updatePhoneNumber(
       String code, String verificationCode) async {
     try {
       final result =
           await userDataSource.updatePhoneNumber(code, verificationCode);
       return result.fold(
         (failure) => Left(failure),
-        (_) => const Right(unit),
+        (message) =>  Right(message),
       );
     } catch (e) {
       return Left(ServerFailure('Failed to update phone number'));

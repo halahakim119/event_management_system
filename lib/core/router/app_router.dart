@@ -15,6 +15,8 @@ import '../../features/settings/about_us_screen.dart';
 import '../../features/settings/help_center_screen.dart';
 import '../../features/settings/settings_screen.dart';
 import '../../features/splash/splash_screen.dart';
+import '../../features/user/data/models/user_profile_model.dart';
+import '../../features/user/presentation/view/pages/edit_name_province_screen.dart';
 import '../../features/user/presentation/view/pages/edit_profile_screen.dart';
 import '../../features/user/presentation/view/pages/profile_screen.dart';
 
@@ -46,5 +48,6 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: AboutUsRoute.page),
         AutoRoute(page: HelpCenterRoute.page),
         AutoRoute(page: SettingsRoute.page),
+          AutoRoute(page: EditNameProvinceRoute.page),
       ];
 }

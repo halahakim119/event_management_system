@@ -124,6 +124,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ProfileScreen(),
       );
     },
+    EditNameProvinceRoute.name: (routeData) {
+      final args = routeData.argsAs<EditNameProvinceRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: EditNameProvinceScreen(
+          key: args.key,
+          user: args.user,
+        ),
+      );
+    },
   };
 }
 
@@ -427,4 +437,42 @@ class ProfileRoute extends PageRouteInfo<void> {
   static const String name = 'ProfileRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [EditNameProvinceScreen]
+class EditNameProvinceRoute extends PageRouteInfo<EditNameProvinceRouteArgs> {
+  EditNameProvinceRoute({
+    Key? key,
+    required UserProfileModel user,
+    List<PageRouteInfo>? children,
+  }) : super(
+          EditNameProvinceRoute.name,
+          args: EditNameProvinceRouteArgs(
+            key: key,
+            user: user,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'EditNameProvinceRoute';
+
+  static const PageInfo<EditNameProvinceRouteArgs> page =
+      PageInfo<EditNameProvinceRouteArgs>(name);
+}
+
+class EditNameProvinceRouteArgs {
+  const EditNameProvinceRouteArgs({
+    this.key,
+    required this.user,
+  });
+
+  final Key? key;
+
+  final UserProfileModel user;
+
+  @override
+  String toString() {
+    return 'EditNameProvinceRouteArgs{key: $key, user: $user}';
+  }
 }

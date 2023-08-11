@@ -29,7 +29,14 @@ class UserDeleted extends UserState {
   List<Object> get props => [message];
 }
 
-class UserEdited extends UserState {}
+class UserEdited extends UserState {
+  final String message;
+
+  UserEdited({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
 
 class PhoneNumberVerified extends UserState {
   final String code;
@@ -44,7 +51,14 @@ class PhoneNumberVerified extends UserState {
   List<Object> get props => [code, verificationCode];
 }
 
-class PhoneNumberUpdated extends UserState {}
+class PhoneNumberUpdated extends UserState {
+  final String message;
+
+  PhoneNumberUpdated({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
 
 class UserError extends UserState {
   final String message;

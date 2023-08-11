@@ -46,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> { // Corrected the state type h
       ),
       body: Center(child: Text('Choose a color using the button below.')),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'colorPicker',
         onPressed: () {
           showDialog(
             context: context,
