@@ -1,14 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:event_management_system/core/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../core/injection/injection_container.dart';
+import '../../core/router/app_router.dart';
+import '../profile/data/models/user_profile_model.dart';
+import '../profile/presentation/logic/bloc/user_bloc.dart';
 import '../theme/presentation/theme_cubit.dart';
-import '../user/data/models/user_profile_model.dart';
-import '../user/presentation/logic/bloc/user_bloc.dart';
 
 @RoutePage()
 class SettingsScreen extends StatefulWidget {
@@ -115,25 +115,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ],
           ),
-           userBox.isEmpty
-                      ? Container()
-                      : GestureDetector(
-                          onTap: () {
-                            _logout();
-                            Navigator.pop(context);
-                          },
-                          child:  Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text("Log out"),
-                              Icon(
-                                Icons.output_rounded,
-                                color: Color.fromARGB(255, 35, 47, 103),
-                              ),
-                            ],
-                          ),
-                        ),
-
+          userBox.isEmpty
+              ? Container()
+              : GestureDetector(
+                  onTap: () {
+                    _logout();
+                    Navigator.pop(context);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Log out"),
+                      Icon(
+                        Icons.output_rounded,
+                        color: Color.fromARGB(255, 35, 47, 103),
+                      ),
+                    ],
+                  ),
+                ),
           userBox.isEmpty
               ? Container()
               : GestureDetector(

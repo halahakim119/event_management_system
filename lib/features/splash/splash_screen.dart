@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../core/router/app_router.dart';
-import '../user/data/models/user_model.dart';
-import '../user/data/models/user_profile_model.dart';
+import '../profile/data/models/user_profile_model.dart';
 
 @RoutePage()
 class SplashScreen extends StatefulWidget {
@@ -15,8 +14,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  UserModel? user;
-  late Box<UserModel> userBox;
+  UserProfileModel? user;
+  late Box<UserProfileModel> userBox;
   bool isExist = false;
 
   @override
@@ -56,18 +55,16 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   void initUserBox() async {
-    Box<UserProfileModel> box;
-    if(Hive.isBoxOpen('userbox')) {
-        box = Hive.box('userbox');
+    if (Hive.isBoxOpen('userbox')) {
+      userBox = Hive.box('userbox');
     } else {
-        box = await Hive.openBox('userbox');
+      userBox = await Hive.openBox('userbox');
     }
-}
-
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: Text('splash screen'),
       ),

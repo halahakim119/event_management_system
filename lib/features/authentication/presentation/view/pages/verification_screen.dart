@@ -6,8 +6,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../../../../../core/injection/injection_container.dart';
 import '../../../../../core/router/app_router.dart';
 import '../../../../../core/utils/custom_text_field.dart';
-import '../../../../user/data/models/user_profile_model.dart';
-import '../../../../user/presentation/logic/bloc/user_bloc.dart';
+import '../../../../profile/data/models/user_profile_model.dart';
+import '../../../../profile/presentation/logic/bloc/user_bloc.dart';
 import '../../logic/bloc/authentication_bloc.dart';
 
 @RoutePage()

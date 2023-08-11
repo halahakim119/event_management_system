@@ -10,15 +10,15 @@ import '../../features/authentication/presentation/view/pages/verification_scree
 import '../../features/home/home_screen.dart';
 import '../../features/languages/pages/languages_screen.dart';
 import '../../features/main/main_screen.dart';
+import '../../features/profile/data/models/user_profile_model.dart';
+import '../../features/profile/presentation/view/pages/edit_name_province_screen.dart';
+import '../../features/profile/presentation/view/pages/edit_profile_screen.dart';
+import '../../features/profile/presentation/view/pages/profile_screen.dart';
 import '../../features/search and filter/search_screen.dart';
 import '../../features/settings/about_us_screen.dart';
 import '../../features/settings/help_center_screen.dart';
 import '../../features/settings/settings_screen.dart';
 import '../../features/splash/splash_screen.dart';
-import '../../features/user/data/models/user_profile_model.dart';
-import '../../features/user/presentation/view/pages/edit_name_province_screen.dart';
-import '../../features/user/presentation/view/pages/edit_profile_screen.dart';
-import '../../features/user/presentation/view/pages/profile_screen.dart';
 
 part 'app_router.gr.dart';
 
