@@ -42,6 +42,7 @@ dependencies:
   shimmer: ^3.0.0
   circular_clip_route: ^0.2.0+3
   filter_list: ^1.0.2
+  flutter_colorpicker: ^1.0.3
 
 
 # routing

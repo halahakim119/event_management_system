@@ -42,8 +42,9 @@ class UserDataSourceImpl implements UserDataSource {
       );
 
       final jsonResponse = jsonDecode(response.body);
-      await _userBox.clear();
+
       if (response.statusCode == 200 && jsonResponse.containsKey('message')) {
+        await _userBox.clear();
         return Right(jsonResponse['message']);
       } else if (response.statusCode == 400) {
         if (jsonResponse.containsKey('ERROR')) {
@@ -62,8 +63,8 @@ class UserDataSourceImpl implements UserDataSource {
   }
 
   @override
-  Future<Either<Failure, Unit>> editUser(String id, String token, String name,
-       String province) async {
+  Future<Either<Failure, Unit>> editUser(
+      String id, String token, String name, String province) async {
     try {
       final response = await http.post(
         Uri.parse('http://35.180.62.182/api/phone/user/edit'),
@@ -72,19 +73,19 @@ class UserDataSourceImpl implements UserDataSource {
           'token': token,
           'name': name,
           'province': province,
-     
         },
       );
 
       final jsonResponse = jsonDecode(response.body);
+
       if (response.statusCode == 200) {
-        // Access the user data from the box
+        final userData = jsonResponse['data'] as Map<String, dynamic>;
+
         final user = _userBox.getAt(0);
 
         // Update the user data
-        user!.name = jsonResponse['name'];
-        user.phoneNumber = jsonResponse['phoneNumber'];
-        user.province = jsonResponse['province'];
+        user!.name = userData['name'];
+        user.province = userData['province'];
 
         // Save the updated user data back to the box
         _userBox.putAt(0, user);
