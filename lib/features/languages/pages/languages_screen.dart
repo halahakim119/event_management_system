@@ -21,9 +21,9 @@ class LanguagesScreen extends StatelessWidget {
               Text(LocaleKeys.Welcome.tr(),
                   style: const TextStyle(fontSize: 30)),
               const Spacer(),
-              Text(LocaleKeys.select_your_language.tr()),
+              // Text(LocaleKeys.select_your_language.tr()),
               SizedBox(
-                width: MediaQuery.of(context).size.width*0.8,
+                width: MediaQuery.of(context).size.width * 0.8,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -32,6 +32,9 @@ class LanguagesScreen extends StatelessWidget {
                         await context.setLocale(const Locale('ar'));
                       },
                       child: const Text('العربيه'),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     ElevatedButton(
                       onPressed: () async {
@@ -49,9 +52,14 @@ class LanguagesScreen extends StatelessWidget {
                 },
                 child: Text(LocaleKeys.Next.tr()),
               ),
-              Text(LocaleKeys.You_can_change_language_anytime_in_the_settings
-                  .tr()),
               const Spacer(),
+              Text(
+                LocaleKeys.You_can_change_language_anytime_in_the_settings.tr(),
+                style: const TextStyle(fontSize: 10, color: Colors.grey),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
             ]),
       ),
     );

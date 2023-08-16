@@ -32,13 +32,24 @@ class _EditNameProvinceScreenState extends State<EditNameProvinceScreen> {
   @override
   void initState() {
     super.initState();
+    setState(() {});
     nameController.text = widget.user.name;
-    provinceController.text = widget.user.province;
   }
 
-  String getEnglishProvince(String arabicProvince) {
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (EasyLocalization.of(context)!.locale == const Locale('ar')) {
+      provinceController.text =
+          translateProvince(widget.user.province, toEnglish: false);
+    } else {
+      provinceController.text = widget.user.province;
+    }
+  }
+
+  String translateProvince(String province, {required bool toEnglish}) {
     // Map containing Arabic province names as keys and their corresponding English names as values
-    Map<String, String> arabicToEnglishProvinces = {
+    Map<String, String> provincesTranslation = {
       // Replace these values with the correct English names for the provinces
       'الأنبار': 'AlAnbar',
       'المثنى': 'AlMuthanna',
@@ -61,8 +72,12 @@ class _EditNameProvinceScreenState extends State<EditNameProvinceScreen> {
       'حلبجة': 'Halabja',
     };
 
-    // Check if the given Arabic province exists in the map, and return its English value
-    return arabicToEnglishProvinces[arabicProvince] ?? arabicProvince;
+    if (toEnglish) {
+      return provincesTranslation[province] ?? province;
+    } else {
+      var reversedMap = provincesTranslation.map((k, v) => MapEntry(v, k));
+      return reversedMap[province] ?? province;
+    }
   }
 
   @override
@@ -135,7 +150,7 @@ class _EditNameProvinceScreenState extends State<EditNameProvinceScreen> {
                   DropdownButtonFormField<String>(
                     value: provinceController.text,
                     borderRadius: BorderRadius.circular(25),
-                    items: provinces.map((province) {
+                    items: getProvinces().map((province) {
                       return DropdownMenuItem<String>(
                         value: province,
                         child: Text(province),
@@ -143,7 +158,8 @@ class _EditNameProvinceScreenState extends State<EditNameProvinceScreen> {
                     }).toList(),
                     onChanged: (selectedValue) {
                       setState(() {
-                        provinceController.text = selectedValue!;
+                        provinceController.text =
+                            selectedValue ?? provinceController.text;
                       });
                     },
                     decoration: InputDecoration(
@@ -160,21 +176,15 @@ class _EditNameProvinceScreenState extends State<EditNameProvinceScreen> {
                     height: 25,
                   ),
                   ElevatedButton(
-                    child: Text('Update'),
+                    child: const Text('Update'),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
                         // Get the selected province from the DropdownButtonFormField
-                        String selectedProvince =
-                            provinceController.text.trim();
+                        // Always convert the selected province to English
+                        String selectedProvince = translateProvince(
+                            provinceController.text.trim(),
+                            toEnglish: true);
 
-                        // Convert the selected province to English if the current locale is Arabic
-                        if (EasyLocalization.of(context)!.locale ==
-                            const Locale('ar')) {
-                          selectedProvince =
-                              getEnglishProvince(selectedProvince);
-                        }
-
-                        // Get the UserBloc from the context and dispatch the EditUserEvent
                         context.read<UserBloc>().add(
                               EditUserEvent(
                                 widget.user.id,

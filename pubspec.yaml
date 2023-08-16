@@ -44,6 +44,9 @@ dependencies:
   circular_clip_route: ^0.2.0+3
   filter_list: ^1.0.2
   flutter_colorpicker: ^1.0.3
+  widget_and_text_animator: ^1.0.0
+  loading_animation_widget: ^1.2.0+4
+  
 
 
 # routing

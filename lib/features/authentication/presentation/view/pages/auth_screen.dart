@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:event_management_system/core/router/app_router.dart';
-import 'package:event_management_system/features/authentication/presentation/view/pages/signup_screen.dart';
+import 'package:flutter/material.dart';
+
 import '../../../../../translations/locale_keys.g.dart';
 import 'login_screen.dart';
-import 'package:flutter/material.dart';
+import 'signup_screen.dart';
 
 @RoutePage()
 class AuthScreen extends StatefulWidget {
@@ -48,12 +48,6 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          context.router.push(const HomeRoute());
-        },
-        child: const Icon(Icons.home_filled),
-      ),
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,

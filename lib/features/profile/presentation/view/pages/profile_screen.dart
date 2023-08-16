@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../data/models/user_profile_model.dart';
+import '../widgets/profile_buttons.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
@@ -54,65 +55,69 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 style: TextStyle(color: Theme.of(context).colorScheme.primary),
               ),
             ))
-          : Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Container(
-                  margin: const EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: Theme.of(context).primaryColor,
-                  ),
-                  child: Wrap(
-                    textDirection: TextDirection.ltr,
-                    alignment: WrapAlignment.spaceEvenly,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    direction: Axis.horizontal,
-                    children: [
-                      Wrap(
-                        direction: Axis.vertical,
-                        alignment: WrapAlignment.center,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              user!.name,
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary),
+          : SingleChildScrollView(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Container(
+                    margin: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    child: Wrap(
+                      textDirection: TextDirection.ltr,
+                      alignment: WrapAlignment.spaceEvenly,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      direction: Axis.horizontal,
+                      children: [
+                        Wrap(
+                          direction: Axis.vertical,
+                          alignment: WrapAlignment.center,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                user!.name,
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary),
+                              ),
                             ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              user!.phoneNumber,
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.onPrimary),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                user!.phoneNumber,
+                                style: TextStyle(
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Wrap(
-                        direction: Axis.vertical,
-                        alignment: WrapAlignment.center,
-                        crossAxisAlignment: WrapCrossAlignment.center,
-                        children: [
-                          Icon(Icons.home_filled,
-                              color: Theme.of(context).colorScheme.onPrimary),
-                          Text(
-                            user!.province,
-                            style: TextStyle(
+                          ],
+                        ),
+                        Wrap(
+                          direction: Axis.vertical,
+                          alignment: WrapAlignment.center,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Icon(Icons.home_filled,
                                 color: Theme.of(context).colorScheme.onPrimary),
-                          ),
-                        ],
-                      )
-                    ],
+                            Text(
+                              user!.province,
+                              style: TextStyle(
+                                  color: Theme.of(context).colorScheme.onPrimary),
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
+                  ProfileBody()
+                ],
+              ),
+          ),
     );
   }
 }

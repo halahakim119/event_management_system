@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
                 ? AppTheme.themeData
                 : AppTheme.darkTheme,
             darkTheme: AppTheme.darkTheme,
-            themeMode: themeMode,
+            themeMode: ThemeMode.light,
 
             // app routing
             routerDelegate: _appRouter.delegate(),

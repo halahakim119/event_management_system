@@ -2,7 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 
 import '../../translations/locale_keys.g.dart';
 
-List<String> provinces = [
+
+List<String> getProvinces() {
+  return [
   LocaleKeys.AlAnbar.tr(),
   LocaleKeys.AlMuthanna.tr(),
   LocaleKeys.AlQadisiyah.tr(),
@@ -22,4 +24,5 @@ List<String> provinces = [
   LocaleKeys.Saladin.tr(),
   LocaleKeys.Wasit.tr(),
   LocaleKeys.Halabja.tr()
-];
+  ];
+}

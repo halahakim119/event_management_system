@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 import '../../core/router/app_router.dart';
+import '../theme/presentation/theme_cubit.dart';
 
 @RoutePage()
 class MainScreen extends StatefulWidget {
@@ -23,7 +25,7 @@ class _MainScreenState extends State<MainScreen>
     super.initState();
 
     controller = AnimationController(
-      duration: const Duration(milliseconds: 800),
+      duration: Duration(milliseconds: 500),
       vsync: this,
     )..addListener(() {
         setState(() {});
@@ -97,49 +99,57 @@ class _MainScreenState extends State<MainScreen>
                 right: 0,
                 child: Visibility(
                   visible: _showButtonContainer,
-                  child: Container(
-                    margin: const EdgeInsets.only(left: 20, right: 20),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            context.router.push(const SettingsRoute());
-                          },
-                          child: Text(
-                            'settings',
-                            style: TextStyle(
-                              color:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                            ),
+                  child: WidgetAnimator(
+                    incomingEffect: WidgetTransitionEffects.outgoingScaleDown(
+                        duration: const Duration(milliseconds: 500)),
+                    child: BlocBuilder<ThemeCubit, ThemeMode>(
+                      builder: (context, state) {
+                        return Container(
+                          margin: const EdgeInsets.only(left: 20, right: 20),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                          TextButton(
-                          onPressed: () {
-                            context.router.push(const SettingsRoute());
-                          },
-                          child: Text(
-                            'settings',
-                            style: TextStyle(
-                              color:
-                                  Theme.of(context).scaffoldBackgroundColor,
-                            ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  context.router.push(const SettingsRoute());
+                                },
+                                child: Text(
+                                  'settings',
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  context.router.push(const SettingsRoute());
+                                },
+                                child: Text(
+                                  'settings',
+                                  style: TextStyle(
+                                    color: Theme.of(context)
+                                        .scaffoldBackgroundColor,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                            ],
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                      ],
+                        );
+                      },
                     ),
                   ),
                 ),

@@ -125,7 +125,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                           child: Column(
                             children: [
                               ListTile(
-                                onTap: () {},
+                                onTap: () {
+                                  context.router
+                                      .push(EditNameProvinceRoute(user: user!));
+                                },
                                 dense: true,
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,

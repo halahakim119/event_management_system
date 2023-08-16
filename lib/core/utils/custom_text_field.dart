@@ -34,9 +34,10 @@ class CustomTextField extends StatelessWidget {
       ),
     );
 
-    return TextFormField(
+    return TextFormField(textDirection: TextDirection.ltr,
       maxLength: max,
       decoration: InputDecoration(
+        
         counterText: '',
         labelText: labelText,
         prefixText: prefixText,
