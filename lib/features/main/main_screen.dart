@@ -113,9 +113,7 @@ class _MainScreenState extends State<MainScreen>
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              const SizedBox(
-                                height: 10,
-                              ),
+                             
                               TextButton(
                                 onPressed: () {
                                   context.router.push(const SettingsRoute());
@@ -128,24 +126,8 @@ class _MainScreenState extends State<MainScreen>
                                   ),
                                 ),
                               ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  context.router.push(const SettingsRoute());
-                                },
-                                child: Text(
-                                  'settings',
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
+                             
+                            
                             ],
                           ),
                         );

@@ -26,9 +26,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   void _onBoxChange() {
-    setState(() {
-      getUserData();
-    });
+    if (mounted) {
+      setState(() {
+        getUserData();
+      });
+    }
   }
 
   UserProfileModel? user;
@@ -95,49 +97,54 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       context.read<ThemeCubit>().toggleTheme();
                     },
                   ),
-                ],
-              ),
-            ),
-            Wrap(
-              direction: Axis.horizontal,
-              spacing: 10,
-              children: [
-                ElevatedButton(
-                  onPressed: () async {
-                    await context.setLocale(const Locale('ar'));
-                  },
-                  child: const Text('العربيه'),
-                ),
-                ElevatedButton(
-                  onPressed: () async {
-                    await context.setLocale(const Locale('en'));
-                  },
-                  child: const Text('English'),
-                ),
-              ],
-            ),
-            userBox.isEmpty
-                ? Container()
-                : GestureDetector(
-                    onTap: () {
-                      _logout();
-                      Navigator.pop(context);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                  const Divider(
+                    thickness: 0.5,
+                  ),
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(horizontal: 15),
+                    child: Wrap(
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      runAlignment: WrapAlignment.center,
+                      alignment: WrapAlignment.spaceBetween,
+                      direction: Axis.horizontal,
                       children: [
-                        Text("Log out"),
-                        Icon(
-                          Icons.output_rounded,
-                          color: Color.fromARGB(255, 35, 47, 103),
+                        const Text('change language'),
+                        Wrap(
+                          children: [
+                            TextButton(
+                              onPressed: () async {
+                                await context.setLocale(const Locale('ar'));
+                              },
+                              child: const Text('العربيه'),
+                            ),
+                            TextButton(
+                              onPressed: () async {
+                                await context.setLocale(const Locale('en'));
+                              },
+                              child: const Text('English'),
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
+                ],
+              ),
+            ),
             userBox.isEmpty
                 ? Container()
-                : GestureDetector(
-                    onTap: () {
+                : TextButton(
+                    onPressed: () {
+                      _logout();
+                      Navigator.pop(context);
+                    },
+                    child: const Text("Log out"),
+                  ),
+            userBox.isEmpty
+                ? Container()
+                : TextButton(
+                    onPressed: () {
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -200,8 +207,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final userBox = Hive.box<UserProfileModel>('userBox');
     await userBox.clear();
     if (!mounted) return;
-    setState(() {
-      getUserData();
-    });
+    if (mounted) {
+      setState(() {
+        getUserData();
+      });
+    }
   }
 }

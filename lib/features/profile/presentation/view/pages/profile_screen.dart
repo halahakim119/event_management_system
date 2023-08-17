@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../data/models/user_profile_model.dart';
+import '../widgets/not_logged_in.dart';
 import '../widgets/profile_buttons.dart';
 
 @RoutePage()
@@ -46,78 +47,60 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: userBox.isEmpty
-          ? Center(
-              child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                'you are not logged in',
-                style: TextStyle(color: Theme.of(context).colorScheme.primary),
-              ),
-            ))
-          : SingleChildScrollView(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    margin: const EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    child: Wrap(
-                      textDirection: TextDirection.ltr,
-                      alignment: WrapAlignment.spaceEvenly,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      direction: Axis.horizontal,
+      appBar: userBox.isEmpty
+          ? null
+          : AppBar(
+              actions: [
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.end,
+                  alignment: WrapAlignment.end,
+                  direction: Axis.vertical,
+                  children: [
+                    Row(
                       children: [
-                        Wrap(
-                          direction: Axis.vertical,
-                          alignment: WrapAlignment.center,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                user!.name,
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                user!.phoneNumber,
-                                style: TextStyle(
-                                    color:
-                                        Theme.of(context).colorScheme.onPrimary),
-                              ),
-                            ),
-                          ],
+                        Text(
+                          user!.province,
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey,
+                          ),
                         ),
-                        Wrap(
-                          direction: Axis.vertical,
-                          alignment: WrapAlignment.center,
-                          crossAxisAlignment: WrapCrossAlignment.center,
-                          children: [
-                            Icon(Icons.home_filled,
-                                color: Theme.of(context).colorScheme.onPrimary),
-                            Text(
-                              user!.province,
-                              style: TextStyle(
-                                  color: Theme.of(context).colorScheme.onPrimary),
-                            ),
-                          ],
-                        )
+                        const SizedBox(width: 5),
+                        const Icon(
+                          Icons.home,
+                          color: Colors.grey,
+                        ),
                       ],
                     ),
-                  ),
-                  ProfileBody()
-                ],
+                    Text(
+                      user!.phoneNumber,
+                      textDirection: TextDirection.ltr,
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(width: 10),
+              ],
+              leading: IconButton(
+                onPressed: () {
+                  // Handle notifications action
+                },
+                icon: const Icon(Icons.notifications_none_rounded),
               ),
-          ),
+              automaticallyImplyLeading: false,
+              centerTitle: true,
+              title: Text(
+                user!.name,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+      body: userBox.isEmpty ? const NotLoggedIn() : ProfileBody(),
     );
   }
 }

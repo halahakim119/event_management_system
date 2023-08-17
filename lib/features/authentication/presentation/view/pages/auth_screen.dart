@@ -48,13 +48,14 @@ class _AuthScreenState extends State<AuthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-            if (selectedIndex == 0)
-              const CircleAvatar(backgroundColor: Colors.teal, radius: 80),
+            SizedBox(height: MediaQuery.of(context).size.height * 0.05),
+            // if (selectedIndex == 0)
+            //   const CircleAvatar(backgroundColor: Colors.teal, radius: 80),
             Container(
               margin: const EdgeInsets.all(20),
               decoration: BoxDecoration(

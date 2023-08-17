@@ -16,7 +16,8 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   UserProfileModel? user;
-  late Box<UserProfileModel> userBox;
+  final userBox = Hive.box<UserProfileModel>('userBox');
+
   bool isExist = false;
 
   @override
@@ -25,9 +26,15 @@ class _SplashScreenState extends State<SplashScreen> {
     super.dispose();
   }
 
+  void getUserData() {
+    if (userBox.isNotEmpty) {
+      user = userBox.getAt(0);
+    }
+  }
+
   void _onBoxChange() {
     setState(() {
-      isExist = isUserExist();
+      getUserData();
     });
   }
 
@@ -41,7 +48,9 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    initUserBox();
+    getUserData();
+    userBox.listenable().addListener(_onBoxChange);
+    isExist = isUserExist();
     Future.delayed(const Duration(seconds: 3), () async {
       checkUserBoxAndNavigate();
     });
@@ -52,14 +61,6 @@ class _SplashScreenState extends State<SplashScreen> {
       await context.router.popAndPush(const HomeRoute());
     } else {
       await context.router.popAndPush(const LanguagesRoute());
-    }
-  }
-
-  void initUserBox() async {
-    if (Hive.isBoxOpen('userbox')) {
-      userBox = Hive.box('userbox');
-    } else {
-      userBox = await Hive.openBox('userbox');
     }
   }
 

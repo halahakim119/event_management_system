@@ -9,6 +9,7 @@ import '../../../../../core/injection/injection_container.dart';
 import '../../../../../core/router/app_router.dart';
 import '../../../data/models/user_profile_model.dart';
 import '../../logic/bloc/user_bloc.dart';
+import '../widgets/not_logged_in.dart';
 
 @RoutePage()
 class EditProfileScreen extends StatefulWidget {
@@ -46,7 +47,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
     getUserData();
     userBox.listenable().addListener(_onBoxChange);
-    phoneNumberController.text = user!.phoneNumber;
+    if (userBox.isNotEmpty) {
+      phoneNumberController.text = user!.phoneNumber;
+    }
   }
 
   void getUserData() {
@@ -68,15 +71,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     return Scaffold(
         appBar: AppBar(),
         body: userBox.isEmpty
-            ? Center(
-                child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  'you are not logged in',
-                  style:
-                      TextStyle(color: Theme.of(context).colorScheme.primary),
-                ),
-              ))
+            ? const NotLoggedIn()
             : BlocProvider(
                 create: (_) => sl<UserBloc>(),
                 child: BlocConsumer<UserBloc, UserState>(

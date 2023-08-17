@@ -92,10 +92,9 @@ class _VeificationScreenContentState extends State<_VeificationScreenContent> {
     return Scaffold(
         appBar: AppBar(
           iconTheme: const IconThemeData(
-              color: Color.fromARGB(255, 35, 47, 103), size: 18),
-          backgroundColor: Theme.of(context).colorScheme.onPrimary,
-          toolbarHeight: 40,
-          elevation: 0,
+           size: 18),
+          backgroundColor: Theme.of(context).colorScheme.background,
+          
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_rounded),
             onPressed: () {
@@ -103,7 +102,7 @@ class _VeificationScreenContentState extends State<_VeificationScreenContent> {
             },
           ),
         ),
-        backgroundColor: Theme.of(context).colorScheme.onPrimary,
+      
         body: widget.typeForm == null
             ? BlocListener<AuthenticationBloc, AuthenticationState>(
                 listener: (context, state) {
@@ -180,9 +179,7 @@ class _VeificationScreenContentState extends State<_VeificationScreenContent> {
                           },
                           child: const Text(
                             'Verify',
-                            style: TextStyle(
-                              color: Color.fromARGB(255, 35, 47, 103),
-                            ),
+                         
                           ),
                         ),
                       ],
@@ -273,9 +270,6 @@ class _VeificationScreenContentState extends State<_VeificationScreenContent> {
                               },
                               child: const Text(
                                 'Verify',
-                                style: TextStyle(
-                                  color: Color.fromARGB(255, 35, 47, 103),
-                                ),
                               ),
                             ),
                           ],
