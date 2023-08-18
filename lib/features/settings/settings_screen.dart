@@ -56,7 +56,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       appBar: AppBar(),
       body: BlocBuilder<ThemeCubit, ThemeMode>(builder: (context, themeMode) {
         return SingleChildScrollView(
-          child: Column(children: [
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Container(
               padding: const EdgeInsets.all(5),
               margin: const EdgeInsets.all(15),
@@ -65,6 +65,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 color: Theme.of(context).cardColor,
               ),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   ListTile(
                     onTap: () {
@@ -100,13 +102,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const Divider(
                     thickness: 0.5,
                   ),
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.symmetric(horizontal: 15),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15),
                     child: Wrap(
+                      alignment: WrapAlignment.spaceBetween,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       runAlignment: WrapAlignment.center,
-                      alignment: WrapAlignment.spaceBetween,
                       direction: Axis.horizontal,
                       children: [
                         const Text('change language'),

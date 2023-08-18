@@ -82,6 +82,28 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const MainScreen(),
       );
     },
+    EditNameProvinceRoute.name: (routeData) {
+      final args = routeData.argsAs<EditNameProvinceRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: EditNameProvinceScreen(
+          key: args.key,
+          user: args.user,
+        ),
+      );
+    },
+    EditProfileRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const EditProfileScreen(),
+      );
+    },
+    ProfileRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ProfileScreen(),
+      );
+    },
     SearchRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -112,26 +134,10 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SplashScreen(),
       );
     },
-    EditNameProvinceRoute.name: (routeData) {
-      final args = routeData.argsAs<EditNameProvinceRouteArgs>();
+    AddEventFormRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: EditNameProvinceScreen(
-          key: args.key,
-          user: args.user,
-        ),
-      );
-    },
-    EditProfileRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const EditProfileScreen(),
-      );
-    },
-    ProfileRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const ProfileScreen(),
+        child: const AddEventFormScreen(),
       );
     },
   };
@@ -342,6 +348,72 @@ class MainRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [EditNameProvinceScreen]
+class EditNameProvinceRoute extends PageRouteInfo<EditNameProvinceRouteArgs> {
+  EditNameProvinceRoute({
+    Key? key,
+    required UserProfileModel user,
+    List<PageRouteInfo>? children,
+  }) : super(
+          EditNameProvinceRoute.name,
+          args: EditNameProvinceRouteArgs(
+            key: key,
+            user: user,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'EditNameProvinceRoute';
+
+  static const PageInfo<EditNameProvinceRouteArgs> page =
+      PageInfo<EditNameProvinceRouteArgs>(name);
+}
+
+class EditNameProvinceRouteArgs {
+  const EditNameProvinceRouteArgs({
+    this.key,
+    required this.user,
+  });
+
+  final Key? key;
+
+  final UserProfileModel user;
+
+  @override
+  String toString() {
+    return 'EditNameProvinceRouteArgs{key: $key, user: $user}';
+  }
+}
+
+/// generated route for
+/// [EditProfileScreen]
+class EditProfileRoute extends PageRouteInfo<void> {
+  const EditProfileRoute({List<PageRouteInfo>? children})
+      : super(
+          EditProfileRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'EditProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ProfileScreen]
+class ProfileRoute extends PageRouteInfo<void> {
+  const ProfileRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [SearchScreen]
 class SearchRoute extends PageRouteInfo<void> {
   const SearchRoute({List<PageRouteInfo>? children})
@@ -412,67 +484,15 @@ class SplashRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [EditNameProvinceScreen]
-class EditNameProvinceRoute extends PageRouteInfo<EditNameProvinceRouteArgs> {
-  EditNameProvinceRoute({
-    Key? key,
-    required UserProfileModel user,
-    List<PageRouteInfo>? children,
-  }) : super(
-          EditNameProvinceRoute.name,
-          args: EditNameProvinceRouteArgs(
-            key: key,
-            user: user,
-          ),
-          initialChildren: children,
-        );
-
-  static const String name = 'EditNameProvinceRoute';
-
-  static const PageInfo<EditNameProvinceRouteArgs> page =
-      PageInfo<EditNameProvinceRouteArgs>(name);
-}
-
-class EditNameProvinceRouteArgs {
-  const EditNameProvinceRouteArgs({
-    this.key,
-    required this.user,
-  });
-
-  final Key? key;
-
-  final UserProfileModel user;
-
-  @override
-  String toString() {
-    return 'EditNameProvinceRouteArgs{key: $key, user: $user}';
-  }
-}
-
-/// generated route for
-/// [EditProfileScreen]
-class EditProfileRoute extends PageRouteInfo<void> {
-  const EditProfileRoute({List<PageRouteInfo>? children})
+/// [AddEventFormScreen]
+class AddEventFormRoute extends PageRouteInfo<void> {
+  const AddEventFormRoute({List<PageRouteInfo>? children})
       : super(
-          EditProfileRoute.name,
+          AddEventFormRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'EditProfileRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [ProfileScreen]
-class ProfileRoute extends PageRouteInfo<void> {
-  const ProfileRoute({List<PageRouteInfo>? children})
-      : super(
-          ProfileRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'ProfileRoute';
+  static const String name = 'AddEventFormRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

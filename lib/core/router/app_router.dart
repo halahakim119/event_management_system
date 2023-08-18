@@ -7,6 +7,7 @@ import '../../features/authentication/presentation/view/pages/login_screen.dart'
 import '../../features/authentication/presentation/view/pages/reset_password_screen.dart';
 import '../../features/authentication/presentation/view/pages/signup_screen.dart';
 import '../../features/authentication/presentation/view/pages/verification_screen.dart';
+import '../../features/event/presentation/view/pages/add_event_form_screen.dart';
 import '../../features/home/home_screen.dart';
 import '../../features/languages/pages/languages_screen.dart';
 import '../../features/main/main_screen.dart';
@@ -48,6 +49,7 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: AboutUsRoute.page),
         AutoRoute(page: HelpCenterRoute.page),
         AutoRoute(page: SettingsRoute.page),
-          AutoRoute(page: EditNameProvinceRoute.page),
+        AutoRoute(page: EditNameProvinceRoute.page),
+        AutoRoute(page: AddEventFormRoute.page),
       ];
 }

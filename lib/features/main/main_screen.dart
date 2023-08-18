@@ -70,7 +70,7 @@ class _MainScreenState extends State<MainScreen>
               turns: Tween(begin: 0.0, end: 0.5).animate(controller),
               child: Icon(
                 _floatingActionButtonIcon,
-                color: Theme.of(context).scaffoldBackgroundColor,
+               color: Colors.white,
               ),
             ),
           ),
@@ -113,21 +113,20 @@ class _MainScreenState extends State<MainScreen>
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                             
-                              TextButton(
-                                onPressed: () {
-                                  context.router.push(const SettingsRoute());
-                                },
-                                child: Text(
-                                  'settings',
-                                  style: TextStyle(
-                                    color: Theme.of(context)
-                                        .scaffoldBackgroundColor,
+                              Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: TextButton(
+                                  onPressed: () {
+                                    context.router.push(const SettingsRoute());
+                                  },
+                                  child: const Text(
+                                    'settings',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
                                   ),
                                 ),
                               ),
-                             
-                            
                             ],
                           ),
                         );
