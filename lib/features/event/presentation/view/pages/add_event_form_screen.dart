@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../../../../../core/strings/strings.dart';
+import '../../../domain/entities/event_entity.dart';
 
 @RoutePage()
 class AddEventFormScreen extends StatefulWidget {
@@ -226,7 +227,8 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                   child: AbsorbPointer(
                     child: TextFormField(
                       decoration: InputDecoration(
-                        label: Wrap(direction: Axis.horizontal,
+                        label: Wrap(
+                          direction: Axis.horizontal,
                           alignment: WrapAlignment.spaceBetween,
                           crossAxisAlignment: WrapCrossAlignment.center,
                           runAlignment: WrapAlignment.spaceBetween,
@@ -397,20 +399,38 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
   }
 
   void _submitForm() {
-    print('Submitted Information:');
-    print('Event Title: ${_titleController.text}');
-    print('Event Description: ${_descriptionController.text}');
-    print('Seat Number: ${_seatNumberController.text}');
-    print('Starting Date: ${_startingDateController.text}');
-    print('Ending Date: ${_endingDateController.text}');
-    print('Starts At: ${_startsAtController.text}');
-    print('Ends At: ${_endsAtController.text}');
-    print('Dress Code: $_dressCodeColor');
-    print('Event Type: ${_eventTypeController.text}');
-    print('Post Type: ${_postTypeController.text}');
-    print('Adults Only: $_adultsOnly');
-    print('Food: $_food');
-    print('Alcohol: $_alcohol');
+    final eventEntity = EventEntity(
+      title: _titleController.text,
+      description: _descriptionController.text,
+      seatNum: _seatNumberController.text,
+      startingDate: parseDate(_startingDateController.text),
+      endingDate: parseDate(_endingDateController.text),
+      startsAt: parseTimeOfDay(_startsAtController.text),
+      endsAt: parseTimeOfDay(_endsAtController.text),
+      eventType: _selectedEventType!,
+      postType: _selectedPostType!,
+      adultsOnly: _adultsOnly,
+      food: _food,
+      alcohol: _alcohol,
+    );
+
+    final eventJson = eventEntity.toJson();
+    print('Submitted Information (JSON): $eventJson');
+  }
+
+  DateTime parseDate(String dateStr) {
+    final parts = dateStr.split('-');
+    final year = int.parse(parts[0]);
+    final month = int.parse(parts[1]);
+    final day = int.parse(parts[2]);
+    return DateTime(year, month, day);
+  }
+
+  TimeOfDay parseTimeOfDay(String timeStr) {
+    final parts = timeStr.split(':');
+    final hour = int.parse(parts[0]);
+    final minute = int.parse(parts[1]);
+    return TimeOfDay(hour: hour, minute: minute);
   }
 
   @override
