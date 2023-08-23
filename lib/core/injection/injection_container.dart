@@ -23,11 +23,15 @@ import '../../features/theme/data/theme_repository.dart';
 import '../../features/theme/domain/theme_interactor.dart';
 import '../../features/theme/presentation/theme_cubit.dart';
 
+import '../network/internet_checker.dart';
 import '../utils/api_provider.dart';
 
 final sl = GetIt.instance;
 
 Future<void> init() async {
+  //! Internet Checker
+  sl.registerLazySingleton(() => InternetChecker());
+
   //! Initialize Hive
   await Hive.initFlutter();
 

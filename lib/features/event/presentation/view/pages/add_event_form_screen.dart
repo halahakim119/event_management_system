@@ -1,11 +1,8 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:event_management_system/core/utils/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-enum EventType { conference, seminar, workshop } // Add other event types
-
-enum PostType { private, public } // Add other post types
+import '../../../../../core/strings/strings.dart';
 
 @RoutePage()
 class AddEventFormScreen extends StatefulWidget {
@@ -24,12 +21,9 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
   final TextEditingController _endingDateController = TextEditingController();
   final TextEditingController _startsAtController = TextEditingController();
   final TextEditingController _endsAtController = TextEditingController();
-  final TextEditingController _dressCodeController = TextEditingController();
+
   final TextEditingController _eventTypeController = TextEditingController();
   final TextEditingController _postTypeController = TextEditingController();
-  final TextEditingController _adultsOnlyController = TextEditingController();
-  final TextEditingController _foodController = TextEditingController();
-  final TextEditingController _alcoholController = TextEditingController();
 
   DateTime _selectedDate = DateTime.now();
 
@@ -65,13 +59,18 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
   }
 
   // create some values
-  Color pickerColor = Color(0xff443a49);
-  Color _dressCodeColor = Color(0xff443a49); // Default color
+  Color pickerColor = Colors.green;
+  Color? _dressCodeColor; // Set initial color to null
 
-  // ValueChanged<Color> callback
   void changeColor(Color color) {
     setState(() => pickerColor = color);
   }
+
+  String? _selectedEventType;
+  String? _selectedPostType;
+  bool _adultsOnly = false;
+  bool _food = false;
+  bool _alcohol = false;
 
   @override
   Widget build(BuildContext context) {
@@ -83,14 +82,15 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
           child: Form(
             key: _formKey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 10),
-                CustomTextField(
-                  max: 50,
+                TextFormField(
+                  maxLength: 50,
+                  decoration: const InputDecoration(labelText: 'Event Title'),
                   controller: _titleController,
-                  labelText: 'Event Title',
                   validator: (value) {
-                    if (value == null) {
+                    if (value == null || value.isEmpty) {
                       return 'Event title cannot be empty';
                     }
 
@@ -98,12 +98,13 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                   },
                 ),
                 const SizedBox(height: 10),
-                CustomTextField(
-                  max: 500,
+                TextFormField(
+                  maxLength: 500,
+                  decoration:
+                      const InputDecoration(labelText: 'Event Description'),
                   controller: _descriptionController,
-                  labelText: 'Event Description',
                   validator: (value) {
-                    if (value == null) {
+                    if (value == null || value.isEmpty) {
                       return 'Event description cannot be empty';
                     }
 
@@ -111,17 +112,18 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                   },
                 ),
                 const SizedBox(height: 10),
-                CustomTextField(
-                  controller: _seatNumberController,
-                  labelText: 'Seat Number',
+                TextFormField(
                   keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(labelText: 'Seat Number'),
+                  controller: _seatNumberController,
                   validator: (value) {
-                    if (value == null) {
+                    if (value == null || value.isEmpty) {
                       return 'Seat number cannot be empty';
                     }
                     if (int.tryParse(value) == null) {
                       return 'Seat number must be a valid integer';
                     }
+
                     return null;
                   },
                 ),
@@ -130,6 +132,12 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                   onTap: () => _selectDate(context, _startingDateController),
                   child: AbsorbPointer(
                     child: TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'It cannot be empty';
+                        }
+                        return null;
+                      },
                       controller: _startingDateController,
                       decoration:
                           const InputDecoration(labelText: 'Starting Date'),
@@ -141,6 +149,12 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                   onTap: () => _selectDate(context, _endingDateController),
                   child: AbsorbPointer(
                     child: TextFormField(
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'It cannot be empty';
+                        }
+                        return null;
+                      },
                       controller: _endingDateController,
                       decoration:
                           const InputDecoration(labelText: 'Ending Date'),
@@ -149,12 +163,24 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'It cannot be empty';
+                    }
+                    return null;
+                  },
                   controller: _startsAtController,
                   onTap: () => _selectTime(context, _startsAtController),
                   decoration: const InputDecoration(labelText: 'Starts At'),
                 ),
                 const SizedBox(height: 10),
                 TextFormField(
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'It cannot be empty';
+                    }
+                    return null;
+                  },
                   controller: _endsAtController,
                   onTap: () => _selectTime(context, _endsAtController),
                   decoration: const InputDecoration(labelText: 'Ends At'),
@@ -168,7 +194,8 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                         title: const Text('Pick a color!'),
                         content: SingleChildScrollView(
                           child: ColorPicker(
-                            pickerColor: _dressCodeColor,
+                            showLabel: true,
+                            pickerColor: _dressCodeColor ?? Colors.transparent,
                             onColorChanged: (color) {
                               setState(() {
                                 _dressCodeColor = color;
@@ -183,100 +210,160 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                               Navigator.of(context).pop();
                             },
                           ),
+                          ElevatedButton(
+                            child: const Text('delete color selected'),
+                            onPressed: () {
+                              setState(() {
+                                _dressCodeColor = null;
+                              });
+                              Navigator.of(context).pop();
+                            },
+                          ),
                         ],
                       ),
                     );
                   },
                   child: AbsorbPointer(
                     child: TextFormField(
-                      enableInteractiveSelection: true,
-                      controller: _dressCodeController,
                       decoration: InputDecoration(
-                        labelText: 'Dress Code',
-                        suffixIcon: Container(
-                          margin: const EdgeInsets.all(10),
-                          width: 24,
-                          height: 24,
-                          decoration: BoxDecoration(
-                            color: _dressCodeColor,
-                            shape: BoxShape.circle,
-                          ),
+                        label: Wrap(direction: Axis.horizontal,
+                          alignment: WrapAlignment.spaceBetween,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          runAlignment: WrapAlignment.spaceBetween,
+                          spacing: MediaQuery.of(context).size.width * 1 - 292,
+                          children: [
+                            const Text('Dress Code'),
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              direction: Axis.horizontal,
+                              children: [
+                                Text(
+                                  _dressCodeColor != null
+                                      ? 'R: ${_dressCodeColor!.red}, G: ${_dressCodeColor!.green}, B: ${_dressCodeColor!.blue}'
+                                      : 'Not selected',
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                                Container(
+                                  margin: const EdgeInsets.all(10),
+                                  width: 24,
+                                  height: 24,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        _dressCodeColor ?? Colors.transparent,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 10),
-                DropdownButtonFormField(
-                  // value: _eventTypeController.text,
+                DropdownButtonFormField<String>(
+                  borderRadius: BorderRadius.circular(25),
+                  value: _selectedEventType,
                   onChanged: (value) {
-                    // Add onChanged logic for event type
+                    setState(() {
+                      _selectedEventType = value;
+                      _eventTypeController.text = _selectedEventType!;
+                    });
                   },
-                  items: EventType.values.map<DropdownMenuItem<String>>(
-                    (EventType eventType) {
+                  items: getEventTypes().map<DropdownMenuItem<String>>(
+                    (String eventType) {
                       return DropdownMenuItem<String>(
-                        value: eventType.toString(),
-                        child: Text(eventType.toString()),
+                        value: eventType,
+                        child: Text(eventType),
                       );
                     },
                   ).toList(),
                   decoration: InputDecoration(labelText: 'Event Type'),
                   validator: (value) {
-                    // Add validation logic for event type
+                    if (value == null) {
+                      return 'Please select an event type';
+                    }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 10),
-                DropdownButtonFormField(
-                  // value: _postTypeController.text,
+                DropdownButtonFormField<String>(
+                  borderRadius: BorderRadius.circular(25),
+                  value: _selectedPostType,
                   onChanged: (value) {
-                    // Add onChanged logic for post type
+                    setState(() {
+                      _selectedPostType = value;
+                      _postTypeController.text = _selectedPostType!;
+                    });
                   },
-                  items: PostType.values.map<DropdownMenuItem<String>>(
-                    (PostType postType) {
+                  items: getPostTypes().map<DropdownMenuItem<String>>(
+                    (String postType) {
                       return DropdownMenuItem<String>(
-                        value: postType.toString(),
-                        child: Text(postType.toString()),
+                        value: postType,
+                        child: Text(postType),
                       );
                     },
                   ).toList(),
                   decoration: InputDecoration(labelText: 'Post Type'),
                   validator: (value) {
-                    // Add validation logic for post type
+                    if (value == null) {
+                      return 'Please select a post type';
+                    }
+                    return null;
                   },
                 ),
                 const SizedBox(height: 10),
                 SwitchListTile(
                   title: Text('Adults Only'),
-                  value: _adultsOnlyController.text.toLowerCase() == 'true',
+                  value: _adultsOnly,
                   onChanged: (value) {
-                    // Add onChanged logic for adults only
+                    setState(() {
+                      _adultsOnly = value;
+                    });
                   },
                 ),
                 const SizedBox(height: 10),
                 SwitchListTile(
                   title: Text('Food'),
-                  value: _foodController.text.toLowerCase() == 'true',
+                  value: _food,
                   onChanged: (value) {
-                    // Add onChanged logic for food
+                    setState(() {
+                      _food = value;
+                    });
                   },
                 ),
                 const SizedBox(height: 10),
                 SwitchListTile(
                   title: Text('Alcohol'),
-                  value: _alcoholController.text.toLowerCase() == 'true',
+                  value: _alcohol,
                   onChanged: (value) {
-                    // Add onChanged logic for alcohol
+                    setState(() {
+                      _alcohol = value;
+                    });
                   },
                 ),
                 const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      // Submit the form
-                      _submitForm();
-                    }
-                  },
-                  child: Text('Submit'),
+                Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Theme.of(context).disabledColor),
+                      onPressed: _clearForm,
+                      child: const Text('RESET'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          // Submit the form
+                          _submitForm();
+                        }
+                      },
+                      child: const Text('CREATE EVENT'),
+                    ),
+                  ],
                 ),
                 const SizedBox(height: 10),
               ],
@@ -285,6 +372,28 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
         ),
       ),
     );
+  }
+
+  // Method to clear all form fields
+  void _clearForm() {
+    setState(() {
+      _titleController.clear();
+      _descriptionController.clear();
+      _seatNumberController.clear();
+      _startingDateController.clear();
+      _endingDateController.clear();
+      _startsAtController.clear();
+      _endsAtController.clear();
+
+      _eventTypeController.clear();
+      _postTypeController.clear();
+      _adultsOnly = false;
+      _food = false;
+      _alcohol = false;
+      _selectedEventType = null;
+      _selectedPostType = null;
+      _dressCodeColor = null; // Clear color selection
+    });
   }
 
   void _submitForm() {
@@ -296,12 +405,12 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
     print('Ending Date: ${_endingDateController.text}');
     print('Starts At: ${_startsAtController.text}');
     print('Ends At: ${_endsAtController.text}');
-    print('Dress Code: ${_dressCodeController.text}');
+    print('Dress Code: $_dressCodeColor');
     print('Event Type: ${_eventTypeController.text}');
     print('Post Type: ${_postTypeController.text}');
-    print('Adults Only: ${_adultsOnlyController.text}');
-    print('Food: ${_foodController.text}');
-    print('Alcohol: ${_alcoholController.text}');
+    print('Adults Only: $_adultsOnly');
+    print('Food: $_food');
+    print('Alcohol: $_alcohol');
   }
 
   @override
@@ -313,12 +422,16 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
     _endingDateController.dispose();
     _startsAtController.dispose();
     _endsAtController.dispose();
-    _dressCodeController.dispose();
+
     _eventTypeController.dispose();
     _postTypeController.dispose();
-    _adultsOnlyController.dispose();
-    _foodController.dispose();
-    _alcoholController.dispose();
+    _adultsOnly = false;
+    _food = false;
+    _alcohol = false;
+    _selectedEventType = null;
+    _selectedPostType = null;
+    _dressCodeColor = null;
+
     super.dispose();
   }
 }

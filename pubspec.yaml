@@ -45,6 +45,7 @@ dependencies:
   flutter_colorpicker: ^1.0.3
   widget_and_text_animator: ^1.0.0
   loading_animation_widget: ^1.2.0+4
+  wave: ^0.2.2
 
   # routing
   auto_route: ^7.2.0
@@ -53,7 +54,8 @@ dependencies:
   # localization
   easy_localization: ^3.0.2
 
-  # overlay
+  # network and overlay
+  connectivity_plus: ^4.0.2
   overlay_support: ^2.1.0
 
   # others

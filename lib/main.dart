@@ -1,8 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 import 'core/injection/injection_container.dart';
+import 'core/network/internet_checker.dart';
+import 'core/network/no_internet.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 import 'features/theme/presentation/theme_cubit.dart';
@@ -12,17 +15,24 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await init();
   await EasyLocalization.ensureInitialized();
+  bool isConnected = await sl<InternetChecker>().checkInternet();
 
-  runApp(EasyLocalization(
-    path: 'assets/translations',
-    supportedLocales: const [
-      Locale('en'),
-      Locale('ar'),
-    ],
-    fallbackLocale: const Locale('ar'),
-    assetLoader: const CodegenLoader(),
-    child: MyApp(),
-  ));
+  if (isConnected) {
+    runApp(OverlaySupport.global(
+      child: EasyLocalization(
+        path: 'assets/translations',
+        supportedLocales: const [
+          Locale('en'),
+          Locale('ar'),
+        ],
+        fallbackLocale: const Locale('ar'),
+        assetLoader: const CodegenLoader(),
+        child: MyApp(),
+      ),
+    ));
+  } else {
+    runApp(NoInternet());
+  }
 }
 
 class MyApp extends StatelessWidget {
@@ -52,7 +62,7 @@ class MyApp extends StatelessWidget {
                 ? AppTheme.themeData
                 : AppTheme.darkTheme,
             darkTheme: AppTheme.darkTheme,
-            themeMode: ThemeMode.light,
+            themeMode:themeMode,
 
             // app routing
             routerDelegate: _appRouter.delegate(),

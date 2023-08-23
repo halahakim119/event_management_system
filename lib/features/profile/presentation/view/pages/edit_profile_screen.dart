@@ -27,17 +27,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   bool isEditPhoneNumber = false;
   final phoneNumberController = TextEditingController();
 
-  @override
-  void dispose() {
-    userBox.listenable().removeListener(_onBoxChange);
-    super.dispose();
-  }
+ @override
+void dispose() {
+  userBox.listenable().removeListener(_onBoxChange);
+  super.dispose();
+}
 
-  void _onBoxChange() {
+void _onBoxChange() {
+  if (mounted) {
     setState(() {
       getUserData();
     });
   }
+}
+
 
   UserProfileModel? user;
   final userBox = Hive.box<UserProfileModel>('userBox');

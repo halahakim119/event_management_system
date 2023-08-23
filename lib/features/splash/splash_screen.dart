@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../../core/injection/injection_container.dart';
+import '../../core/network/internet_checker.dart';
 import '../../core/router/app_router.dart';
 import '../profile/data/models/user_profile_model.dart';
 
@@ -48,6 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    sl<InternetChecker>().run();
     getUserData();
     userBox.listenable().addListener(_onBoxChange);
     isExist = isUserExist();
@@ -67,20 +70,27 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Stack(
-      fit: StackFit.expand,
-      alignment: Alignment.center,
-      children: [
-        LoadingAnimationWidget.dotsTriangle(
-          color: Theme.of(context).primaryColorDark,
-          size: 75,
-        ),
-        LoadingAnimationWidget.flickr(
-          leftDotColor: Theme.of(context).colorScheme.secondary,
-          rightDotColor: Theme.of(context).primaryColorDark,
-          size: 75,
-        ),
-      ],
-    ));
+        body: FutureBuilder(
+            future: Future.delayed(const Duration(seconds: 5)),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return const Text('internet connection check done');
+              }
+              return Stack(
+                fit: StackFit.expand,
+                alignment: Alignment.center,
+                children: [
+                  LoadingAnimationWidget.dotsTriangle(
+                    color: Theme.of(context).primaryColorDark,
+                    size: 75,
+                  ),
+                  LoadingAnimationWidget.flickr(
+                    leftDotColor: Theme.of(context).colorScheme.secondary,
+                    rightDotColor: Theme.of(context).primaryColorDark,
+                    size: 75,
+                  ),
+                ],
+              );
+            }));
   }
 }

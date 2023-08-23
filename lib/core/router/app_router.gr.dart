@@ -140,6 +140,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AddEventFormScreen(),
       );
     },
+    MyEventsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const MyEventsScreen(),
+      );
+    },
   };
 }
 
@@ -493,6 +499,20 @@ class AddEventFormRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AddEventFormRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [MyEventsScreen]
+class MyEventsRoute extends PageRouteInfo<void> {
+  const MyEventsRoute({List<PageRouteInfo>? children})
+      : super(
+          MyEventsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MyEventsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
