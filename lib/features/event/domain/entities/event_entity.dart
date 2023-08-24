@@ -65,5 +65,3 @@ class EventEntity extends Equatable {
         postType,
       ];
 }
-
-class HostEntity {}

@@ -42,4 +42,7 @@ class UserEntity extends Equatable {
   @override
   List<Object?> get props =>
       [id, name, phoneNumber, token, province, following, events];
+
+
+
 }

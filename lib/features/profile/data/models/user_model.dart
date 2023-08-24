@@ -55,6 +55,12 @@ class UserModel extends UserEntity {
       events: entity.events,
     );
   }
+factory UserModel.fromEntity(UserEntity entity) {
+  return UserModel(
+    id: entity.id,
+  
+  );
+}
 
   UserEntity toEntity() {
     return UserEntity(
