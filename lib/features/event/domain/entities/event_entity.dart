@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import '../../../profile/domain/entities/user_entity.dart';
 
 class EventEntity extends Equatable {
-  final String id;
+  final String? id;
   final String hostId;
   final String plannerId;
   final String title;

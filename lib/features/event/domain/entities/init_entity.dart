@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 
 class InitEntity extends Equatable {
-  final String id;
+  final String? id;
   final String plannerId;
   final String title;
   final String description;
