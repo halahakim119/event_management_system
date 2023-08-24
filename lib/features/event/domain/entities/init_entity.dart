@@ -19,7 +19,7 @@ class InitEntity extends Equatable {
   final List<String>? guests;
 
   const InitEntity({
-    required this.id,
+     this.id,
     required this.plannerId,
     required this.guestsNumber,
     required this.startsAt,

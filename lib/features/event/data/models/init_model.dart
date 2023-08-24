@@ -2,7 +2,7 @@ import '../../domain/entities/init_entity.dart';
 
 class InitModel extends InitEntity {
  const  InitModel({
-    required String id,
+     String? id,
     required String plannerId,
     required int guestsNumber,
     required DateTime startsAt,
