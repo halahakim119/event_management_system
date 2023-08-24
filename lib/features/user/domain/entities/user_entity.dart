@@ -20,7 +20,7 @@ class UserEntity extends Equatable {
   String province;
 
   // List of maps representing the users that the current user is following.
-  List<HostEntity>? following;
+  List<UserEntity>? following;
 
   // List of maps representing the events associated with the user (optional).
 

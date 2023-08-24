@@ -8,7 +8,7 @@ class UserModel extends UserEntity {
     required String name,
     required String phoneNumber,
     required String province,
-    List<HostEntity>? following,
+    List<UserEntity>? following,
     List<EventEntity>? events,
   }) : super(
           id: id,
@@ -27,7 +27,7 @@ class UserModel extends UserEntity {
       phoneNumber: json['phoneNumber'],
       token: json['token'],
       province: json['province'],
-      following: List<HostEntity>.from(json['following']),
+      following: List<UserEntity>.from(json['following']),
       events: List<EventEntity>.from(json['events']),
     );
   }
@@ -55,12 +55,18 @@ class UserModel extends UserEntity {
       events: entity.events,
     );
   }
-factory UserModel.fromEntity(UserEntity entity) {
-  return UserModel(
-    id: entity.id,
-  
-  );
-}
+
+  factory UserModel.fromEntity(UserEntity entity) {
+    return UserModel(
+      id: entity.id,
+      name: entity.name,
+      phoneNumber: entity.phoneNumber,
+      token: entity.token,
+      province: entity.province,
+      following: entity.following,
+      events: entity.events,
+    );
+  }
 
   UserEntity toEntity() {
     return UserEntity(
