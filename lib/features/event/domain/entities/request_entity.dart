@@ -1,32 +1,27 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../profile/domain/entities/user_entity.dart';
-
 class RequestEntity extends Equatable {
   final String id;
-  final UserEntity planner;
   final String plannerId;
   final String hostId;
+  final String hostName;
+  final String title;
+  final String description;
   final int guestsNumber;
+  final String type;
+  final String postType;
   final DateTime startsAt;
   final DateTime endsAt;
-  final String description;
-  final String type;
-  final String requestType;
-  final String eventId;
-  final String title;
   final DateTime startingDate;
   final DateTime endingDate;
+  final bool adultsOnly;
+  final bool food;
+  final bool alcohol;
   final String? dressCode;
-  final bool? adultsOnly;
-  final bool? food;
-  final bool? alcohol;
   final List<String>? guests;
-  final String hostName;
 
   const RequestEntity({
     required this.id,
-    required this.planner,
     required this.plannerId,
     required this.hostId,
     required this.guestsNumber,
@@ -34,15 +29,14 @@ class RequestEntity extends Equatable {
     required this.endsAt,
     required this.description,
     required this.type,
-    required this.requestType,
-    required this.eventId,
+    required this.postType,
     required this.title,
     required this.startingDate,
     required this.endingDate,
-    this.dressCode,
-    this.adultsOnly,
-    this.food,
-    this.alcohol,
+    required this.dressCode,
+    required this.adultsOnly,
+    required this.food,
+    required this.alcohol,
     this.guests,
     required this.hostName,
   });
@@ -50,16 +44,14 @@ class RequestEntity extends Equatable {
   @override
   List<Object?> get props => [
         id,
-        planner,
         plannerId,
         hostId,
         guestsNumber,
         startsAt,
         endsAt,
         description,
+        postType,
         type,
-        requestType,
-        eventId,
         title,
         startingDate,
         endingDate,

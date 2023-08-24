@@ -399,23 +399,23 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
   }
 
   void _submitForm() {
-    final eventEntity = EventEntity(
-      title: _titleController.text,
-      description: _descriptionController.text,
-      seatNum: _seatNumberController.text,
-      startingDate: parseDate(_startingDateController.text),
-      endingDate: parseDate(_endingDateController.text),
-      startsAt: parseTimeOfDay(_startsAtController.text),
-      endsAt: parseTimeOfDay(_endsAtController.text),
-      eventType: _selectedEventType!,
-      postType: _selectedPostType!,
-      adultsOnly: _adultsOnly,
-      food: _food,
-      alcohol: _alcohol,
-    );
+    // final eventEntity = EventEntity(
+    //   title: _titleController.text,
+    //   description: _descriptionController.text,
+    //   seatNum: _seatNumberController.text,
+    //   startingDate: parseDate(_startingDateController.text),
+    //   endingDate: parseDate(_endingDateController.text),
+    //   startsAt: parseTimeOfDay(_startsAtController.text),
+    //   endsAt: parseTimeOfDay(_endsAtController.text),
+    //   eventType: _selectedEventType!,
+    //   postType: _selectedPostType!,
+    //   adultsOnly: _adultsOnly,
+    //   food: _food,
+    //   alcohol: _alcohol,
+    // );
 
-    final eventJson = eventEntity.toJson();
-    print('Submitted Information (JSON): $eventJson');
+    // final eventJson = eventEntity.toJson();
+    // print('Submitted Information (JSON): $eventJson');
   }
 
   DateTime parseDate(String dateStr) {

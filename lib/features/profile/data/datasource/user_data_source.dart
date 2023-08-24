@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
 
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+
+import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
@@ -108,31 +111,42 @@ class UserDataSourceImpl implements UserDataSource {
     }
   }
 
-  @override
   Future<Either<Failure, UserModel>> getUser(String id) async {
     try {
-      final response = await http.post(
-        Uri.parse('http://35.180.62.182/api/user/phone/getUser'),
-        body: {'id': id},
-      );
+      final socket = IO.io('http://35.180.62.182', <String, dynamic>{
+        'transports': ['websocket'],
+      });
 
-      final jsonResponse = jsonDecode(response.body);
-      if (response.statusCode == 200 && jsonResponse.containsKey('user')) {
-        final userJson = jsonResponse['user'] as Map<String, dynamic>;
+      socket.connect();
+
+      socket.onConnect((_) {
+        print('Connected to socket');
+        socket.emit('join');
+        socket.emit('request', {'id': id});
+      });
+
+      final userCompleter = Completer<UserModel>();
+
+      socket.on('response', (data) {
+        final userJson = data as Map<String, dynamic>;
         final userData = UserModel.fromJson(userJson);
 
-        return Right(userData);
-      } else if (response.statusCode == 400) {
-        if (jsonResponse.containsKey('ERROR')) {
-          final errorMessage = jsonResponse['ERROR'];
-          return Left(ApiExceptionFailure(errorMessage));
-        }
-      } else if (response.statusCode == 500) {
-        throw ServerFailure('Something went wrong');
-      }
-      throw ApiException('Failed to retrieve user data');
-    } on ApiException catch (e) {
-      return Left(ApiExceptionFailure(e.message));
+        userCompleter.complete(userData);
+        socket.disconnect();
+      });
+
+      socket.on('error', (error) {
+        print('Socket error: $error');
+        userCompleter.completeError(ApiException('Socket error'));
+        socket.disconnect();
+      });
+
+      socket.onDisconnect((_) {
+        print('Socket disconnected');
+      });
+
+      final userData = await userCompleter.future;
+      return Right(userData);
     } catch (e) {
       return Left(ServerFailure('Failed to communicate with the server'));
     }

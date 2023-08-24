@@ -1,9 +1,14 @@
 import 'package:equatable/equatable.dart';
 
+import '../../../event/domain/entities/event_entity.dart';
+
 // Define the UserEntity class that extends Equatable.
 class UserEntity extends Equatable {
   // Unique identifier for the user.
   final String id;
+
+  // Authentication token (optional).
+  final String token;
 
   // User's name.
   String name;
@@ -11,20 +16,15 @@ class UserEntity extends Equatable {
   // User's phone number.
   String phoneNumber;
 
-  // Authentication token (optional).
-  final String token;
-
   // User's province.
   String province;
 
-  // User's password.
-  String? password;
-
   // List of maps representing the users that the current user is following.
-  List<Map<String, dynamic>>? following;
+  List<HostEntity>? following;
 
   // List of maps representing the events associated with the user (optional).
-  List<Map<String, dynamic>>? events;
+
+  List<EventEntity>? events;
 
   // Constructor for the UserEntity class.
   UserEntity({
@@ -33,7 +33,7 @@ class UserEntity extends Equatable {
     required this.phoneNumber,
     required this.token,
     required this.province,
-    this.password,
+
     this.following,
     this.events,
   });
@@ -41,5 +41,5 @@ class UserEntity extends Equatable {
   // Equatable requires overriding the 'props' getter to compare instances for equality.
   @override
   List<Object?> get props =>
-      [id, name, phoneNumber, token, province, following, events, password];
+      [id, name, phoneNumber, token, province, following, events];
 }
