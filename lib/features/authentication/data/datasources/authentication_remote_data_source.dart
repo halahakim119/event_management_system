@@ -5,7 +5,7 @@ import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/utils/api_provider.dart';
 import '../../../profile/data/models/user_profile_model.dart';
-import '../../../profile/domain/entities/user_entity.dart';
+import '../../../user/domain/entities/user_entity.dart';
 
 
 abstract class AuthenticationRemoteDataSource {

@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/entities/user_entity.dart';
+import '../../../../user/domain/entities/user_entity.dart';
 import '../../../domain/usecases/user_crud_use_cases.dart';
 
 part 'user_event.dart';

@@ -11,7 +11,7 @@ import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../authentication/data/datasources/authentication_remote_data_source.dart';
-import '../models/user_model.dart';
+import '../../../user/data/models/user_model.dart';
 import '../models/user_profile_model.dart';
 
 abstract class UserDataSource {

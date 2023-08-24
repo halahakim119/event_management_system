@@ -1,5 +1,5 @@
-import '../../../profile/data/models/user_model.dart';
-import '../../../profile/domain/entities/user_entity.dart';
+import '../../../user/data/models/user_model.dart';
+import '../../../user/domain/entities/user_entity.dart';
 import '../../domain/entities/event_entity.dart';
 
 class EventModel extends EventEntity {

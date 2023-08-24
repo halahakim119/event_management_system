@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../profile/domain/entities/user_entity.dart';
+import '../../../user/domain/entities/user_entity.dart';
 
 class EventEntity extends Equatable {
   final String? id;
