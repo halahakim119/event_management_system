@@ -2,10 +2,10 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../../core/error/failure.dart';
 import '../../entities/init_entity.dart';
-import '../../repositories/event_repository.dart';
+import '../../repositories/init_repository.dart';
 
 class CreateInitUseCase {
-  final EventRepository repository;
+  final InitRepository repository;
   CreateInitUseCase(this.repository);
 
   Future<Either<Failure, String>> call(InitEntity init, String token) async {

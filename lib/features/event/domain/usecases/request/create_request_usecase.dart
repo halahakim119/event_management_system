@@ -2,10 +2,10 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../../core/error/failure.dart';
 import '../../entities/init_entity.dart';
-import '../../repositories/event_repository.dart';
+import '../../repositories/request_repository.dart';
 
 class CreateRequestUseCase {
-  final EventRepository repository;
+  final RequestRepository repository;
   CreateRequestUseCase(this.repository);
 
   Future<Either<Failure, String>> call(
