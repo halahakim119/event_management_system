@@ -12,7 +12,10 @@ import 'internet_checker.dart';
 import 'no_internet_screen.dart';
 
 class NoInternet extends StatefulWidget {
+  const NoInternet({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _NoInternetState createState() => _NoInternetState();
 }
 

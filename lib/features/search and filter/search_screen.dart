@@ -1,10 +1,13 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
 import 'package:filter_list/filter_list.dart';
+import 'package:flutter/material.dart';
 
 @RoutePage()
 class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _SearchScreenState createState() => _SearchScreenState();
 }
 
@@ -17,37 +20,31 @@ class _SearchScreenState extends State<SearchScreen> {
     "Option 4",
     "Option 5",
   ];
-void _openFilterDialog() async {
-  await FilterListDialog.display<String>(context,
-      listData: filterList,
-      selectedListData: selectedFilterList,
-      height: 480,
-      borderRadius: 20,
-      headlineText: "Select Options",
-      
-      choiceChipLabel: (item) {
-        return item;
-      },
-      validateSelectedItem: (list, val) {
-        return list!.contains(val);
-      },
-      onItemSearch: (list, text) {
-        if (text.isNotEmpty) {
-          return true;
-        } else {
-          return false;
-        }
-      },
-      onApplyButtonClick: (list) {
-        if (list != null) {
-          setState(() {
-            selectedFilterList = List.from(list);
-          });
-        }
-        Navigator.pop(context);
-      });
-}
-
+  void _openFilterDialog() async {
+    await FilterListDialog.display<String>(context,
+        listData: filterList,
+        selectedListData: selectedFilterList,
+        height: 480,
+        borderRadius: 20,
+        headlineText: "Select Options", choiceChipLabel: (item) {
+      return item;
+    }, validateSelectedItem: (list, val) {
+      return list!.contains(val);
+    }, onItemSearch: (list, text) {
+      if (text.isNotEmpty) {
+        return true;
+      } else {
+        return false;
+      }
+    }, onApplyButtonClick: (list) {
+      if (list != null) {
+        setState(() {
+          selectedFilterList = List.from(list);
+        });
+      }
+      Navigator.pop(context);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +54,7 @@ void _openFilterDialog() async {
           Hero(
             tag: 'searchIcon',
             child: IconButton(
-              icon: Icon(Icons.search),
+              icon: const Icon(Icons.search),
               onPressed: _openFilterDialog,
             ),
           ),
@@ -77,18 +74,18 @@ void _openFilterDialog() async {
                     .toList(),
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
                 setState(() {
                   selectedFilterList = List.from(filterList);
                 });
               },
-              child: Text("Select All"),
+              child: const Text("Select All"),
             ),
             ElevatedButton(
               onPressed: _openFilterDialog,
-              child: Text("Apply Filter"),
+              child: const Text("Apply Filter"),
             ),
             ElevatedButton(
               onPressed: () {
@@ -96,7 +93,7 @@ void _openFilterDialog() async {
                   selectedFilterList.clear();
                 });
               },
-              child: Text("Reset Filter"),
+              child: const Text("Reset Filter"),
             )
           ],
         ),

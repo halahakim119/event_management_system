@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 
-
 import '../../../../user/domain/entities/user_entity.dart';
 import '../../../domain/usecases/reset_password.dart';
 import '../../../domain/usecases/signin_with_phone.dart';

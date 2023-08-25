@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:event_management_system/features/event/presentation/view/widgets/event_widget.dart';
 import 'package:flutter/material.dart';
+
+import '../widgets/event_widget.dart';
 
 @RoutePage()
 class MyEventsScreen extends StatelessWidget {
@@ -18,7 +19,6 @@ class MyEventsScreen extends StatelessWidget {
                 SizedBox(
                   height: 10,
                 ),
-                
                 EventWidget(
                   title: 'A Decade of Dreams: 10th Birthday Bash',
                 ),

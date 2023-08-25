@@ -84,7 +84,8 @@ class _EditNameProvinceScreenState extends State<EditNameProvinceScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => sl<UserProfileBloc>(),
-      child: BlocConsumer<UserProfileBloc, UserProfileState>(listener: (context, state) {
+      child: BlocConsumer<UserProfileBloc, UserProfileState>(
+          listener: (context, state) {
         if (state is UserError) {
           showDialog(
             context: context,

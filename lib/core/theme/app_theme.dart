@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/material.dart';
 
 class AppTheme {
   static final ThemeData themeData = FlexThemeData.light(
@@ -11,7 +11,6 @@ class AppTheme {
     subThemesData: const FlexSubThemesData(
       thinBorderWidth: 0.5,
       thickBorderWidth: 0.5,
-    
       defaultRadius: 25.0,
       textButtonRadius: 25.0,
       elevatedButtonRadius: 25.0,

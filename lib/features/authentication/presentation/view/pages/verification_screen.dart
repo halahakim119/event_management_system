@@ -91,10 +91,8 @@ class _VeificationScreenContentState extends State<_VeificationScreenContent> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          iconTheme: const IconThemeData(
-           size: 18),
+          iconTheme: const IconThemeData(size: 18),
           backgroundColor: Theme.of(context).colorScheme.background,
-          
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_rounded),
             onPressed: () {
@@ -102,7 +100,6 @@ class _VeificationScreenContentState extends State<_VeificationScreenContent> {
             },
           ),
         ),
-      
         body: widget.typeForm == null
             ? BlocListener<AuthenticationBloc, AuthenticationState>(
                 listener: (context, state) {
@@ -179,7 +176,6 @@ class _VeificationScreenContentState extends State<_VeificationScreenContent> {
                           },
                           child: const Text(
                             'Verify',
-                         
                           ),
                         ),
                       ],

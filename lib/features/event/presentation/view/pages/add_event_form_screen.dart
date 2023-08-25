@@ -9,6 +9,7 @@ class AddEventFormScreen extends StatefulWidget {
   const AddEventFormScreen({super.key});
 
   @override
+  // ignore: library_private_types_in_public_api
   _AddEventFormScreenState createState() => _AddEventFormScreenState();
 }
 
@@ -280,7 +281,7 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                       );
                     },
                   ).toList(),
-                  decoration: InputDecoration(labelText: 'Event Type'),
+                  decoration: const InputDecoration(labelText: 'Event Type'),
                   validator: (value) {
                     if (value == null) {
                       return 'Please select an event type';
@@ -306,7 +307,7 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                       );
                     },
                   ).toList(),
-                  decoration: InputDecoration(labelText: 'Post Type'),
+                  decoration: const InputDecoration(labelText: 'Post Type'),
                   validator: (value) {
                     if (value == null) {
                       return 'Please select a post type';
@@ -316,7 +317,7 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                 ),
                 const SizedBox(height: 10),
                 SwitchListTile(
-                  title: Text('Adults Only'),
+                  title: const Text('Adults Only'),
                   value: _adultsOnly,
                   onChanged: (value) {
                     setState(() {
@@ -326,7 +327,7 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                 ),
                 const SizedBox(height: 10),
                 SwitchListTile(
-                  title: Text('Food'),
+                  title: const Text('Food'),
                   value: _food,
                   onChanged: (value) {
                     setState(() {
@@ -336,7 +337,7 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                 ),
                 const SizedBox(height: 10),
                 SwitchListTile(
-                  title: Text('Alcohol'),
+                  title: const Text('Alcohol'),
                   value: _alcohol,
                   onChanged: (value) {
                     setState(() {

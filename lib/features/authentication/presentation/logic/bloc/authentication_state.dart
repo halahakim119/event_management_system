@@ -49,4 +49,3 @@ class ResetPasswordFailure extends AuthenticationState {
 
   ResetPasswordFailure(this.errorMessage);
 }
-

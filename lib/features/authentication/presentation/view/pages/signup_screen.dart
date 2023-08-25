@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -117,7 +119,7 @@ class _SignupScreenState extends State<SignupScreen> {
               );
             } else if (state is VerifyPhoneNumber) {
               // Navigate to the verification screen if phone number verification is required
-              print(state.verificationCode);
+              log(state.verificationCode);
               context.router.push(VeificationRoute(
                 verificationCode: state.verificationCode,
                 code: state.code,

@@ -160,7 +160,7 @@ class EventWidget extends StatelessWidget {
                                         .colorScheme
                                         .onInverseSurface,
                                     borderRadius: BorderRadius.circular(15)),
-                                child: Text(
+                                child: const Text(
                                   'baghdad',
                                 ),
                               ),
@@ -172,7 +172,7 @@ class EventWidget extends StatelessWidget {
                                         .colorScheme
                                         .onInverseSurface,
                                     borderRadius: BorderRadius.circular(15)),
-                                child: Text(
+                                child: const Text(
                                   textAlign: TextAlign.center,
                                   '2023-22-32\n2023-22-82',
                                 ),
@@ -188,7 +188,7 @@ class EventWidget extends StatelessWidget {
                                     .colorScheme
                                     .onInverseSurface,
                                 borderRadius: BorderRadius.circular(15)),
-                            child: Text(
+                            child: const Text(
                               '4:30 am\n-\n9:00 pm',
                             ),
                           ),

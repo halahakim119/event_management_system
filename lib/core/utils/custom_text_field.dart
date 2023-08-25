@@ -15,7 +15,7 @@ class CustomTextField extends StatelessWidget {
   const CustomTextField(
       {super.key,
       required this.labelText,
-       this.onChanged,
+      this.onChanged,
       required this.validator,
       this.keyboardType,
       this.onSaved,
@@ -34,10 +34,10 @@ class CustomTextField extends StatelessWidget {
       ),
     );
 
-    return TextFormField(textDirection: TextDirection.ltr,
+    return TextFormField(
+      textDirection: TextDirection.ltr,
       maxLength: max,
       decoration: InputDecoration(
-        
         counterText: '',
         labelText: labelText,
         prefixText: prefixText,

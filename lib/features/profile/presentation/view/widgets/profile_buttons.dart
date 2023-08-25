@@ -6,8 +6,11 @@ import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 import '../../../../../core/router/app_router.dart';
 import '../../../../theme/presentation/theme_cubit.dart';
 
+// ignore: must_be_immutable
 class ProfileBody extends StatelessWidget {
   double screenWidth = 0;
+
+  ProfileBody({super.key});
 
   @override
   Widget build(BuildContext context) {

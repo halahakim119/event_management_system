@@ -1,12 +1,12 @@
 import '../../../event/data/models/event_model.dart';
 import '../../../event/data/models/init_model.dart';
 import '../../../event/data/models/request_model.dart';
-
 import '../../../event/domain/entities/event_entity.dart';
 import '../../../event/domain/entities/init_entity.dart';
 import '../../../event/domain/entities/request_entity.dart';
 import '../../domain/entities/user_entity.dart';
 
+// ignore: must_be_immutable
 class UserModel extends UserEntity {
   UserModel({
     required String id,

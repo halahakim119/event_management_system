@@ -38,7 +38,7 @@ class ApiProvider {
       } else if (error == 'Wrong Verification Code!') {
         throw ApiException('Wrong verification code');
       } else {
-        throw ApiException( error);
+        throw ApiException(error);
       }
     }
   }

@@ -3,6 +3,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:widget_and_text_animator/widget_and_text_animator.dart';
+
 import '../../core/router/app_router.dart';
 import '../theme/presentation/theme_cubit.dart';
 
@@ -25,7 +26,7 @@ class _MainScreenState extends State<MainScreen>
     super.initState();
 
     controller = AnimationController(
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     )..addListener(() {
         setState(() {});
@@ -70,7 +71,7 @@ class _MainScreenState extends State<MainScreen>
               turns: Tween(begin: 0.0, end: 0.5).animate(controller),
               child: Icon(
                 _floatingActionButtonIcon,
-               color: Colors.white,
+                color: Colors.white,
               ),
             ),
           ),

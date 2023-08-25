@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
-import 'package:event_management_system/features/event/data/datasources/init_remote_data_source.dart';
-import 'package:event_management_system/features/event/data/models/init_model.dart';
+import '../datasources/init_remote_data_source.dart';
+import '../models/init_model.dart';
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';

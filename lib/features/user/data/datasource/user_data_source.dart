@@ -4,6 +4,7 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+// ignore: library_prefixes
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../../../core/error/exception.dart';

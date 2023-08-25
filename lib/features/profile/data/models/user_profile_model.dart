@@ -1,5 +1,6 @@
 import '../../../user/domain/entities/user_entity.dart';
 
+// ignore: must_be_immutable
 class UserProfileModel extends UserEntity {
   UserProfileModel({
     required String id,

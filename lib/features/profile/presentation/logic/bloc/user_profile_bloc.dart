@@ -7,21 +7,17 @@ part 'user_event.dart';
 part 'user_profile_state.dart';
 
 class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
- 
   final DeleteUserUseCase deleteUserUseCase;
   final EditUserUseCase editUserUseCase;
   final VerifyPhoneNumberUseCase verifyPhoneNumberUseCase;
   final UpdatePhoneNumberUseCase updatePhoneNumberUseCase;
 
   UserProfileBloc({
- 
     required this.deleteUserUseCase,
     required this.editUserUseCase,
     required this.verifyPhoneNumberUseCase,
     required this.updatePhoneNumberUseCase,
   }) : super(UserInitial()) {
-   
-
     on<DeleteUserEvent>((event, emit) async {
       emit(UserLoading());
       final result =

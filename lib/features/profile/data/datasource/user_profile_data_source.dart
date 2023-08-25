@@ -1,16 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
-
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../authentication/data/datasources/authentication_remote_data_source.dart';
-
 import '../models/user_profile_model.dart';
 
 abstract class UserProfileDataSource {
@@ -110,7 +108,6 @@ class UserProfileDataSourceImpl implements UserProfileDataSource {
     }
   }
 
-
   @override
   Future<Either<Failure, String>> updatePhoneNumber(
       String code, String verificationCode) async {
@@ -167,8 +164,8 @@ class UserProfileDataSourceImpl implements UserProfileDataSource {
       if (response.statusCode == 200 &&
           jsonResponse.containsKey('code') &&
           jsonResponse.containsKey('verificationCode')) {
-        print(jsonResponse['code']);
-        print(jsonResponse['verificationCode']);
+        log(jsonResponse['code']);
+        log(jsonResponse['verificationCode']);
 
         return Right({
           'code': jsonResponse['code'],

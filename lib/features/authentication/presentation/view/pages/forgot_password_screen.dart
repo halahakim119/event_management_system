@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +8,7 @@ import '../../../../../core/injection/injection_container.dart';
 import '../../../../../core/router/app_router.dart';
 import '../../../../../core/utils/custom_text_field.dart';
 import '../../logic/bloc/authentication_bloc.dart';
+
 @RoutePage()
 class ForgotPasswordScreen extends StatelessWidget {
   final TextEditingController _phoneNumberController =
@@ -26,11 +29,8 @@ class ForgotPasswordScreen extends StatelessWidget {
       create: (_) => sl<AuthenticationBloc>(),
       child: Scaffold(
         appBar: AppBar(
-        
-      
           title: const Text(
             'forgot Password',
-         
           ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios_rounded),
@@ -39,11 +39,10 @@ class ForgotPasswordScreen extends StatelessWidget {
             },
           ),
         ),
-      
         body: BlocConsumer<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             if (state is VerifyPhoneNumber) {
-              print(state.verificationCode);
+              log(state.verificationCode);
               context.router.push(ResetPasswordRoute(
                 verificationCode: state.verificationCode,
                 code: state.code,

@@ -2,8 +2,6 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
-
-
 import '../../../user/domain/entities/user_entity.dart';
 import '../../domain/repositories/authentication_repository.dart';
 import '../datasources/authentication_remote_data_source.dart';

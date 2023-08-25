@@ -6,6 +6,7 @@ import 'package:event_management_system/features/event/domain/entities/request_e
 import '../../../event/domain/entities/event_entity.dart';
 
 // Define the UserEntity class that extends Equatable.
+// ignore: must_be_immutable
 class UserEntity extends Equatable {
   // Unique identifier for the user.
   final String id;
@@ -31,18 +32,17 @@ class UserEntity extends Equatable {
   List<InitEntity>? inits;
   List<EventEntity>? attendance;
 
-   UserEntity({
-    required this.id,
-    required this.token,
-    required this.name,
-    required this.phoneNumber,
-    required this.province,
-    this.following,
-    this.events,
-    this.requests,
-    this.inits,
-    this.attendance
-  });
+  UserEntity(
+      {required this.id,
+      required this.token,
+      required this.name,
+      required this.phoneNumber,
+      required this.province,
+      this.following,
+      this.events,
+      this.requests,
+      this.inits,
+      this.attendance});
   // Equatable requires overriding the 'props' getter to compare instances for equality.
   @override
   List<Object?> get props => [

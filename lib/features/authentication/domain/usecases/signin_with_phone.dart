@@ -2,8 +2,6 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../user/domain/entities/user_entity.dart';
-
-
 import '../repositories/authentication_repository.dart';
 
 class SignInWithPhone {

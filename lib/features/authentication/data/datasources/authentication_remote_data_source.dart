@@ -7,7 +7,6 @@ import '../../../../core/utils/api_provider.dart';
 import '../../../profile/data/models/user_profile_model.dart';
 import '../../../user/domain/entities/user_entity.dart';
 
-
 abstract class AuthenticationRemoteDataSource {
   Future<Either<Failure, Map<String, String>>> signUpWithPhone({
     required String name,
@@ -80,7 +79,7 @@ class AuthenticationRemoteDataSourceImpl
         'number': phoneNumber,
         'password': password,
       });
-     
+
       final userJson = jsonResponse['user'] as Map<String, dynamic>;
 
       final userData = UserProfileModel.fromJson(userJson);
@@ -88,7 +87,6 @@ class AuthenticationRemoteDataSourceImpl
       await _userBox.put('userBox', userData);
 
       return Right(userData.toEntity());
-    
     } on ApiException catch (e) {
       return Left(ApiExceptionFailure(e.message));
     } catch (e) {

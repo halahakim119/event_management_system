@@ -6,6 +6,7 @@ import '../../../../../core/injection/injection_container.dart';
 import '../../../../../core/router/app_router.dart';
 import '../../../../../core/utils/custom_text_field.dart';
 import '../../logic/bloc/authentication_bloc.dart';
+
 @RoutePage()
 class ResetPasswordScreen extends StatefulWidget {
   final String verificationCode;
@@ -18,6 +19,7 @@ class ResetPasswordScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ResetPasswordScreenState createState() => _ResetPasswordScreenState();
 }
 
@@ -148,9 +150,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             ),
           ),
           leading: IconButton(
-            icon: const Icon(Icons.arrow_back_ios_new_rounded
-            
-            ),
+            icon: const Icon(Icons.arrow_back_ios_new_rounded),
             onPressed: () {
               Navigator.pop(context);
             },
@@ -228,8 +228,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                     ),
                     onPressed: () {
                       setState(() {
-                        _isConfirmPasswordVisible =
-                            !_isConfirmPasswordVisible;
+                        _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
                       });
                     },
                   ),

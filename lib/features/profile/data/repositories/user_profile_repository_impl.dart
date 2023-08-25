@@ -36,8 +36,6 @@ class UserProfileRepositoryImpl implements UserProfileRepository {
     }
   }
 
-
-
   @override
   Future<Either<Failure, Map<String, dynamic>>> verifyPhoneNumber(
       String id, String number, String token) async {

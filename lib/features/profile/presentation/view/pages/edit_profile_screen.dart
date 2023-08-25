@@ -136,7 +136,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   ],
                                 ),
                                 trailing: IconButton(
-                                  icon: Icon(Icons.edit),
+                                  icon: const Icon(Icons.edit),
                                   onPressed: () {
                                     context.router.push(
                                         EditNameProvinceRoute(user: user!));

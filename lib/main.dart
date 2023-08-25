@@ -31,12 +31,14 @@ Future<void> main() async {
       ),
     ));
   } else {
-    runApp(NoInternet());
+    runApp(const NoInternet());
   }
 }
 
 class MyApp extends StatelessWidget {
   final _appRouter = AppRouter();
+
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +64,7 @@ class MyApp extends StatelessWidget {
                 ? AppTheme.themeData
                 : AppTheme.darkTheme,
             darkTheme: AppTheme.darkTheme,
-            themeMode:themeMode,
+            themeMode: themeMode,
 
             // app routing
             routerDelegate: _appRouter.delegate(),

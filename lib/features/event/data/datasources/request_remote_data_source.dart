@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+// ignore: library_prefixes
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../../../core/error/failure.dart';
@@ -10,9 +11,12 @@ import '../models/request_model.dart';
 
 abstract class RequestRemoteDataSource {
   Future<Either<Failure, List<RequestModel>>> getAllRequests(String plannerId);
-  Future<Either<Failure, String>> createRequest(InitModel init, String token, String hostId);
-  Future<Either<Failure, String>> updateRequest(RequestModel request, String token);
-  Future<Either<Failure, String>> cancelRequest(String requestId, String plannerId, String token);
+  Future<Either<Failure, String>> createRequest(
+      InitModel init, String token, String hostId);
+  Future<Either<Failure, String>> updateRequest(
+      RequestModel request, String token);
+  Future<Either<Failure, String>> cancelRequest(
+      String requestId, String plannerId, String token);
 }
 
 class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
@@ -21,7 +25,8 @@ class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
   RequestRemoteDataSourceImpl(this.socket);
 
   @override
-  Future<Either<Failure, String>> cancelRequest(String requestId, String plannerId, String token) async {
+  Future<Either<Failure, String>> cancelRequest(
+      String requestId, String plannerId, String token) async {
     final completer = Completer<Either<Failure, String>>();
 
     socket.emit("request-cancel", {
@@ -42,7 +47,8 @@ class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, List<RequestModel>>> getAllRequests(String plannerId) async {
+  Future<Either<Failure, List<RequestModel>>> getAllRequests(
+      String plannerId) async {
     final completer = Completer<Either<Failure, List<RequestModel>>>();
 
     socket.emit("requests-get", {
@@ -54,8 +60,9 @@ class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
         completer.complete(Left(ServerFailure(response['message'])));
       } else {
         final requestsJsonList = response['data'] as List<dynamic>;
-        final requests =
-            requestsJsonList.map((json) => RequestModel.fromJson(json)).toList();
+        final requests = requestsJsonList
+            .map((json) => RequestModel.fromJson(json))
+            .toList();
         completer.complete(Right(requests));
       }
     });
@@ -64,14 +71,14 @@ class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, String>> createRequest(InitModel init, String token, String hostId) async {
+  Future<Either<Failure, String>> createRequest(
+      InitModel init, String token, String hostId) async {
     final completer = Completer<Either<Failure, String>>();
 
     socket.emit("request-create", {
       "init": init.toJson(),
       "token": token,
       "hostId": hostId,
-
     });
 
     socket.on("request-create-response", (response) {
@@ -87,7 +94,8 @@ class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, String>> updateRequest(RequestModel request, String token) async {
+  Future<Either<Failure, String>> updateRequest(
+      RequestModel request, String token) async {
     final completer = Completer<Either<Failure, String>>();
 
     socket.emit("request-edit", {

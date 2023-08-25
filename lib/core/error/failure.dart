@@ -3,6 +3,7 @@ abstract class Failure {
 }
 
 class ServerFailure extends Failure {
+  @override
   final String message;
 
   ServerFailure(this.message);
@@ -15,6 +16,7 @@ class ServerFailure extends Failure {
 
 
 class ApiExceptionFailure extends Failure {
+  @override
   final String message;
 
   ApiExceptionFailure(this.message);

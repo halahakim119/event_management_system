@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../features/theme/presentation/theme_cubit.dart';
-
 import '../injection/injection_container.dart';
 import '../theme/app_theme.dart';
 

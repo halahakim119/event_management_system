@@ -120,7 +120,6 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildPhoneNumberTextField() {
     return CustomTextField(
       labelText: LocaleKeys.Phone_Number.tr(),
-      
       validator: (value) {
         if (value!.length <= 4) {
           return 'Phone number is required';
@@ -164,19 +163,17 @@ class _LoginScreenState extends State<LoginScreen> {
   // Builds the login button
   Widget _buildLoginButton(BuildContext context) {
     return ElevatedButton(
-      child:  Text(LocaleKeys.Login.tr()),
+      child: Text(LocaleKeys.Login.tr()),
       onPressed: () => _submitForm(context),
     );
   }
-
-  
 
   // Builds the forgot password button
   Widget _buildForgotPasswordButton(BuildContext context) {
     return TextButton(
       onPressed: () => context.router.push(ForgotPasswordRoute()),
       child: Text(
-         LocaleKeys.Forgot_Password.tr(),
+        LocaleKeys.Forgot_Password.tr(),
       ),
     );
   }

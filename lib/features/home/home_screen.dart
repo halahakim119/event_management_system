@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:circular_clip_route/circular_clip_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../search and filter/search_screen.dart';
 
@@ -11,6 +10,7 @@ class HomeScreen extends StatefulWidget {
       : super(key: key); // Adjusted the super constructor call here
 
   @override
+  // ignore: library_private_types_in_public_api
   _HomeScreenState createState() => _HomeScreenState();
 }
 
@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Navigator.push(
                 context,
                 CircularClipRoute<void>(
-                  builder: (_) => SearchScreen(),
+                  builder: (_) => const SearchScreen(),
                   expandFrom: context,
                 ),
               );
