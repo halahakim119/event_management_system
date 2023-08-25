@@ -1,7 +1,9 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../../../core/error/exception.dart';
@@ -13,6 +15,11 @@ abstract class UserDataSource {
 }
 
 class UserDataSourceImpl implements UserDataSource {
+  final Box<UserModel> userDataBox;
+  UserDataSourceImpl({
+    required this.userDataBox,
+  });
+
   @override
   Future<Either<Failure, UserModel>> getUser(String id) async {
     try {
@@ -30,10 +37,10 @@ class UserDataSourceImpl implements UserDataSource {
 
       final userCompleter = Completer<UserModel>();
 
-      socket.on('response', (data) {
+      socket.on('response', (data) async {
         final userJson = data as Map<String, dynamic>;
         final userData = UserModel.fromJson(userJson);
-
+        await userDataBox.put('userDataBox', userData);
         userCompleter.complete(userData);
         socket.disconnect();
       });

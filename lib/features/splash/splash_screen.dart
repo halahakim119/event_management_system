@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -7,6 +8,7 @@ import '../../core/injection/injection_container.dart';
 import '../../core/network/internet_checker.dart';
 import '../../core/router/app_router.dart';
 import '../profile/data/models/user_profile_model.dart';
+import '../user/presentation/logic/bloc/user_bloc.dart';
 
 @RoutePage()
 class SplashScreen extends StatefulWidget {
@@ -61,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> checkUserBoxAndNavigate() async {
     if (isExist) {
-      
+      context..read<UserBloc>().add(GetUserEvent(user!.id));
       await context.router.popAndPush(const HomeRoute());
     } else {
       await context.router.popAndPush(const LanguagesRoute());

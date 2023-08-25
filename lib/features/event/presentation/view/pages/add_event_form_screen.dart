@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 import '../../../../../core/strings/strings.dart';
-import '../../../domain/entities/event_entity.dart';
 
 @RoutePage()
 class AddEventFormScreen extends StatefulWidget {
