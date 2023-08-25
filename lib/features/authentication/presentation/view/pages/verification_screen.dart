@@ -7,7 +7,7 @@ import '../../../../../core/injection/injection_container.dart';
 import '../../../../../core/router/app_router.dart';
 import '../../../../../core/utils/custom_text_field.dart';
 import '../../../../profile/data/models/user_profile_model.dart';
-import '../../../../profile/presentation/logic/bloc/user_bloc.dart';
+import '../../../../profile/presentation/logic/bloc/user_profile_bloc.dart';
 import '../../logic/bloc/authentication_bloc.dart';
 
 @RoutePage()
@@ -188,8 +188,8 @@ class _VeificationScreenContentState extends State<_VeificationScreenContent> {
                 ),
               )
             : BlocProvider(
-                create: (context) => sl<UserBloc>(),
-                child: BlocConsumer<UserBloc, UserState>(
+                create: (context) => sl<UserProfileBloc>(),
+                child: BlocConsumer<UserProfileBloc, UserProfileState>(
                   listener: (context, state) {
                     if (state is PhoneNumberUpdated) {
                       showDialog(
@@ -264,7 +264,7 @@ class _VeificationScreenContentState extends State<_VeificationScreenContent> {
                                     _verificationCode,
                                   );
                                   context
-                                      .read<UserBloc>()
+                                      .read<UserProfileBloc>()
                                       .add(updatePhoneNumberEvent);
                                 }
                               },

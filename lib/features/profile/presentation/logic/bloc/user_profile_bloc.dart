@@ -1,34 +1,26 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../user/domain/entities/user_entity.dart';
 import '../../../domain/usecases/user_crud_use_cases.dart';
 
 part 'user_event.dart';
-part 'user_state.dart';
+part 'user_profile_state.dart';
 
-class UserBloc extends Bloc<UserEvent, UserState> {
-  final GetUserUseCase getUserUseCase;
+class UserProfileBloc extends Bloc<UserProfileEvent, UserProfileState> {
+ 
   final DeleteUserUseCase deleteUserUseCase;
   final EditUserUseCase editUserUseCase;
   final VerifyPhoneNumberUseCase verifyPhoneNumberUseCase;
   final UpdatePhoneNumberUseCase updatePhoneNumberUseCase;
 
-  UserBloc({
-    required this.getUserUseCase,
+  UserProfileBloc({
+ 
     required this.deleteUserUseCase,
     required this.editUserUseCase,
     required this.verifyPhoneNumberUseCase,
     required this.updatePhoneNumberUseCase,
   }) : super(UserInitial()) {
-    on<GetUserEvent>((event, emit) async {
-      emit(UserLoading());
-      final result = await getUserUseCase.getUser(event.userId);
-      return emit(result.fold(
-        (failure) => UserError(message: failure.message),
-        (user) => UserLoaded(user: user),
-      ));
-    });
+   
 
     on<DeleteUserEvent>((event, emit) async {
       emit(UserLoading());

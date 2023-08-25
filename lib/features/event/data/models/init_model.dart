@@ -1,8 +1,8 @@
 import '../../domain/entities/init_entity.dart';
 
 class InitModel extends InitEntity {
- const  InitModel({
-     String? id,
+  const InitModel({
+    String? id,
     required String plannerId,
     required int guestsNumber,
     required DateTime startsAt,
@@ -77,5 +77,45 @@ class InitModel extends InitEntity {
       'food': food,
       'guests': guests,
     };
+  }
+
+  InitModel.fromEntity(InitEntity entity)
+      : super(
+          id: entity.id,
+          plannerId: entity.plannerId,
+          guestsNumber: entity.guestsNumber,
+          startsAt: entity.startsAt,
+          endsAt: entity.endsAt,
+          description: entity.description,
+          type: entity.type,
+          title: entity.title,
+          startingDate: entity.startingDate,
+          endingDate: entity.endingDate,
+          dressCode: entity.dressCode,
+          alcohol: entity.alcohol,
+          adultsOnly: entity.adultsOnly,
+          food: entity.food,
+          guests: entity.guests,
+          postType: entity.postType,
+        );
+  InitEntity toEntity() {
+    return InitEntity(
+      id: id,
+      plannerId: plannerId,
+      guestsNumber: guestsNumber,
+      startsAt: startsAt,
+      endsAt: endsAt,
+      description: description,
+      type: type,
+      title: title,
+      startingDate: startingDate,
+      endingDate: endingDate,
+      dressCode: dressCode,
+      alcohol: alcohol,
+      adultsOnly: adultsOnly,
+      food: food,
+      guests: guests,
+      postType: postType,
+    );
   }
 }

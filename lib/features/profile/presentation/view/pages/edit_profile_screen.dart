@@ -8,7 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../../../../../core/injection/injection_container.dart';
 import '../../../../../core/router/app_router.dart';
 import '../../../data/models/user_profile_model.dart';
-import '../../logic/bloc/user_bloc.dart';
+import '../../logic/bloc/user_profile_bloc.dart';
 import '../widgets/not_logged_in.dart';
 
 @RoutePage()
@@ -27,20 +27,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   bool isEditPhoneNumber = false;
   final phoneNumberController = TextEditingController();
 
- @override
-void dispose() {
-  userBox.listenable().removeListener(_onBoxChange);
-  super.dispose();
-}
-
-void _onBoxChange() {
-  if (mounted) {
-    setState(() {
-      getUserData();
-    });
+  @override
+  void dispose() {
+    userBox.listenable().removeListener(_onBoxChange);
+    super.dispose();
   }
-}
 
+  void _onBoxChange() {
+    if (mounted) {
+      setState(() {
+        getUserData();
+      });
+    }
+  }
 
   UserProfileModel? user;
   final userBox = Hive.box<UserProfileModel>('userBox');
@@ -76,8 +75,8 @@ void _onBoxChange() {
         body: userBox.isEmpty
             ? const NotLoggedIn()
             : BlocProvider(
-                create: (_) => sl<UserBloc>(),
-                child: BlocConsumer<UserBloc, UserState>(
+                create: (_) => sl<UserProfileBloc>(),
+                child: BlocConsumer<UserProfileBloc, UserProfileState>(
                   listener: (context, state) {
                     if (state is UserError) {
                       showDialog(
@@ -219,7 +218,7 @@ void _onBoxChange() {
                                         VerifyPhoneNumberEvent(
                                             userId, newPhoneNumber, token);
                                     context
-                                        .read<UserBloc>()
+                                        .read<UserProfileBloc>()
                                         .add(verifyPhoneNumberEvent);
                                     setState(() {
                                       isEditPhoneNumber = false;

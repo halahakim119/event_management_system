@@ -7,7 +7,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../../core/injection/injection_container.dart';
 import '../../core/router/app_router.dart';
 import '../profile/data/models/user_profile_model.dart';
-import '../profile/presentation/logic/bloc/user_bloc.dart';
+import '../profile/presentation/logic/bloc/user_profile_bloc.dart';
 import '../theme/presentation/theme_cubit.dart';
 
 @RoutePage()
@@ -150,8 +150,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         context: context,
                         builder: (BuildContext context) {
                           return BlocProvider(
-                            create: (context) => sl<UserBloc>(),
-                            child: BlocBuilder<UserBloc, UserState>(
+                            create: (context) => sl<UserProfileBloc>(),
+                            child:
+                                BlocBuilder<UserProfileBloc, UserProfileState>(
                               builder: (context, state) {
                                 return AlertDialog(
                                   title: const Text('Confirm Delete'),
@@ -166,7 +167,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        context.read<UserBloc>().add(
+                                        context.read<UserProfileBloc>().add(
                                             DeleteUserEvent(
                                                 user!.id, user!.token));
                                         _deleteAccount();

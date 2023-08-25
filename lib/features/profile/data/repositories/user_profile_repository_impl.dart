@@ -1,14 +1,13 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../../user/domain/entities/user_entity.dart';
-import '../../domain/repositories/user_repository.dart';
-import '../datasource/user_data_source.dart';
+import '../../domain/repositories/user_profile_repository.dart';
+import '../datasource/user_profile_data_source.dart';
 
-class UserRepositoryImpl implements UserRepository {
-  final UserDataSource userDataSource;
+class UserProfileRepositoryImpl implements UserProfileRepository {
+  final UserProfileDataSource userDataSource;
 
-  UserRepositoryImpl({required this.userDataSource});
+  UserProfileRepositoryImpl({required this.userDataSource});
 
   @override
   Future<Either<Failure, String>> deleteUser(String id, String token) async {
@@ -37,18 +36,7 @@ class UserRepositoryImpl implements UserRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, UserEntity>> getUser(String id) async {
-    try {
-      final result = await userDataSource.getUser(id);
-      return result.fold(
-        (failure) => Left(failure),
-        (data) => Right(data.toEntity()),
-      );
-    } catch (e) {
-      return Left(ServerFailure('Failed to retrieve user data'));
-    }
-  }
+
 
   @override
   Future<Either<Failure, Map<String, dynamic>>> verifyPhoneNumber(
@@ -72,7 +60,7 @@ class UserRepositoryImpl implements UserRepository {
           await userDataSource.updatePhoneNumber(code, verificationCode);
       return result.fold(
         (failure) => Left(failure),
-        (message) =>  Right(message),
+        (message) => Right(message),
       );
     } catch (e) {
       return Left(ServerFailure('Failed to update phone number'));

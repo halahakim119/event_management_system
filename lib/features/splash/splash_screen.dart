@@ -61,6 +61,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> checkUserBoxAndNavigate() async {
     if (isExist) {
+      
       await context.router.popAndPush(const HomeRoute());
     } else {
       await context.router.popAndPush(const LanguagesRoute());

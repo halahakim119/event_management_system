@@ -9,7 +9,7 @@ import '../../../../../core/strings/strings.dart';
 import '../../../../../core/utils/custom_text_field.dart';
 import '../../../../../translations/locale_keys.g.dart';
 import '../../../data/models/user_profile_model.dart';
-import '../../logic/bloc/user_bloc.dart';
+import '../../logic/bloc/user_profile_bloc.dart';
 
 @RoutePage()
 class EditNameProvinceScreen extends StatefulWidget {
@@ -83,8 +83,8 @@ class _EditNameProvinceScreenState extends State<EditNameProvinceScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => sl<UserBloc>(),
-      child: BlocConsumer<UserBloc, UserState>(listener: (context, state) {
+      create: (_) => sl<UserProfileBloc>(),
+      child: BlocConsumer<UserProfileBloc, UserProfileState>(listener: (context, state) {
         if (state is UserError) {
           showDialog(
             context: context,
@@ -185,7 +185,7 @@ class _EditNameProvinceScreenState extends State<EditNameProvinceScreen> {
                             provinceController.text.trim(),
                             toEnglish: true);
 
-                        context.read<UserBloc>().add(
+                        context.read<UserProfileBloc>().add(
                               EditUserEvent(
                                 widget.user.id,
                                 widget.user.token,

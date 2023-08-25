@@ -96,4 +96,48 @@ class EventModel extends EventEntity {
       'postType': postType,
     };
   }
+
+  EventModel.fromEntity(EventEntity entity)
+      : super(
+          id: entity.id,
+          hostId: entity.hostId,
+          plannerId: entity.plannerId,
+          guestsNumber: entity.guestsNumber,
+          startsAt: entity.startsAt,
+          endsAt: entity.endsAt,
+          description: entity.description,
+          type: entity.type,
+          title: entity.title,
+          startingDate: entity.startingDate,
+          endingDate: entity.endingDate,
+          dressCode: entity.dressCode,
+          alcohol: entity.alcohol,
+          adultsOnly: entity.adultsOnly,
+          food: entity.food,
+          guests: entity.guests,
+          confirmedGuests: entity.confirmedGuests,
+          postType: entity.postType,
+        );
+  EventEntity toEntity() {
+    return EventEntity(
+      id: id,
+      hostId: hostId,
+      plannerId: plannerId,
+      guestsNumber: guestsNumber,
+      startsAt: startsAt,
+      endsAt: endsAt,
+      description: description,
+      type: type,
+      title: title,
+      startingDate: startingDate,
+      endingDate: endingDate,
+      dressCode: dressCode,
+      alcohol: alcohol,
+      adultsOnly: adultsOnly,
+      food: food,
+      guests: guests,
+      confirmedGuests: confirmedGuests,
+      postType: postType,
+    );
+  }
 }

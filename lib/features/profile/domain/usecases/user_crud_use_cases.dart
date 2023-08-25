@@ -1,21 +1,10 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/failure.dart';
-import '../../../user/domain/entities/user_entity.dart';
-import '../../domain/repositories/user_repository.dart';
-
-class GetUserUseCase {
-  final UserRepository repository;
-
-  GetUserUseCase(this.repository);
-
-  Future<Either<Failure, UserEntity>> getUser(String id) async {
-    return repository.getUser(id);
-  }
-}
+import '../repositories/user_profile_repository.dart';
 
 class DeleteUserUseCase {
-  final UserRepository repository;
+  final UserProfileRepository repository;
 
   DeleteUserUseCase(this.repository);
 
@@ -25,18 +14,18 @@ class DeleteUserUseCase {
 }
 
 class EditUserUseCase {
-  final UserRepository repository;
+  final UserProfileRepository repository;
 
   EditUserUseCase(this.repository);
 
-  Future<Either<Failure, String>> editUser(String id, String token, String name,
-     String province) async {
+  Future<Either<Failure, String>> editUser(
+      String id, String token, String name, String province) async {
     return repository.editUser(id, token, name, province);
   }
 }
 
 class VerifyPhoneNumberUseCase {
-  final UserRepository repository;
+  final UserProfileRepository repository;
 
   VerifyPhoneNumberUseCase(this.repository);
 
@@ -47,7 +36,7 @@ class VerifyPhoneNumberUseCase {
 }
 
 class UpdatePhoneNumberUseCase {
-  final UserRepository repository;
+  final UserProfileRepository repository;
 
   UpdatePhoneNumberUseCase(this.repository);
 

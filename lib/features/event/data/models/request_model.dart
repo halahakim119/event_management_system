@@ -86,4 +86,48 @@ class RequestModel extends RequestEntity {
       'guests': guests,
     };
   }
+
+  RequestModel.fromEntity(RequestEntity entity)
+      : super(
+          id: entity.id,
+          plannerId: entity.plannerId,
+          hostId: entity.hostId,
+          hostName: entity.hostName,
+          guestsNumber: entity.guestsNumber,
+          startsAt: entity.startsAt,
+          endsAt: entity.endsAt,
+          description: entity.description,
+          type: entity.type,
+          postType: entity.postType,
+          title: entity.title,
+          startingDate: entity.startingDate,
+          endingDate: entity.endingDate,
+          dressCode: entity.dressCode,
+          alcohol: entity.alcohol,
+          adultsOnly: entity.adultsOnly,
+          food: entity.food,
+          guests: entity.guests,
+        );
+  RequestEntity toEntity() {
+    return RequestEntity(
+      id: id,
+      plannerId: plannerId,
+      hostId: hostId,
+      hostName: hostName,
+      guestsNumber: guestsNumber,
+      startsAt: startsAt,
+      endsAt: endsAt,
+      description: description,
+      type: type,
+      postType: postType,
+      title: title,
+      startingDate: startingDate,
+      endingDate: endingDate,
+      dressCode: dressCode,
+      alcohol: alcohol,
+      adultsOnly: adultsOnly,
+      food: food,
+      guests: guests,
+    );
+  }
 }

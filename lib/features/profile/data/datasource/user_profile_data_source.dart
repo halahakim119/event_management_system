@@ -6,31 +6,30 @@ import 'package:dartz/dartz.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
-import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../authentication/data/datasources/authentication_remote_data_source.dart';
-import '../../../user/data/models/user_model.dart';
+
 import '../models/user_profile_model.dart';
 
-abstract class UserDataSource {
+abstract class UserProfileDataSource {
   Future<Either<Failure, String>> deleteUser(String id, String token);
   Future<Either<Failure, String>> editUser(
       String id, String token, String name, String province);
-  Future<Either<Failure, UserModel>> getUser(String id);
+
   Future<Either<Failure, Map<String, dynamic>>> verifyPhoneNumber(
       String id, String number, String token);
   Future<Either<Failure, String>> updatePhoneNumber(
       String code, String verificationCode);
 }
 
-class UserDataSourceImpl implements UserDataSource {
+class UserProfileDataSourceImpl implements UserProfileDataSource {
   final Box<UserProfileModel> _userBox;
 
   final AuthenticationRemoteDataSource authenticationRemoteDataSource;
 
-  UserDataSourceImpl(this._userBox, this.authenticationRemoteDataSource);
+  UserProfileDataSourceImpl(this._userBox, this.authenticationRemoteDataSource);
 
   @override
   Future<Either<Failure, String>> deleteUser(String id, String token) async {
@@ -111,46 +110,6 @@ class UserDataSourceImpl implements UserDataSource {
     }
   }
 
-  Future<Either<Failure, UserModel>> getUser(String id) async {
-    try {
-      final socket = IO.io('http://35.180.62.182', <String, dynamic>{
-        'transports': ['websocket'],
-      });
-
-      socket.connect();
-
-      socket.onConnect((_) {
-        print('Connected to socket');
-        socket.emit('join');
-        socket.emit('request', {'id': id});
-      });
-
-      final userCompleter = Completer<UserModel>();
-
-      socket.on('response', (data) {
-        final userJson = data as Map<String, dynamic>;
-        final userData = UserModel.fromJson(userJson);
-
-        userCompleter.complete(userData);
-        socket.disconnect();
-      });
-
-      socket.on('error', (error) {
-        print('Socket error: $error');
-        userCompleter.completeError(ApiException('Socket error'));
-        socket.disconnect();
-      });
-
-      socket.onDisconnect((_) {
-        print('Socket disconnected');
-      });
-
-      final userData = await userCompleter.future;
-      return Right(userData);
-    } catch (e) {
-      return Left(ServerFailure('Failed to communicate with the server'));
-    }
-  }
 
   @override
   Future<Either<Failure, String>> updatePhoneNumber(

@@ -1,32 +1,23 @@
-part of 'user_bloc.dart';
+part of 'user_profile_bloc.dart';
 
-abstract class UserEvent extends Equatable {
-  const UserEvent();
+abstract class UserProfileEvent extends Equatable {
+  const UserProfileEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class GetUserEvent extends UserEvent {
-  final String userId;
-
-  GetUserEvent(this.userId);
-
-  @override
-  List<Object> get props => [userId];
-}
-
-class DeleteUserEvent extends UserEvent {
+class DeleteUserEvent extends UserProfileEvent {
   final String userId;
   final String token;
 
-  DeleteUserEvent(this.userId, this.token);
+  const DeleteUserEvent(this.userId, this.token);
 
   @override
   List<Object> get props => [userId, token];
 }
 
-class EditUserEvent extends UserEvent {
+class EditUserEvent extends UserProfileEvent {
   final String userId;
   final String token;
   final String name;
@@ -39,7 +30,7 @@ class EditUserEvent extends UserEvent {
   List<Object> get props => [userId, token, name, province];
 }
 
-class VerifyPhoneNumberEvent extends UserEvent {
+class VerifyPhoneNumberEvent extends UserProfileEvent {
   final String userId;
   final String phoneNumber;
   final String token;
@@ -50,11 +41,11 @@ class VerifyPhoneNumberEvent extends UserEvent {
   List<Object> get props => [userId, phoneNumber, token];
 }
 
-class UpdatePhoneNumberEvent extends UserEvent {
+class UpdatePhoneNumberEvent extends UserProfileEvent {
   final String code;
   final String verificationCode;
 
-  UpdatePhoneNumberEvent(this.code, this.verificationCode);
+  const UpdatePhoneNumberEvent(this.code, this.verificationCode);
 
   @override
   List<Object> get props => [code, verificationCode];
