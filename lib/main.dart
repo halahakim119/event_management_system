@@ -42,13 +42,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ThemeCubit>(
-      create: (context) {
-        // Initialize ThemeCubit and load the saved theme mode
-        final themeCubit = sl<ThemeCubit>();
-        themeCubit.loadThemeMode();
-        return themeCubit;
-      },
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ThemeCubit>(
+          create: (context) {
+            // Initialize ThemeCubit and load the saved theme mode
+            final themeCubit = sl<ThemeCubit>();
+            themeCubit.loadThemeMode();
+            return themeCubit;
+          },
+        ),
+     
+      ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
           return MaterialApp.router(

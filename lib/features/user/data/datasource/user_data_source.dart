@@ -24,9 +24,8 @@ class UserDataSourceImpl implements UserDataSource {
   @override
   Future<Either<Failure, UserModel>> getUser(String id) async {
     try {
-      final socket = IO.io('http://35.180.62.182', <String, dynamic>{
-        'transports': ['websocket'],
-      });
+      final IO.Socket socket = IO.io('http://35.180.62.182',
+          IO.OptionBuilder().setTransports(['websocket']).build());
 
       socket.connect();
 
