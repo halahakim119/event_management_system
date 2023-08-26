@@ -16,6 +16,7 @@ abstract class UserDataSource {
 }
 
 class UserDataSourceImpl implements UserDataSource {
+
   final Box<UserModel> userDataBox;
   UserDataSourceImpl({
     required this.userDataBox,
@@ -24,7 +25,7 @@ class UserDataSourceImpl implements UserDataSource {
   @override
   Future<Either<Failure, UserModel>> getUser(String id) async {
     try {
-      final socket = IO.io('http://35.180.62.182', <String, dynamic>{
+      final socket = IO.io('https://35.180.62.182', <String, dynamic>{
         'transports': ['websocket'],
       });
 
@@ -39,9 +40,10 @@ class UserDataSourceImpl implements UserDataSource {
       final userCompleter = Completer<UserModel>();
 
       socket.on('response', (data) async {
+          log('Received response: $data');
         final userJson = data as Map<String, dynamic>;
         final userData = UserModel.fromJson(userJson);
-        await userDataBox.put('userDataBox', userData);
+        // await userDataBox.put('userDataBox', userData);
         userCompleter.complete(userData);
         socket.disconnect();
       });
