@@ -64,7 +64,7 @@ dependencies:
   dartz: ^0.10.1
   dio: ^5.3.0
   http:
-  socket_io_client: ^2.0.0-beta.4-nullsafety.0
+  socket_io_client: ^1.0.2
 
   # storage
   hive: ^2.2.3
