@@ -7,7 +7,6 @@ import '../../core/injection/injection_container.dart';
 import '../../core/network/internet_checker.dart';
 import '../../core/router/app_router.dart';
 import '../profile/data/models/user_profile_model.dart';
-import '../user/presentation/logic/bloc/user_bloc.dart';
 
 @RoutePage()
 class SplashScreen extends StatefulWidget {
