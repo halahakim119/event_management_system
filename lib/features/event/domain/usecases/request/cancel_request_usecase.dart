@@ -8,7 +8,7 @@ class CancelRequestUseCase {
   CancelRequestUseCase(this.repository);
 
   Future<Either<Failure, String>> call(
-      String requestId, String plannerId, String token) async {
-    return await repository.cancelRequest(requestId, plannerId, token);
+      String id, String plannerId, String token) async {
+    return await repository.cancelRequest(id, plannerId, token);
   }
 }

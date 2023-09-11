@@ -15,13 +15,19 @@ class UserProfileModelAdapter extends TypeAdapter<UserProfileModel> {
       final dynamic value = reader.read();
       fields[key] = value;
     }
+    // Check if fields[5] is not null and is a list, then cast it to List<String>
+    final fcmTokens = fields[5] is List<String>
+        ? (fields[5] as List<dynamic>).cast<String>()
+        : <String>[];
 
     return UserProfileModel(
-        id: fields[0] as String,
-        name: fields[1] as String,
-        phoneNumber: fields[2] as String,
-        token: fields[3] as String,
-        province: fields[4] as String);
+      id: fields[0] as String,
+      name: fields[1] as String,
+      phoneNumber: fields[2] as String,
+      token: fields[3] as String,
+      province: fields[4] as String,
+      FCMtokens: fcmTokens,
+    );
   }
 
   @override
@@ -37,6 +43,8 @@ class UserProfileModelAdapter extends TypeAdapter<UserProfileModel> {
       ..writeByte(3)
       ..write(obj.token)
       ..writeByte(4)
-      ..write(obj.province);
+      ..write(obj.province)
+      ..writeByte(5)
+      ..write(obj.FCMtokens);
   }
 }

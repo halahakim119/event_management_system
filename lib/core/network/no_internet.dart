@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:overlay_support/overlay_support.dart';
 
@@ -25,11 +26,13 @@ class _NoInternetState extends State<NoInternet> {
   @override
   void initState() {
     super.initState();
+    WidgetsFlutterBinding.ensureInitialized();
     sl<InternetChecker>().run();
 
     _subscription = Connectivity().onConnectivityChanged.listen((result) async {
       bool isConnected = await sl<InternetChecker>().checkInternet();
       if (result != ConnectivityResult.none && isConnected) {
+        await Firebase.initializeApp();
         _subscription?.cancel();
 
         runApp(OverlaySupport.global(

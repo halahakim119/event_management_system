@@ -18,7 +18,7 @@ class EventRepositoryImpl implements EventRepository {
       EventEntity event, String token) async {
     try {
       EventModel eventModel = EventModel(
-        hostId: event.hostId,
+        hostId: event.hostId!,
         id: event.id,
         guests: event.guests,
         plannerId: event.plannerId,
@@ -68,7 +68,7 @@ class EventRepositoryImpl implements EventRepository {
       EventEntity event, String token) async {
     try {
       EventModel eventModel = EventModel(
-        hostId: event.hostId,
+        hostId: event.hostId!,
         id: event.id,
         guests: event.guests,
         plannerId: event.plannerId,

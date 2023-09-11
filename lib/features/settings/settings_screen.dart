@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -19,6 +21,8 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  final UserProfileBloc userProfileBloc = sl<UserProfileBloc>();
+
   @override
   void dispose() {
     userBox.listenable().removeListener(_onBoxChange);
@@ -150,10 +154,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         context: context,
                         builder: (BuildContext context) {
                           return BlocProvider(
-                            create: (context) => sl<UserProfileBloc>(),
+                            create: (context) => userProfileBloc,
                             child:
                                 BlocBuilder<UserProfileBloc, UserProfileState>(
                               builder: (context, state) {
+                           
+                                if (state is UserDeleted) {
+                                  log('hi1');
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(state.message),
+                                      duration: const Duration(seconds: 3),
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
+                                  _deleteAccount();
+                                }
                                 return AlertDialog(
                                   title: const Text('Confirm Delete'),
                                   content: const Text(
@@ -170,7 +186,24 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         context.read<UserProfileBloc>().add(
                                             DeleteUserEvent(
                                                 user!.id, user!.token));
-                                        _deleteAccount();
+                                        if (state is UserDeleted) {
+                                          log('hi2');
+                                          // Show Snackbar for successful delete
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(state.message),
+                                              duration:
+                                                  const Duration(seconds: 3),
+                                              behavior:
+                                                  SnackBarBehavior.floating,
+                                            ),
+                                          );
+
+                                          // Delete the user from Hive
+                                          _deleteAccount();
+                                        }
+
                                         Navigator.of(context).pop();
                                       },
                                       child: Text(

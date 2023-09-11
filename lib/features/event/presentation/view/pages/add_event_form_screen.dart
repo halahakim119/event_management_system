@@ -1,8 +1,12 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../../../core/strings/strings.dart';
+import '../../../../profile/data/models/user_profile_model.dart';
 
 @RoutePage()
 class AddEventFormScreen extends StatefulWidget {
@@ -22,13 +26,39 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
   final TextEditingController _endingDateController = TextEditingController();
   final TextEditingController _startsAtController = TextEditingController();
   final TextEditingController _endsAtController = TextEditingController();
-
   final TextEditingController _eventTypeController = TextEditingController();
   final TextEditingController _postTypeController = TextEditingController();
+  String? _selectedEventType;
+  String? _selectedPostType;
+  bool _adultsOnly = false;
+  bool _food = false;
+  bool _alcohol = false;
+  UserProfileModel? user;
+  final userBox = Hive.box<UserProfileModel>('userBox');
 
   DateTime _selectedDate = DateTime.now();
 
-  Future<void> _selectDate(
+  void _onBoxChange() {
+    setState(() {
+      getUserData();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    getUserData();
+    userBox.listenable().addListener(_onBoxChange);
+  }
+
+  void getUserData() {
+    if (userBox.isNotEmpty) {
+      user = userBox.getAt(0);
+    }
+  }
+
+  Future<DateTime?> _selectDate(
       BuildContext context, TextEditingController controller) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -37,26 +67,34 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
       lastDate: DateTime(2101),
     );
     if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-        controller.text =
-            "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
-      });
+      controller.text =
+          "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')} " +
+              "${_selectedDate.hour.toString().padLeft(2, '0')}:${_selectedDate.minute.toString().padLeft(2, '0')}";
+      return picked;
     }
+    return null;
   }
 
-  Future<void> _selectTime(
+  Future<DateTime?> _selectTime(
       BuildContext context, TextEditingController controller) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
     if (picked != null) {
-      setState(() {
-        controller.text =
-            "${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}";
-      });
+      final DateTime selectedTime = DateTime(
+        _selectedDate.year,
+        _selectedDate.month,
+        _selectedDate.day,
+        picked.hour,
+        picked.minute,
+      );
+      controller.text =
+          "${selectedTime.year}-${selectedTime.month.toString().padLeft(2, '0')}-${selectedTime.day.toString().padLeft(2, '0')} " +
+              "${picked.hour.toString().padLeft(2, '0')}:${picked.minute.toString().padLeft(2, '0')}";
+      return selectedTime;
     }
+    return null;
   }
 
   // create some values
@@ -66,12 +104,6 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
   void changeColor(Color color) {
     setState(() => pickerColor = color);
   }
-
-  String? _selectedEventType;
-  String? _selectedPostType;
-  bool _adultsOnly = false;
-  bool _food = false;
-  bool _alcohol = false;
 
   @override
   Widget build(BuildContext context) {
@@ -360,7 +392,27 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           // Submit the form
-                          _submitForm();
+
+                          log("Title: ${_titleController.text}");
+                          log("Description: ${_descriptionController.text}");
+
+                          log("Seat Number: ${_seatNumberController.text}");
+
+                          log("Starting Date: ${_startingDateController.text}");
+                          log("Ending Date: ${_endingDateController.text}");
+                          log("Starts At: ${_startsAtController.text}");
+                          log("Ends At: ${_endsAtController.text}");
+
+                          log("Event Type: $_selectedEventType");
+                          log("Post Type: $_selectedPostType");
+
+                          log('plannerid${user!.id}');
+
+                          log(_dressCodeColor.toString());
+
+                          log("Adults Only: $_adultsOnly");
+                          log("Food: $_food");
+                          log("Alcohol: $_alcohol");
                         }
                       },
                       child: const Text('CREATE EVENT'),
@@ -398,41 +450,6 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
     });
   }
 
-  void _submitForm() {
-    // final eventEntity = EventEntity(
-    //   title: _titleController.text,
-    //   description: _descriptionController.text,
-    //   seatNum: _seatNumberController.text,
-    //   startingDate: parseDate(_startingDateController.text),
-    //   endingDate: parseDate(_endingDateController.text),
-    //   startsAt: parseTimeOfDay(_startsAtController.text),
-    //   endsAt: parseTimeOfDay(_endsAtController.text),
-    //   eventType: _selectedEventType!,
-    //   postType: _selectedPostType!,
-    //   adultsOnly: _adultsOnly,
-    //   food: _food,
-    //   alcohol: _alcohol,
-    // );
-
-    // final eventJson = eventEntity.toJson();
-    // print('Submitted Information (JSON): $eventJson');
-  }
-
-  DateTime parseDate(String dateStr) {
-    final parts = dateStr.split('-');
-    final year = int.parse(parts[0]);
-    final month = int.parse(parts[1]);
-    final day = int.parse(parts[2]);
-    return DateTime(year, month, day);
-  }
-
-  TimeOfDay parseTimeOfDay(String timeStr) {
-    final parts = timeStr.split(':');
-    final hour = int.parse(parts[0]);
-    final minute = int.parse(parts[1]);
-    return TimeOfDay(hour: hour, minute: minute);
-  }
-
   @override
   void dispose() {
     _titleController.dispose();
@@ -451,7 +468,7 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
     _selectedEventType = null;
     _selectedPostType = null;
     _dressCodeColor = null;
-
+    userBox.listenable().removeListener(_onBoxChange);
     super.dispose();
   }
 }

@@ -32,8 +32,7 @@ class UserProfileDataSourceImpl implements UserProfileDataSource {
   @override
   Future<Either<Failure, String>> deleteUser(String id, String token) async {
     try {
-      final Uri uri =
-          Uri.parse('http://35.180.62.182/api/phone/user/delete?id=$id');
+      final Uri uri = Uri.parse('http://35.180.62.182/api/user?id=$id');
 
       final response = await http.delete(
         uri,
@@ -67,14 +66,17 @@ class UserProfileDataSourceImpl implements UserProfileDataSource {
   Future<Either<Failure, String>> editUser(
       String id, String token, String name, String province) async {
     try {
-      final response = await http.post(
-        Uri.parse('http://35.180.62.182/api/phone/user/edit'),
-        body: {
+      final response = await http.put(
+        Uri.parse('http://35.180.62.182/api/user'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
           'id': id,
           'token': token,
           'name': name,
           'province': province,
-        },
+        }),
       );
 
       final jsonResponse = jsonDecode(response.body);
@@ -112,12 +114,15 @@ class UserProfileDataSourceImpl implements UserProfileDataSource {
   Future<Either<Failure, String>> updatePhoneNumber(
       String code, String verificationCode) async {
     try {
-      final response = await http.post(
-        Uri.parse('http://35.180.62.182/api/phone/user/number'),
-        body: {
+      final response = await http.put(
+        Uri.parse('http://35.180.62.182/api/user/changeNumber'),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
           'code': code,
           'verificationCode': verificationCode,
-        },
+        }),
       );
 
       final jsonResponse = jsonDecode(response.body);
@@ -151,13 +156,17 @@ class UserProfileDataSourceImpl implements UserProfileDataSource {
   Future<Either<Failure, Map<String, dynamic>>> verifyPhoneNumber(
       String id, String number, String token) async {
     try {
+      final Uri uri = Uri.parse('http://35.180.62.182/api/user/changeNumber');
       final response = await http.post(
-        Uri.parse('http://35.180.62.182/api/phone/user/verify'),
-        body: {
-          'id': id,
-          'number': number,
-          'token': token,
+        uri,
+        headers: {
+          'Content-Type': 'application/json',
         },
+        body: jsonEncode({
+          'number': number,
+          'id': id,
+          'token': token,
+        }),
       );
 
       final jsonResponse = jsonDecode(response.body);

@@ -1,138 +1,155 @@
 import 'dart:async';
-import 'dart:developer';
+import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
-// ignore: library_prefixes
-import 'package:socket_io_client/socket_io_client.dart' as IO;
+import 'package:http/http.dart' as http;
 
+import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
-import '../models/init_model.dart';
+import '../models/event_model.dart';
 
 abstract class InitRemoteDataSource {
-  Future<Either<Failure, List<InitModel>>> getAllInits(String plannerId);
-  Future<Either<Failure, String>> createInit(InitModel init, String token);
-  Future<Either<Failure, String>> updateInit(InitModel init, String token);
+  Future<Either<Failure, List<EventModel>>> getAllInits(String plannerId);
+  Future<Either<Failure, String>> createInit(EventModel event, String token);
+  Future<Either<Failure, String>> updateInit(EventModel event, String token);
   Future<Either<Failure, String>> deleteInit(
-      String initId, String plannerId, String token);
+      String id, String plannerId, String token);
 }
 
 class InitRemoteDataSourceImpl implements InitRemoteDataSource {
-  final IO.Socket socket;
+  final String baseUrl;
 
-  InitRemoteDataSourceImpl(this.socket);
+  InitRemoteDataSourceImpl({required this.baseUrl});
 
   @override
   Future<Either<Failure, String>> deleteInit(
-      String initId, String plannerId, String token) async {
-    final completer = Completer<Either<Failure, String>>();
+      String id, String plannerId, String token) async {
+    try {
+      final response = await http.delete(
+        Uri.parse('$baseUrl/api/init?id=$id&plannerId=$plannerId'),
+        headers: {
+          'Authorization': 'Bearer $token',
+        },
+      );
 
-    socket.emit("init-delete", {
-      "id": initId,
-      "plannerId": plannerId,
-      "token": token,
-    });
+      final jsonResponse = jsonDecode(response.body);
 
-    socket.on("init-delete-response", (response) {
-      if (response['error']) {
-        completer.complete(Left(ServerFailure(response['message'])));
-      } else {
-        log(response['data'].toString());
-        completer.complete(const Right('deleted successfully'));
+      if (response.statusCode == 200) {
+        return const Right('deleted successfully');
+      } else if (response.statusCode == 400) {
+        if (jsonResponse.containsKey('error')) {
+          final errorMessage = jsonResponse['error'];
+          return Left(ServerFailure(errorMessage));
+        }
+      } else if (response.statusCode == 500) {
+        throw ServerFailure('Something went wrong');
       }
-    });
-    return completer.future;
+      throw ApiException('Failed to delete init');
+    } on ApiException catch (e) {
+      return Left(ApiExceptionFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('Failed to communicate with the server'));
+    }
   }
 
   @override
-  Future<Either<Failure, List<InitModel>>> getAllInits(String plannerId) async {
-    final completer = Completer<Either<Failure, List<InitModel>>>();
+  Future<Either<Failure, List<EventModel>>> getAllInits(
+      String plannerId) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/inits/get'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          "plannerId": plannerId,
+        }),
+      );
 
-    socket.emit("inits-get", {
-      "plannerId": plannerId,
-    });
+      final jsonResponse = jsonDecode(response.body);
 
-    socket.on("inits-get-response", (response) {
-      if (response['error']) {
-        completer.complete(Left(ServerFailure(response['message'])));
-      } else {
-        final initsJsonList = response['data'] as List<dynamic>;
+      if (response.statusCode == 200 && jsonResponse.containsKey('data')) {
+        final initsJsonList = jsonResponse['data'] as List<dynamic>;
         final inits =
-            initsJsonList.map((json) => InitModel.fromJson(json)).toList();
-        completer.complete(Right(inits));
+            initsJsonList.map((json) => EventModel.fromJsonInit(json)).toList();
+        return Right(inits);
+      } else if (response.statusCode == 400) {
+        if (jsonResponse.containsKey('error')) {
+          final errorMessage = jsonResponse['error'];
+          return Left(ServerFailure(errorMessage));
+        }
+      } else if (response.statusCode == 500) {
+        throw ServerFailure('Something went wrong');
       }
-    });
-
-    return completer.future;
+      throw ApiException('Failed to retrieve inits');
+    } on ApiException catch (e) {
+      return Left(ApiExceptionFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('Failed to communicate with the server'));
+    }
   }
 
   @override
   Future<Either<Failure, String>> createInit(
-      InitModel init, String token) async {
-    final completer = Completer<Either<Failure, String>>();
+      EventModel event, String token) async {
+    try {
+      final response = await http.post(
+        Uri.parse('$baseUrl/api/init'),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          ...event.toJsonInit(),
+          "token": token,
+        }),
+      );
 
-    socket.emit("init-create", {
-      "adultsOnly": init.adultsOnly,
-      "alcohol": init.alcohol,
-      "description": init.description,
-      "dressCode": init.dressCode,
-      "endingDate": init.endingDate.toIso8601String(),
-      "endsAt": init.endsAt.toIso8601String(),
-      "food": init.food,
-      "startingDate": init.startingDate.toIso8601String(),
-      "startsAt": init.startsAt.toIso8601String(),
-      "guestsNumber": init.guestsNumber,
-      "postType": init.postType,
-      "type": init.type,
-      "title": init.title,
-      "plannerId": init.plannerId,
-      "token": token,
-    });
+      final jsonResponse = jsonDecode(response.body);
 
-    socket.on("init-create-response", (response) {
-      if (response['error']) {
-        completer.complete(Left(ServerFailure(response['message'])));
-      } else {
-        log(response['data'].toString());
-        completer.complete(const Right('created successfully'));
+      if (response.statusCode == 200) {
+        return const Right('created successfully');
+      } else if (response.statusCode == 400) {
+        if (jsonResponse.containsKey('error')) {
+          final errorMessage = jsonResponse['error'];
+          return Left(ServerFailure(errorMessage));
+        }
+      } else if (response.statusCode == 500) {
+        throw ServerFailure('Something went wrong');
       }
-    });
-
-    return completer.future;
+      throw ApiException('Failed to create init');
+    } on ApiException catch (e) {
+      return Left(ApiExceptionFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('Failed to communicate with the server'));
+    }
   }
 
   @override
   Future<Either<Failure, String>> updateInit(
-      InitModel init, String token) async {
-    final completer = Completer<Either<Failure, String>>();
+      EventModel event, String token) async {
+    try {
+      final response = await http.put(
+        Uri.parse('$baseUrl/api/init'),
+        body: jsonEncode({
+          "id": event.id,
+          ...event.toJsonInit(),
+          "token": token,
+        }),
+      );
 
-    socket.emit("init-edit", {
-      "id": init.id,
-      "adultsOnly": init.adultsOnly,
-      "alcohol": init.alcohol,
-      "description": init.description,
-      "dressCode": init.dressCode,
-      "endingDate": init.endingDate.toIso8601String(),
-      "endsAt": init.endsAt.toIso8601String(),
-      "food": init.food,
-      "startingDate": init.startingDate.toIso8601String(),
-      "startsAt": init.startsAt.toIso8601String(),
-      "guestsNumber": init.guestsNumber,
-      "postType": init.postType,
-      "type": init.type,
-      "title": init.title,
-      "plannerId": init.plannerId,
-      "token": token,
-    });
+      final jsonResponse = jsonDecode(response.body);
 
-    socket.on("init-edit-response", (response) {
-      if (response['error']) {
-        completer.complete(Left(ServerFailure(response['message'])));
-      } else {
-        log(response['data'].toString());
-        completer.complete(const Right('updated successfully'));
+      if (response.statusCode == 200) {
+        return const Right('init updated successfully');
+      } else if (response.statusCode == 400) {
+        if (jsonResponse.containsKey('error')) {
+          final errorMessage = jsonResponse['error'];
+          return Left(ServerFailure(errorMessage));
+        }
+      } else if (response.statusCode == 500) {
+        throw ServerFailure('Something went wrong');
       }
-    });
-
-    return completer.future;
+      throw ApiException('Failed to update init');
+    } on ApiException catch (e) {
+      return Left(ApiExceptionFailure(e.message));
+    } catch (e) {
+      return Left(ServerFailure('Failed to communicate with the server'));
+    }
   }
 }

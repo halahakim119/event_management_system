@@ -1,4 +1,4 @@
-package com.example.event_management_system
+package com.swt_iq.eventapp
 
 import io.flutter.embedding.android.FlutterActivity
 

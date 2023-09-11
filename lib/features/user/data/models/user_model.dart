@@ -1,9 +1,5 @@
 import '../../../event/data/models/event_model.dart';
-import '../../../event/data/models/init_model.dart';
-import '../../../event/data/models/request_model.dart';
 import '../../../event/domain/entities/event_entity.dart';
-import '../../../event/domain/entities/init_entity.dart';
-import '../../../event/domain/entities/request_entity.dart';
 import '../../domain/entities/user_entity.dart';
 
 // ignore: must_be_immutable
@@ -14,12 +10,12 @@ class UserModel extends UserEntity {
     required String name,
     required String phoneNumber,
     required String province,
+    required List<String> FCMtokens,
     List<UserEntity>? following,
     List<EventEntity>? events,
-    List<RequestEntity>? requests,
-    List<InitEntity>? inits,
     List<EventEntity>? attendance,
   }) : super(
+          FCMtokens: FCMtokens,
           id: id,
           name: name,
           phoneNumber: phoneNumber,
@@ -27,8 +23,6 @@ class UserModel extends UserEntity {
           province: province,
           following: following,
           events: events,
-          requests: requests,
-          inits: inits,
           attendance: attendance,
         );
 
@@ -39,20 +33,15 @@ class UserModel extends UserEntity {
       phoneNumber: json['phoneNumber'],
       token: json['token'],
       province: json['province'],
+      FCMtokens: List<String>.from(json['FCMtokens']),
       following: (json['following'] as List<dynamic>?)
           ?.map((e) => UserModel.fromJson(e))
           .toList(),
       events: (json['events'] as List<dynamic>?)
-          ?.map((e) => EventModel.fromJson(e))
-          .toList(),
-      requests: (json['requests'] as List<dynamic>?)
-          ?.map((e) => RequestModel.fromJson(e))
-          .toList(),
-      inits: (json['inits'] as List<dynamic>?)
-          ?.map((e) => InitModel.fromJson(e))
+          ?.map((e) => EventModel.fromJsonEvent(e))
           .toList(),
       attendance: (json['attendance'] as List<dynamic>?)
-          ?.map((e) => EventModel.fromJson(e))
+          ?.map((e) => EventModel.fromJsonEvent(e))
           .toList(),
     );
   }
@@ -64,49 +53,29 @@ class UserModel extends UserEntity {
       'phoneNumber': phoneNumber,
       'token': token,
       'province': province,
+      'FCMtokens': FCMtokens,
       'following': following
           ?.map((following) => UserModel.fromEntity(following).toJson())
           .toList(),
       'events': events
-          ?.map((events) => EventModel.fromEntity(events).toJson())
+          ?.map((event) => EventModel.fromEntity(event).toJsonEvent())
           .toList(),
-      'requests': requests
-          ?.map((requests) => RequestModel.fromEntity(requests).toJson())
-          .toList(),
-      'inits':
-          inits?.map((inits) => InitModel.fromEntity(inits).toJson()).toList(),
       'attendance': attendance
-          ?.map((attendance) => EventModel.fromEntity(attendance).toJson())
+          ?.map((attendance) => EventModel.fromEntity(attendance).toJsonEvent())
           .toList(),
     };
-  }
-
-  UserModel fromEntity(UserEntity entity) {
-    return UserModel(
-      id: entity.id,
-      name: entity.name,
-      phoneNumber: entity.phoneNumber,
-      token: entity.token,
-      province: entity.province,
-      following: entity.following,
-      events: entity.events,
-      requests: entity.requests,
-      inits: entity.inits,
-      attendance: entity.attendance,
-    );
   }
 
   factory UserModel.fromEntity(UserEntity entity) {
     return UserModel(
       id: entity.id,
       name: entity.name,
+      FCMtokens: entity.FCMtokens,
       phoneNumber: entity.phoneNumber,
       token: entity.token,
       province: entity.province,
       following: entity.following,
       events: entity.events,
-      requests: entity.requests,
-      inits: entity.inits,
       attendance: entity.attendance,
     );
   }
@@ -120,8 +89,7 @@ class UserModel extends UserEntity {
       province: province,
       following: following,
       events: events,
-      requests: requests,
-      inits: inits,
+      FCMtokens: FCMtokens,
       attendance: attendance,
     );
   }

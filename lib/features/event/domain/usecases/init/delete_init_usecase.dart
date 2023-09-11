@@ -8,7 +8,7 @@ class DeleteInitUseCase {
   DeleteInitUseCase(this.repository);
 
   Future<Either<Failure, String>> call(
-      String initId, String plannerId, String token) async {
-    return await repository.deleteInit(initId, plannerId, token);
+      String id, String plannerId, String token) async {
+    return await repository.deleteInit(id, plannerId, token);
   }
 }

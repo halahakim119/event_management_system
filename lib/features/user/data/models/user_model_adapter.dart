@@ -1,8 +1,6 @@
 import 'package:hive/hive.dart';
 
 import '../../../event/data/models/event_model.dart';
-import '../../../event/data/models/init_model.dart';
-import '../../../event/data/models/request_model.dart';
 import '../models/user_model.dart';
 
 class UserModelAdapter extends TypeAdapter<UserModel> {
@@ -18,7 +16,10 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       final dynamic value = reader.read();
       fields[key] = value;
     }
-
+    // Check if fields[5] is not null and is a list, then cast it to List<String>
+    final fcmTokens = fields[8] is List<String>
+        ? (fields[8] as List<dynamic>).cast<String>()
+        : <String>[];
     return UserModel(
       id: fields[0] as String,
       name: fields[1] as String,
@@ -29,17 +30,12 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
           .map((following) => UserModel.fromJson(following))
           .toList(),
       events: (fields[6] as List<dynamic>)
-          .map((events) => EventModel.fromJson(events))
+          .map((events) => EventModel.fromJsonEvent(events))
           .toList(),
-      requests: (fields[7] as List<dynamic>)
-          .map((requests) => RequestModel.fromJson(requests))
+      attendance: (fields[7] as List<dynamic>)
+          .map((attendance) => EventModel.fromJsonEvent(attendance))
           .toList(),
-      inits: (fields[8] as List<dynamic>)
-          .map((inits) => InitModel.fromJson(inits))
-          .toList(),
-      attendance: (fields[9] as List<dynamic>)
-          .map((attendance) => EventModel.fromJson(attendance))
-          .toList(),
+      FCMtokens: fcmTokens,
     );
   }
 
@@ -63,19 +59,13 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
           .toList())
       ..writeByte(6) // Field index 6, events
       ..write(obj.events
-          ?.map((events) => EventModel.fromEntity(events).toJson())
+          ?.map((events) => EventModel.fromEntity(events).toJsonEvent())
           .toList())
-      ..writeByte(7) // Field index 7, requests
-      ..write(obj.requests
-          ?.map((requests) => RequestModel.fromEntity(requests).toJson())
-          .toList())
-      ..writeByte(8) // Field index 8, inits
-      ..write(obj.inits
-          ?.map((inits) => InitModel.fromEntity(inits).toJson())
-          .toList())
-      ..writeByte(9) // Field index 9, attendance
+      ..writeByte(7) // Field index 7, attendance
       ..write(obj.attendance
-          ?.map((attendance) => EventModel.fromEntity(attendance).toJson())
-          .toList());
+          ?.map((attendance) => EventModel.fromEntity(attendance).toJsonEvent())
+          .toList())
+      ..writeByte(8) // Field index 8, FCMtokens
+      ..write(obj.FCMtokens);
   }
 }

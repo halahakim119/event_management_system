@@ -2,12 +2,10 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
-import '../../domain/entities/init_entity.dart';
-import '../../domain/entities/request_entity.dart';
+import '../../domain/entities/event_entity.dart';
 import '../../domain/repositories/request_repository.dart';
 import '../datasources/request_remote_data_source.dart';
-import '../models/init_model.dart';
-import '../models/request_model.dart';
+import '../models/event_model.dart';
 
 class RequestRepositoryImpl implements RequestRepository {
   final RequestRemoteDataSource requestRemoteDataSource;
@@ -18,29 +16,29 @@ class RequestRepositoryImpl implements RequestRepository {
 
   @override
   Future<Either<Failure, String>> createRequest(
-      InitEntity init, String token, String hostId) async {
+      EventEntity event, String token) async {
     try {
-      InitModel initModel = InitModel(
-        id: init.id,
-        guests: init.guests,
-        plannerId: init.plannerId,
-        guestsNumber: init.guestsNumber,
-        startsAt: init.startsAt,
-        endsAt: init.endsAt,
-        description: init.description,
-        type: init.type,
-        postType: init.postType,
-        title: init.title,
-        startingDate: init.startingDate,
-        endingDate: init.endingDate,
-        adultsOnly: init.adultsOnly,
-        food: init.food,
-        alcohol: init.alcohol,
-        dressCode: init.dressCode,
+      EventModel eventModel = EventModel(
+        id: event.id,
+        guestsNumbers: event.guestsNumbers,
+        plannerId: event.plannerId,
+        guestsNumber: event.guestsNumber,
+        startsAt: event.startsAt,
+        endsAt: event.endsAt,
+        description: event.description,
+        type: event.type,
+        postType: event.postType,
+        title: event.title,
+        startingDate: event.startingDate,
+        endingDate: event.endingDate,
+        adultsOnly: event.adultsOnly,
+        food: event.food,
+        alcohol: event.alcohol,
+        dressCode: event.dressCode,
       );
 
       final response =
-          await requestRemoteDataSource.createRequest(initModel, token, hostId);
+          await requestRemoteDataSource.createRequest(eventModel, token);
 
       return response.fold(
         (failure) => Left(failure),
@@ -53,10 +51,10 @@ class RequestRepositoryImpl implements RequestRepository {
 
   @override
   Future<Either<Failure, String>> cancelRequest(
-      String requestId, String plannerId, String token) async {
+      String id, String plannerId, String token) async {
     try {
-      final result = await requestRemoteDataSource.cancelRequest(
-          requestId, plannerId, token);
+      final result =
+          await requestRemoteDataSource.cancelRequest(id, plannerId, token);
 
       return result.fold(
         (failure) => Left(failure),
@@ -68,7 +66,7 @@ class RequestRepositoryImpl implements RequestRepository {
   }
 
   @override
-  Future<Either<Failure, List<RequestEntity>>> getAllRequests(
+  Future<Either<Failure, List<EventEntity>>> getAllRequests(
       String plannerId) async {
     try {
       final result = await requestRemoteDataSource.getAllRequests(plannerId);
@@ -84,31 +82,30 @@ class RequestRepositoryImpl implements RequestRepository {
 
   @override
   Future<Either<Failure, String>> updateRequest(
-      RequestEntity request, String token) async {
+      EventEntity event, String token) async {
     try {
       // Convert request entity to request model
-      RequestModel requestModel = RequestModel(
-        hostId: request.hostId,
-        id: request.id,
-        plannerId: request.plannerId,
-        guestsNumber: request.guestsNumber,
-        startsAt: request.startsAt,
-        endsAt: request.endsAt,
-        description: request.description,
-        type: request.type,
-        postType: request.postType,
-        title: request.title,
-        startingDate: request.startingDate,
-        endingDate: request.endingDate,
-        adultsOnly: request.adultsOnly,
-        food: request.food,
-        alcohol: request.alcohol,
-        dressCode: request.dressCode,
-        hostName: request.hostName,
+      EventModel eventModel = EventModel(
+        hostId: event.hostId!,
+        id: event.id!,
+        plannerId: event.plannerId,
+        guestsNumber: event.guestsNumber,
+        startsAt: event.startsAt,
+        endsAt: event.endsAt,
+        description: event.description,
+        type: event.type,
+        postType: event.postType,
+        title: event.title,
+        startingDate: event.startingDate,
+        endingDate: event.endingDate,
+        adultsOnly: event.adultsOnly,
+        food: event.food,
+        alcohol: event.alcohol,
+        dressCode: event.dressCode,
       );
 
       final result =
-          await requestRemoteDataSource.updateRequest(requestModel, token);
+          await requestRemoteDataSource.updateRequest(eventModel, token);
 
       return result.fold(
         (failure) => Left(failure),

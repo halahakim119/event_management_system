@@ -2,13 +2,15 @@ import '../../../user/domain/entities/user_entity.dart';
 
 // ignore: must_be_immutable
 class UserProfileModel extends UserEntity {
-  UserProfileModel({
-    required String id,
-    required String name,
-    required String phoneNumber,
-    required String token,
-    required String province,
-  }) : super(
+  UserProfileModel(
+      {required String id,
+      required String name,
+      required String phoneNumber,
+      required String token,
+      required String province,
+      required List<String> FCMtokens})
+      : super(
+            FCMtokens: FCMtokens,
             id: id,
             name: name,
             phoneNumber: phoneNumber,
@@ -22,6 +24,7 @@ class UserProfileModel extends UserEntity {
       phoneNumber: json['phoneNumber'],
       token: json['token'],
       province: json['province'],
+      FCMtokens: List<String>.from(json['FCMtokens']),
     );
   }
 
@@ -32,17 +35,18 @@ class UserProfileModel extends UserEntity {
       'phoneNumber': phoneNumber,
       'token': token,
       'province': province,
+      'FCMtokens': FCMtokens
     };
   }
 
   UserProfileModel fromEntity(UserEntity entity) {
     return UserProfileModel(
-      id: entity.id,
-      name: entity.name,
-      phoneNumber: entity.phoneNumber,
-      token: entity.token,
-      province: entity.province,
-    );
+        id: entity.id,
+        name: entity.name,
+        phoneNumber: entity.phoneNumber,
+        token: entity.token,
+        province: entity.province,
+        FCMtokens: entity.FCMtokens);
   }
 
   UserEntity toEntity() {
@@ -51,6 +55,7 @@ class UserProfileModel extends UserEntity {
         name: name,
         phoneNumber: phoneNumber,
         token: token,
-        province: province);
+        province: province,
+        FCMtokens: FCMtokens);
   }
 }

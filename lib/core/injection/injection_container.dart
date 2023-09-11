@@ -15,10 +15,6 @@ import '../../features/event/data/datasources/init_remote_data_source.dart';
 import '../../features/event/data/datasources/request_remote_data_source.dart';
 import '../../features/event/data/models/event_model.dart';
 import '../../features/event/data/models/event_model_adapter.dart';
-import '../../features/event/data/models/init_model.dart';
-import '../../features/event/data/models/init_model_adapter.dart';
-import '../../features/event/data/models/request_model.dart';
-import '../../features/event/data/models/request_model_adapter.dart';
 import '../../features/event/data/repositories/event_repository_impl.dart';
 import '../../features/event/data/repositories/init_repository_impl.dart';
 import '../../features/event/data/repositories/request_repository_impl.dart';
@@ -71,15 +67,11 @@ Future<void> init() async {
   Hive.registerAdapter(ThemeModeAdapter());
   Hive.registerAdapter<UserProfileModel>(UserProfileModelAdapter());
   Hive.registerAdapter<UserModel>(UserModelAdapter());
-  Hive.registerAdapter<InitModel>(InitModelAdapter());
-  Hive.registerAdapter<RequestModel>(RequestModelAdapter());
   Hive.registerAdapter<EventModel>(EventModelAdapter());
 
   // Open the Hive box
   Box<UserProfileModel> userBox;
   Box<UserModel> userDataBox;
-  Box<InitModel> initBox;
-  Box<RequestModel> requestBox;
   Box<EventModel> eventBox;
   Box themeBox;
 
@@ -100,17 +92,6 @@ Future<void> init() async {
   } else {
     userDataBox = Hive.box<UserModel>('userDataBox');
   }
-  if (!Hive.isBoxOpen('initBox')) {
-    initBox = await Hive.openBox<InitModel>('initBox');
-  } else {
-    initBox = Hive.box<InitModel>('initBox');
-  }
-
-  if (!Hive.isBoxOpen('requestBox')) {
-    requestBox = await Hive.openBox<RequestModel>('requestBox');
-  } else {
-    requestBox = Hive.box<RequestModel>('requestBox');
-  }
 
   if (!Hive.isBoxOpen('eventBox')) {
     eventBox = await Hive.openBox<EventModel>('eventBox');
@@ -121,8 +102,7 @@ Future<void> init() async {
   // Register Hive boxes
   sl.registerLazySingleton<Box<UserProfileModel>>(() => userBox);
   sl.registerLazySingleton<Box<UserModel>>(() => userDataBox);
-  sl.registerLazySingleton<Box<InitModel>>(() => initBox);
-  sl.registerLazySingleton<Box<RequestModel>>(() => requestBox);
+
   sl.registerLazySingleton<Box<EventModel>>(() => eventBox);
 
   // Register Theme-related components
@@ -197,7 +177,7 @@ Future<void> init() async {
   //! user
   // Data sources
   sl.registerLazySingleton<UserDataSource>(() => UserDataSourceImpl(
-        userDataBox: sl<Box<UserModel>>(),
+        userBox: sl<Box<UserModel>>(),
       ));
 
   // Repositories
@@ -216,9 +196,9 @@ Future<void> init() async {
   //! event
   // Data sources
   sl.registerLazySingleton<EventRemoteDataSource>(
-      () => EventRemoteDataSourceImpl(sl()));
+      () => EventRemoteDataSourceImpl(baseUrl: sl()));
   sl.registerLazySingleton<InitRemoteDataSource>(
-      () => InitRemoteDataSourceImpl(sl()));
+      () => InitRemoteDataSourceImpl(baseUrl: sl()));
   sl.registerLazySingleton<RequestRemoteDataSource>(
       () => RequestRemoteDataSourceImpl(sl()));
 

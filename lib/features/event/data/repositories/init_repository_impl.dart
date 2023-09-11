@@ -1,11 +1,11 @@
 import 'package:dartz/dartz.dart';
-import '../datasources/init_remote_data_source.dart';
-import '../models/init_model.dart';
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
-import '../../domain/entities/init_entity.dart';
+import '../../domain/entities/event_entity.dart';
 import '../../domain/repositories/init_repository.dart';
+import '../datasources/init_remote_data_source.dart';
+import '../models/event_model.dart';
 
 class InitRepositoryImpl implements InitRepository {
   final InitRemoteDataSource initRemoteDataSource;
@@ -15,24 +15,24 @@ class InitRepositoryImpl implements InitRepository {
 
   @override
   Future<Either<Failure, String>> createInit(
-      InitEntity init, String token) async {
+      EventEntity event, String token) async {
     try {
-      InitModel initModel = InitModel(
-          plannerId: init.plannerId,
-          guestsNumber: init.guestsNumber,
-          startsAt: init.startsAt,
-          endsAt: init.endsAt,
-          description: init.description,
-          type: init.type,
-          postType: init.postType,
-          title: init.title,
-          startingDate: init.startingDate,
-          endingDate: init.endingDate,
-          adultsOnly: init.adultsOnly,
-          food: init.food,
-          alcohol: init.alcohol,
-          dressCode: init.dressCode);
-      final response = await initRemoteDataSource.createInit(initModel, token);
+      EventModel eventModel = EventModel(
+          plannerId: event.plannerId,
+          guestsNumber: event.guestsNumber,
+          startsAt: event.startsAt,
+          endsAt: event.endsAt,
+          description: event.description,
+          type: event.type,
+          postType: event.postType,
+          title: event.title,
+          startingDate: event.startingDate,
+          endingDate: event.endingDate,
+          adultsOnly: event.adultsOnly,
+          food: event.food,
+          alcohol: event.alcohol,
+          dressCode: event.dressCode);
+      final response = await initRemoteDataSource.createInit(eventModel, token);
       return response.fold(
         (failure) => Left(failure),
         (message) => Right(message),
@@ -44,10 +44,10 @@ class InitRepositoryImpl implements InitRepository {
 
   @override
   Future<Either<Failure, String>> deleteInit(
-      String initId, String plannerId, String token) async {
+      String id, String plannerId, String token) async {
     try {
       final result =
-          await initRemoteDataSource.deleteInit(initId, plannerId, token);
+          await initRemoteDataSource.deleteInit(id, plannerId, token);
       return result.fold(
         (failure) => Left(failure),
         (message) => Right(message),
@@ -58,7 +58,7 @@ class InitRepositoryImpl implements InitRepository {
   }
 
   @override
-  Future<Either<Failure, List<InitEntity>>> getAllInits(
+  Future<Either<Failure, List<EventEntity>>> getAllInits(
       String plannerId) async {
     try {
       final result = await initRemoteDataSource.getAllInits(plannerId);
@@ -73,26 +73,26 @@ class InitRepositoryImpl implements InitRepository {
 
   @override
   Future<Either<Failure, String>> updateInit(
-      InitEntity init, String token) async {
+      EventEntity event, String token) async {
     try {
-      InitModel initModel = InitModel(
-          id: init.id,
-          guests: init.guests,
-          plannerId: init.plannerId,
-          guestsNumber: init.guestsNumber,
-          startsAt: init.startsAt,
-          endsAt: init.endsAt,
-          description: init.description,
-          type: init.type,
-          postType: init.postType,
-          title: init.title,
-          startingDate: init.startingDate,
-          endingDate: init.endingDate,
-          adultsOnly: init.adultsOnly,
-          food: init.food,
-          alcohol: init.alcohol,
-          dressCode: init.dressCode);
-      final result = await initRemoteDataSource.updateInit(initModel, token);
+      EventModel eventModel = EventModel(
+          id: event.id,
+          guestsNumbers: event.guestsNumbers,
+          plannerId: event.plannerId,
+          guestsNumber: event.guestsNumber,
+          startsAt: event.startsAt,
+          endsAt: event.endsAt,
+          description: event.description,
+          type: event.type,
+          postType: event.postType,
+          title: event.title,
+          startingDate: event.startingDate,
+          endingDate: event.endingDate,
+          adultsOnly: event.adultsOnly,
+          food: event.food,
+          alcohol: event.alcohol,
+          dressCode: event.dressCode);
+      final result = await initRemoteDataSource.updateInit(eventModel, token);
       return result.fold(
         (failure) => Left(failure),
         (message) => Right(message),

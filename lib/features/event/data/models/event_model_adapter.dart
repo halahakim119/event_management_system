@@ -19,25 +19,27 @@ class EventModelAdapter extends TypeAdapter<EventModel> {
 
     return EventModel(
       id: fields[0] as String?,
-      hostId: fields[1] as String,
-      plannerId: fields[2] as String,
-      title: fields[3] as String,
-      description: fields[4] as String,
-      guestsNumber: fields[5] as int,
-      type: fields[6] as String,
-      postType: fields[7] as String,
-      startsAt: DateTime.parse(fields[8] as String),
-      endsAt: DateTime.parse(fields[9] as String),
-      startingDate: DateTime.parse(fields[10] as String),
-      endingDate: DateTime.parse(fields[11] as String),
-      adultsOnly: fields[12] as bool,
-      food: fields[13] as bool,
-      alcohol: fields[14] as bool,
-      dressCode: fields[15] as String?,
-      guests: (fields[16] as List<dynamic>)
+      plannerId: fields[1] as String,
+      hostId: fields[2] as String?,
+      hostName: fields[3] as String?,
+      title: fields[4] as String,
+      description: fields[5] as String,
+      guestsNumber: fields[6] as int,
+      type: fields[7] as String,
+      postType: fields[8] as String,
+      startsAt: DateTime.parse(fields[9] as String),
+      endsAt: DateTime.parse(fields[10] as String),
+      startingDate: DateTime.parse(fields[11] as String),
+      endingDate: DateTime.parse(fields[12] as String),
+      adultsOnly: fields[13] as bool,
+      food: fields[14] as bool,
+      alcohol: fields[15] as bool,
+      dressCode: fields[16] as String?,
+      guestsNumbers: (fields[17] as List<dynamic>).cast<String>(),
+      guests: (fields[18] as List<dynamic>)
           .map((guestJson) => UserModel.fromJson(guestJson))
           .toList(),
-      confirmedGuests: (fields[17] as List<dynamic>)
+      confirmedGuests: (fields[19] as List<dynamic>)
           .map((confirmedGuestJson) => UserModel.fromJson(confirmedGuestJson))
           .toList(),
     );
@@ -46,44 +48,48 @@ class EventModelAdapter extends TypeAdapter<EventModel> {
   @override
   void write(BinaryWriter writer, EventModel obj) {
     writer
-      ..writeByte(18) // Number of fields in the EventModel class
+      ..writeByte(20) // Number of fields in the EventModel class
       ..writeByte(0) // Field index 0, id
       ..write(obj.id)
-      ..writeByte(1) // Field index 1, hostId
-      ..write(obj.hostId)
-      ..writeByte(2) // Field index 2, plannerId
+      ..writeByte(1) // Field index 1, plannerId
       ..write(obj.plannerId)
-      ..writeByte(3) // Field index 3, title
+      ..writeByte(2) // Field index 2, hostId
+      ..write(obj.hostId)
+      ..writeByte(3) // Field index 3, hostName
+      ..write(obj.hostName)
+      ..writeByte(4) // Field index 4, title
       ..write(obj.title)
-      ..writeByte(4) // Field index 4, description
+      ..writeByte(5) // Field index 5, description
       ..write(obj.description)
-      ..writeByte(5) // Field index 5, guestsNumber
+      ..writeByte(6) // Field index 6, guestsNumber
       ..write(obj.guestsNumber)
-      ..writeByte(6) // Field index 6, type
+      ..writeByte(7) // Field index 7, type
       ..write(obj.type)
-      ..writeByte(7) // Field index 7, postType
+      ..writeByte(8) // Field index 8, postType
       ..write(obj.postType)
-      ..writeByte(8) // Field index 8, startsAt
+      ..writeByte(9) // Field index 9, startsAt
       ..write(obj.startsAt.toIso8601String())
-      ..writeByte(9) // Field index 9, endsAt
+      ..writeByte(10) // Field index 10, endsAt
       ..write(obj.endsAt.toIso8601String())
-      ..writeByte(10) // Field index 10, startingDate
+      ..writeByte(11) // Field index 11, startingDate
       ..write(obj.startingDate.toIso8601String())
-      ..writeByte(11) // Field index 11, endingDate
+      ..writeByte(12) // Field index 12, endingDate
       ..write(obj.endingDate.toIso8601String())
-      ..writeByte(12) // Field index 12, adultsOnly
+      ..writeByte(13) // Field index 13, adultsOnly
       ..write(obj.adultsOnly)
-      ..writeByte(13) // Field index 13, food
+      ..writeByte(14) // Field index 14, food
       ..write(obj.food)
-      ..writeByte(14) // Field index 14, alcohol
+      ..writeByte(15) // Field index 15, alcohol
       ..write(obj.alcohol)
-      ..writeByte(15) // Field index 15, dressCode
+      ..writeByte(16) // Field index 16, dressCode
       ..write(obj.dressCode)
-      ..writeByte(16) // Field index 16, guests
+      ..writeByte(17) // Field index 17, guestsNumbers
+      ..write(obj.guestsNumbers)
+      ..writeByte(18) // Field index 18, guests
       ..write(obj.guests
           ?.map((guest) => UserModel.fromEntity(guest).toJson())
           .toList())
-      ..writeByte(17) // Field index 17, confirmedGuests
+      ..writeByte(19) // Field index 19, confirmedGuests
       ..write(obj.confirmedGuests
           ?.map(
               (confirmedGuest) => UserModel.fromEntity(confirmedGuest).toJson())
