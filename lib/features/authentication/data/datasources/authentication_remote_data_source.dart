@@ -1,13 +1,14 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:event_management_system/features/user/data/models/user_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/utils/api_provider.dart';
-import '../../../profile/data/models/user_profile_model.dart';
+
 import '../../../user/domain/entities/user_entity.dart';
 
 abstract class AuthenticationRemoteDataSource {
@@ -40,7 +41,7 @@ abstract class AuthenticationRemoteDataSource {
 
 class AuthenticationRemoteDataSourceImpl
     implements AuthenticationRemoteDataSource {
-  final Box<UserProfileModel> _userBox;
+  final Box<UserModel> _userBox;
 
   final ApiProvider _apiProvider;
   String? fcmToken;
@@ -111,12 +112,12 @@ class AuthenticationRemoteDataSourceImpl
       requestNotificationPermissions();
 
       final userJson = jsonResponse['user'] as Map<String, dynamic>;
+      final userData = UserModel.fromJson(userJson);
       log(userJson.toString());
-      final userData = UserProfileModel.fromJson(userJson);
-      log(userData.toJson().toString());
+  
       await _userBox.put('userBox', userData);
 
-      return Right(userData.toEntity());
+      return Right(userData);
     } on ApiException catch (e) {
       return Left(ApiExceptionFailure(e.message));
     } catch (e) {

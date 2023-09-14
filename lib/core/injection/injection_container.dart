@@ -35,14 +35,6 @@ import '../../features/event/domain/usecases/request/update_request_usecase.dart
 import '../../features/event/presentation/logic/cubit/event_cubit.dart';
 import '../../features/event/presentation/logic/cubit/init_cubit.dart';
 import '../../features/event/presentation/logic/cubit/request_cubit.dart';
-import '../../features/profile/data/datasource/user_profile_data_source.dart';
-import '../../features/profile/data/models/user_profile_model.dart';
-import '../../features/profile/data/models/user_profile_model_adapter.dart';
-import '../../features/profile/data/models/user_profile_service.dart';
-import '../../features/profile/data/repositories/user_profile_repository_impl.dart';
-import '../../features/profile/domain/repositories/user_profile_repository.dart';
-import '../../features/profile/domain/usecases/user_crud_use_cases.dart';
-import '../../features/profile/presentation/logic/bloc/user_profile_bloc.dart';
 import '../../features/theme/data/theme_mode_adapter.dart';
 import '../../features/theme/data/theme_repository.dart';
 import '../../features/theme/domain/theme_interactor.dart';
@@ -52,7 +44,11 @@ import '../../features/user/data/models/user_model.dart';
 import '../../features/user/data/models/user_model_adapter.dart';
 import '../../features/user/data/repositories/user_repository_impl.dart';
 import '../../features/user/domain/repositories/user_repository.dart';
-import '../../features/user/domain/usecases/user_use_case.dart';
+import '../../features/user/domain/usecases/delete_user_use_case.dart';
+import '../../features/user/domain/usecases/edit_user_use_case.dart';
+import '../../features/user/domain/usecases/get_user_use_case.dart';
+import '../../features/user/domain/usecases/update_phone_number_use_case.dart';
+import '../../features/user/domain/usecases/verify_phone_number_use_case.dart';
 import '../../features/user/presentation/logic/bloc/user_bloc.dart';
 import '../network/internet_checker.dart';
 import '../strings/strings.dart';
@@ -70,13 +66,11 @@ Future<void> init() async {
 
   // Register Hive Adapters
   Hive.registerAdapter(ThemeModeAdapter());
-  Hive.registerAdapter<UserProfileModel>(UserProfileModelAdapter());
   Hive.registerAdapter<UserModel>(UserModelAdapter());
   Hive.registerAdapter<EventModel>(EventModelAdapter());
 
   // Open the Hive box
-  Box<UserProfileModel> userBox;
-  Box<UserModel> userDataBox;
+  Box<UserModel> userBox;
   Box<EventModel> eventBox;
   Box themeBox;
 
@@ -87,15 +81,9 @@ Future<void> init() async {
   }
 
   if (!Hive.isBoxOpen('userBox')) {
-    userBox = await Hive.openBox<UserProfileModel>('userBox');
+    userBox = await Hive.openBox<UserModel>('userBox');
   } else {
-    userBox = Hive.box<UserProfileModel>('userBox');
-  }
-
-  if (!Hive.isBoxOpen('userDataBox')) {
-    userDataBox = await Hive.openBox<UserModel>('userDataBox');
-  } else {
-    userDataBox = Hive.box<UserModel>('userDataBox');
+    userBox = Hive.box<UserModel>('userBox');
   }
 
   if (!Hive.isBoxOpen('eventBox')) {
@@ -104,17 +92,12 @@ Future<void> init() async {
     eventBox = Hive.box<EventModel>('eventBox');
   }
 
-  // Create and initialize UserProfileService
-  final userProfileService = UserProfileService(userBox: userBox);
-  userProfileService.init();
-
-  // Register UserProfileService as a singleton
-  sl.registerLazySingleton<UserProfileService>(() => userProfileService);
+  // Check if the user is logged in and get user data
+  final UserModel? userModel =
+      UserModel.getUserData(); // Replace with your login logic
 
   // Register Hive boxes
-  sl.registerLazySingleton<Box<UserProfileModel>>(() => userBox);
-  sl.registerLazySingleton<Box<UserModel>>(() => userDataBox);
-
+  sl.registerLazySingleton<Box<UserModel>>(() => userBox);
   sl.registerLazySingleton<Box<EventModel>>(() => eventBox);
 
   // Register Theme-related components
@@ -132,7 +115,7 @@ Future<void> init() async {
   sl.registerLazySingleton<AuthenticationRemoteDataSource>(
     () => AuthenticationRemoteDataSourceImpl(
       sl<ApiProvider>(),
-      sl<Box<UserProfileModel>>(),
+      sl<Box<UserModel>>(),
     ),
   );
 
@@ -159,33 +142,6 @@ Future<void> init() async {
   sl.registerLazySingleton(() => ResetPassword(sl()));
   sl.registerLazySingleton(() => VerifyPhoneResetPassword(sl()));
 
-  //! user profile
-  // Data sources
-  sl.registerLazySingleton<UserProfileDataSource>(
-      () => UserProfileDataSourceImpl(
-            sl<Box<UserProfileModel>>(),
-            sl<AuthenticationRemoteDataSource>(),
-          ));
-
-  // Repositories
-  sl.registerLazySingleton<UserProfileRepository>(
-    () => UserProfileRepositoryImpl(userDataSource: sl()),
-  );
-
-  // BLoC
-  sl.registerFactory(() => UserProfileBloc(
-        deleteUserUseCase: sl(),
-        editUserUseCase: sl(),
-        updatePhoneNumberUseCase: sl(),
-        verifyPhoneNumberUseCase: sl(),
-      ));
-
-  // Use cases
-  sl.registerLazySingleton(() => DeleteUserUseCase(sl()));
-  sl.registerLazySingleton(() => EditUserUseCase(sl()));
-  sl.registerLazySingleton(() => UpdatePhoneNumberUseCase(sl()));
-  sl.registerLazySingleton(() => VerifyPhoneNumberUseCase(sl()));
-
   //! user
   // Data sources
   sl.registerLazySingleton<UserDataSource>(() => UserDataSourceImpl(
@@ -199,22 +155,29 @@ Future<void> init() async {
 
   // Use cases
   sl.registerLazySingleton(() => GetUserUseCase(sl()));
+  sl.registerLazySingleton(() => DeleteUserUseCase(sl()));
+  sl.registerLazySingleton(() => EditUserUseCase(sl()));
+  sl.registerLazySingleton(() => UpdatePhoneNumberUseCase(sl()));
+  sl.registerLazySingleton(() => VerifyPhoneNumberUseCase(sl()));
 
   // BLoC
   sl.registerFactory(() => UserBloc(
         getUserUseCase: sl(),
+        deleteUserUseCase: sl(),
+        editUserUseCase: sl(),
+        updatePhoneNumberUseCase: sl(),
+        verifyPhoneNumberUseCase: sl(),
       ));
-  final UserProfileModel? userProfileModel = UserProfileModel.getUserData();
 
   //! event
   // Data sources
 
-  sl.registerLazySingleton<EventRemoteDataSource>(() =>
-      EventRemoteDataSourceImpl(baseUrl: baseUrl, user: userProfileModel));
+  sl.registerLazySingleton<EventRemoteDataSource>(
+      () => EventRemoteDataSourceImpl(baseUrl: baseUrl, user: userModel));
   sl.registerLazySingleton<InitRemoteDataSource>(
-      () => InitRemoteDataSourceImpl(baseUrl: baseUrl, user: userProfileModel));
-  sl.registerLazySingleton<RequestRemoteDataSource>(() =>
-      RequestRemoteDataSourceImpl(baseUrl: baseUrl, user: userProfileModel));
+      () => InitRemoteDataSourceImpl(baseUrl: baseUrl, user: userModel));
+  sl.registerLazySingleton<RequestRemoteDataSource>(
+      () => RequestRemoteDataSourceImpl(baseUrl: baseUrl, user: userModel));
 
   // Repositories
   sl.registerLazySingleton<EventRepository>(

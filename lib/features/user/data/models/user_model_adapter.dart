@@ -5,8 +5,7 @@ import '../models/user_model.dart';
 
 class UserModelAdapter extends TypeAdapter<UserModel> {
   @override
-  final int typeId = 5; // Assign a unique ID for the adapter
-
+  final int typeId = 3; // Assign a unique ID for the adapter
   @override
   UserModel read(BinaryReader reader) {
     final fieldsCount = reader.readByte();
@@ -16,25 +15,39 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       final dynamic value = reader.read();
       fields[key] = value;
     }
-    // Check if fields[5] is not null and is a list, then cast it to List<String>
+
+    // Check if fields[5], fields[6], and fields[7] are not null and are lists,
+    // then cast them to List<dynamic>, otherwise, set them to an empty list
+    final following = fields[5] is List<dynamic>
+        ? (fields[5] as List<dynamic>)
+            .map((e) => UserModel.fromJson(e))
+            .toList()
+        : null;
+    final events = fields[6] is List<dynamic>
+        ? (fields[6] as List<dynamic>)
+            .map((e) => EventModel.fromJsonEvent(e))
+            .toList()
+        : null;
+    final attendance = fields[7] is List<dynamic>
+        ? (fields[7] as List<dynamic>)
+            .map((e) => EventModel.fromJsonEvent(e))
+            .toList()
+        : null;
+
+    // Check if fields[8] is not null and is a list, then cast it to List<String>
     final fcmTokens = fields[8] is List<String>
         ? (fields[8] as List<dynamic>).cast<String>()
         : <String>[];
+
     return UserModel(
       id: fields[0] as String,
       name: fields[1] as String,
       phoneNumber: fields[2] as String,
       token: fields[3] as String,
       province: fields[4] as String,
-      following: (fields[5] as List<dynamic>)
-          .map((following) => UserModel.fromJson(following))
-          .toList(),
-      events: (fields[6] as List<dynamic>)
-          .map((events) => EventModel.fromJsonEvent(events))
-          .toList(),
-      attendance: (fields[7] as List<dynamic>)
-          .map((attendance) => EventModel.fromJsonEvent(attendance))
-          .toList(),
+      following: following,
+      events: events,
+      attendance: attendance,
       FCMtokens: fcmTokens,
     );
   }
@@ -42,7 +55,7 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
   @override
   void write(BinaryWriter writer, UserModel obj) {
     writer
-      ..writeByte(10) // Number of fields in the UserModel class
+      ..writeByte(9) // Number of fields in the UserModel class
       ..writeByte(0) // Field index 0, id
       ..write(obj.id)
       ..writeByte(1) // Field index 1, name
@@ -55,16 +68,20 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       ..write(obj.province)
       ..writeByte(5) // Field index 5, following
       ..write(obj.following
-          ?.map((following) => UserModel.fromEntity(following).toJson())
-          .toList())
+              ?.map((following) => UserModel.fromEntity(following).toJson())
+              .toList() ??
+          [])
       ..writeByte(6) // Field index 6, events
       ..write(obj.events
-          ?.map((events) => EventModel.fromEntity(events).toJsonEvent())
-          .toList())
+              ?.map((events) => EventModel.fromEntity(events).toJsonEvent())
+              .toList() ??
+          [])
       ..writeByte(7) // Field index 7, attendance
       ..write(obj.attendance
-          ?.map((attendance) => EventModel.fromEntity(attendance).toJsonEvent())
-          .toList())
+              ?.map((attendance) =>
+                  EventModel.fromEntity(attendance).toJsonEvent())
+              .toList() ??
+          [])
       ..writeByte(8) // Field index 8, FCMtokens
       ..write(obj.FCMtokens);
   }

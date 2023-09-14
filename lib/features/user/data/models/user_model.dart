@@ -1,5 +1,4 @@
-import 'package:event_management_system/features/profile/presentation/logic/bloc/user_profile_bloc.dart';
-import 'package:hive_flutter/adapters.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../event/data/models/event_model.dart';
 import '../../../event/domain/entities/event_entity.dart';
@@ -29,7 +28,14 @@ class UserModel extends UserEntity {
           attendance: attendance,
         );
 
-
+  static UserModel? getUserData() {
+    UserModel? user;
+    final userBox = Hive.box<UserModel>('userBox');
+    if (userBox.isNotEmpty) {
+      user = userBox.getAt(0);
+    }
+    return user;
+  }
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -40,17 +46,19 @@ class UserModel extends UserEntity {
       province: json['province'],
       FCMtokens: List<String>.from(json['FCMtokens']),
       following: (json['following'] as List<dynamic>?)
-          ?.map((e) => UserModel.fromJson(e))
-          .toList(),
+              ?.map((e) => UserModel.fromJson(e))
+              .toList() ??
+          [],
       events: (json['events'] as List<dynamic>?)
-          ?.map((e) => EventModel.fromJsonEvent(e))
-          .toList(),
+              ?.map((e) => EventModel.fromJsonEvent(e))
+              .toList() ??
+          [],
       attendance: (json['attendance'] as List<dynamic>?)
-          ?.map((e) => EventModel.fromJsonEvent(e))
-          .toList(),
+              ?.map((e) => EventModel.fromJsonEvent(e))
+              .toList() ??
+          [],
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -60,14 +68,18 @@ class UserModel extends UserEntity {
       'province': province,
       'FCMtokens': FCMtokens,
       'following': following
-          ?.map((following) => UserModel.fromEntity(following).toJson())
-          .toList(),
+              ?.map((following) => UserModel.fromEntity(following).toJson())
+              .toList() ??
+          [],
       'events': events
-          ?.map((event) => EventModel.fromEntity(event).toJsonEvent())
-          .toList(),
+              ?.map((event) => EventModel.fromEntity(event).toJsonEvent())
+              .toList() ??
+          [],
       'attendance': attendance
-          ?.map((attendance) => EventModel.fromEntity(attendance).toJsonEvent())
-          .toList(),
+              ?.map((attendance) =>
+                  EventModel.fromEntity(attendance).toJsonEvent())
+              .toList() ??
+          [],
     };
   }
 

@@ -4,11 +4,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../../core/injection/injection_container.dart';
 import '../../../../../core/strings/strings.dart';
-import '../../../../profile/data/models/user_profile_service.dart';
+import '../../../../user/data/models/user_model.dart';
+import '../../../../user/data/models/user_service.dart';
 import '../../../domain/entities/event_entity.dart';
 import '../../logic/cubit/init_cubit.dart';
 
@@ -22,7 +24,6 @@ class AddEventFormScreen extends StatefulWidget {
 }
 
 class _AddEventFormScreenState extends State<AddEventFormScreen> {
-  final userProfileService = sl<UserProfileService>();
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
@@ -87,13 +88,31 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
     }
   }
 
-  void changeColor(Color color) {
-    setState(() => pickerColor = color);
+  void _onBoxChange() {
+    setState(() {
+      getUserData();
+    });
+  }
+
+  UserModel? user;
+  final userBox = Hive.box<UserModel>('userBox');
+
+  @override
+  void initState() {
+    super.initState();
+
+    getUserData();
+    userBox.listenable().addListener(_onBoxChange);
+  }
+
+  void getUserData() {
+    if (userBox.isNotEmpty) {
+      user = userBox.getAt(0);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = userProfileService.user;
     return Scaffold(
       appBar: AppBar(),
       body: BlocProvider(
@@ -473,7 +492,7 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                                 EventEntity eventEntity = _dressCodeColor ==
                                         null
                                     ? EventEntity(
-                                        plannerId: user.id,
+                                        plannerId: user!.id,
                                         title: _titleController.text,
                                         description:
                                             _descriptionController.text,
@@ -489,7 +508,7 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                                         food: _food,
                                         alcohol: _alcohol)
                                     : EventEntity(
-                                        plannerId: user.id,
+                                        plannerId: user!.id,
                                         title: _titleController.text,
                                         description:
                                             _descriptionController.text,
@@ -555,7 +574,7 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
     _endingDateController.dispose();
     _startsAtController.dispose();
     _endsAtController.dispose();
-
+    userBox.listenable().removeListener(_onBoxChange);
     _eventTypeController.dispose();
     _postTypeController.dispose();
     _adultsOnly = false;

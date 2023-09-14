@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
-import '../../../profile/data/models/user_profile_model.dart';
+import '../../../user/data/models/user_model.dart';
 import '../models/event_model.dart';
 
 abstract class InitRemoteDataSource {
@@ -19,7 +19,7 @@ abstract class InitRemoteDataSource {
 
 class InitRemoteDataSourceImpl implements InitRemoteDataSource {
   final String baseUrl;
-  final UserProfileModel? user;
+  final UserModel? user;
   InitRemoteDataSourceImpl({
     required this.baseUrl,
     required this.user,

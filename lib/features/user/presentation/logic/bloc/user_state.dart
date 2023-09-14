@@ -20,7 +20,47 @@ final class UserLoaded extends UserState {
   List<Object> get props => [user];
 }
 
-final class UserError extends UserState {
+class UserDeleted extends UserState {
+  final String message;
+
+  const UserDeleted({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
+class UserEdited extends UserState {
+  final String message;
+
+  const UserEdited({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
+class PhoneNumberVerified extends UserState {
+  final String code;
+  final String verificationCode;
+
+  const PhoneNumberVerified({
+    required this.code,
+    required this.verificationCode,
+  });
+
+  @override
+  List<Object> get props => [code, verificationCode];
+}
+
+class PhoneNumberUpdated extends UserState {
+  final String message;
+
+  const PhoneNumberUpdated({required this.message});
+
+  @override
+  List<Object> get props => [message];
+}
+
+class UserError extends UserState {
   final String message;
 
   const UserError({required this.message});

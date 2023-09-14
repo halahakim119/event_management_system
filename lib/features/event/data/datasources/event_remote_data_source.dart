@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
-import '../../../profile/data/models/user_profile_model.dart';
+import '../../../user/data/models/user_model.dart';
 import '../models/event_model.dart';
 
 abstract class EventRemoteDataSource {
@@ -17,7 +17,7 @@ abstract class EventRemoteDataSource {
 
 class EventRemoteDataSourceImpl implements EventRemoteDataSource {
   final String baseUrl;
-  final UserProfileModel? user;
+  final UserModel? user;
   EventRemoteDataSourceImpl({
     required this.baseUrl,
     required this.user,
@@ -27,7 +27,6 @@ class EventRemoteDataSourceImpl implements EventRemoteDataSource {
   Future<Either<Failure, String>> cancelEvent(EventModel event) async {
     try {
       if (user != null) {
-        
         final response = await http.delete(
           Uri.parse('$baseUrl/api/event'),
           headers: {'Content-Type': 'application/json'},

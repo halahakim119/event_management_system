@@ -3,12 +3,13 @@ import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../../../core/injection/injection_container.dart';
 import '../../../../../core/router/app_router.dart';
-import '../../../data/models/user_profile_service.dart';
-import '../../logic/bloc/user_profile_bloc.dart';
-import '../widgets/not_logged_in.dart';
+import '../../../../authentication/presentation/view/widgets/not_logged_in.dart';
+import '../../../data/models/user_model.dart';
+import '../../logic/bloc/user_bloc.dart';
 
 @RoutePage()
 class EditProfileScreen extends StatefulWidget {
@@ -25,37 +26,55 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   // Create controllers for text fields
   bool isEditPhoneNumber = false;
   final phoneNumberController = TextEditingController();
-  final userProfileService = sl<UserProfileService>();
+
+  void _onBoxChange() {
+    setState(() {
+      getUserData();
+    });
+  }
+
+  UserModel? user;
+  final userBox = Hive.box<UserModel>('userBox');
 
   @override
   void initState() {
     super.initState();
 
-    if (userProfileService.userBox.isNotEmpty) {
-      phoneNumberController.text = userProfileService.user!.phoneNumber;
+    getUserData();
+    userBox.listenable().addListener(_onBoxChange);
+    if (userBox.isNotEmpty) {
+      phoneNumberController.text = user!.phoneNumber;
     }
+  }
+
+  void getUserData() {
+    if (userBox.isNotEmpty) {
+      user = userBox.getAt(0);
+    }
+  }
+
+  @override
+  void dispose() {
+    userBox.listenable().removeListener(_onBoxChange);
+    super.dispose();
   }
 
   void cancelPhoneNumberEditing() {
     setState(() {
       isEditPhoneNumber = false;
-      phoneNumberController.text = userProfileService
-          .user!.phoneNumber; 
+      phoneNumberController.text = user!.phoneNumber;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    final user = userProfileService.user;
-    final userBox = userProfileService.userBox;
-
     return Scaffold(
         appBar: AppBar(),
         body: userBox.isEmpty
             ? const NotLoggedIn()
             : BlocProvider(
-                create: (_) => sl<UserProfileBloc>(),
-                child: BlocConsumer<UserProfileBloc, UserProfileState>(
+                create: (_) => sl<UserBloc>(),
+                child: BlocConsumer<UserBloc, UserState>(
                   listener: (context, state) {
                     if (state is UserError) {
                       showDialog(
@@ -103,7 +122,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ListTile(
                                 onTap: () {
                                   context.router
-                                      .push(EditNameProvinceRoute(user: user));
+                                      .push(EditNameProvinceRoute(user: user!));
                                 },
                                 dense: true,
                                 title: Column(
@@ -111,14 +130,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   children: [
                                     Text(user!.name),
                                     const SizedBox(height: 10),
-                                    Text(user.province),
+                                    Text(user!.province),
                                   ],
                                 ),
                                 trailing: IconButton(
                                   icon: const Icon(Icons.edit),
                                   onPressed: () {
                                     context.router.push(
-                                        EditNameProvinceRoute(user: user));
+                                        EditNameProvinceRoute(user: user!));
                                   },
                                 ),
                               ),
@@ -144,7 +163,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(user.phoneNumber),
+                                      Text(user!.phoneNumber),
                                     ],
                                   ),
                                   trailing: IconButton(
@@ -190,14 +209,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   onPressed: () {
                                     final newPhoneNumber =
                                         phoneNumberController.text;
-                                    final userId = user.id;
-                                    final token = user.token;
+                                    final userId = user!.id;
+                                    final token = user!.token;
 
                                     final verifyPhoneNumberEvent =
                                         VerifyPhoneNumberEvent(
                                             userId, newPhoneNumber, token);
                                     context
-                                        .read<UserProfileBloc>()
+                                        .read<UserBloc>()
                                         .add(verifyPhoneNumberEvent);
                                     setState(() {
                                       isEditPhoneNumber = false;

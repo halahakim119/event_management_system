@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +7,12 @@ import '../../../../../core/injection/injection_container.dart';
 import '../../../../../core/strings/strings.dart';
 import '../../../../../core/utils/custom_text_field.dart';
 import '../../../../../translations/locale_keys.g.dart';
-import '../../../data/models/user_profile_model.dart';
-import '../../logic/bloc/user_profile_bloc.dart';
+import '../../../data/models/user_model.dart';
+import '../../logic/bloc/user_bloc.dart';
 
 @RoutePage()
 class EditNameProvinceScreen extends StatefulWidget {
-  final UserProfileModel user;
+  final UserModel user;
 
   const EditNameProvinceScreen({
     Key? key,
@@ -83,9 +82,8 @@ class _EditNameProvinceScreenState extends State<EditNameProvinceScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => sl<UserProfileBloc>(),
-      child: BlocConsumer<UserProfileBloc, UserProfileState>(
-          listener: (context, state) {
+      create: (_) => sl<UserBloc>(),
+      child: BlocConsumer<UserBloc, UserState>(listener: (context, state) {
         if (state is UserError) {
           showDialog(
             context: context,
@@ -186,7 +184,7 @@ class _EditNameProvinceScreenState extends State<EditNameProvinceScreen> {
                             provinceController.text.trim(),
                             toEnglish: true);
 
-                        context.read<UserProfileBloc>().add(
+                        context.read<UserBloc>().add(
                               EditUserEvent(
                                 widget.user.id,
                                 widget.user.token,

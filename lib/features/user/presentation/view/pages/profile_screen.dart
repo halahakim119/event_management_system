@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-import '../../../../../core/injection/injection_container.dart';
-import '../../../data/models/user_profile_service.dart';
-import '../widgets/not_logged_in.dart';
-import '../widgets/profile_buttons.dart';
+import '../../../../authentication/presentation/view/widgets/not_logged_in.dart';
+import '../../../data/models/user_model.dart';
+import '../widget/profile_buttons.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
@@ -15,12 +15,37 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final userProfileService = sl<UserProfileService>();
+  void _onBoxChange() {
+    setState(() {
+      getUserData();
+    });
+  }
+
+  UserModel? user;
+  final userBox = Hive.box<UserModel>('userBox');
+
+  @override
+  void initState() {
+    super.initState();
+
+    getUserData();
+    userBox.listenable().addListener(_onBoxChange);
+  }
+
+  void getUserData() {
+    if (userBox.isNotEmpty) {
+      user = userBox.getAt(0);
+    }
+  }
+
+  @override
+  void dispose() {
+    userBox.listenable().removeListener(_onBoxChange);
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final user = userProfileService.user;
-    final userBox = userProfileService.userBox;
-
     return Scaffold(
       appBar: userBox.isEmpty
           ? null
@@ -48,7 +73,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                     Text(
-                      user.phoneNumber,
+                      user!.phoneNumber,
                       textDirection: TextDirection.ltr,
                       style: const TextStyle(
                         fontSize: 10,
@@ -68,7 +93,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               automaticallyImplyLeading: false,
               centerTitle: true,
               title: Text(
-                user.name,
+                user!.name,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

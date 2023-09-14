@@ -196,7 +196,7 @@ class AuthRoute extends PageRouteInfo<void> {
 class EditNameProvinceRoute extends PageRouteInfo<EditNameProvinceRouteArgs> {
   EditNameProvinceRoute({
     Key? key,
-    required UserProfileModel user,
+    required UserModel user,
     List<PageRouteInfo>? children,
   }) : super(
           EditNameProvinceRoute.name,
@@ -221,7 +221,7 @@ class EditNameProvinceRouteArgs {
 
   final Key? key;
 
-  final UserProfileModel user;
+  final UserModel user;
 
   @override
   String toString() {
