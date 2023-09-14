@@ -8,7 +8,7 @@ class GetAllEventsUseCase {
   final EventRepository repository;
   GetAllEventsUseCase(this.repository);
 
-  Future<Either<Failure, List<EventEntity>>> call(String plannerId) async {
-    return await repository.getAllEvents(plannerId);
+  Future<Either<Failure, List<EventEntity>>> call() async {
+    return await repository.getAllEvents();
   }
 }

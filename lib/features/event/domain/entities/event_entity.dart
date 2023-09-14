@@ -12,10 +12,10 @@ class EventEntity extends Equatable {
   final int guestsNumber;
   final String type;
   final String postType;
-  final DateTime startsAt;
-  final DateTime endsAt;
-  final DateTime startingDate;
-  final DateTime endingDate;
+  final String startsAt;
+  final String endsAt;
+  final String startingDate;
+  final String endingDate;
   final bool adultsOnly;
   final bool food;
   final bool alcohol;

@@ -9,6 +9,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import '../../core/injection/injection_container.dart';
 import '../../core/router/app_router.dart';
 import '../profile/data/models/user_profile_model.dart';
+import '../profile/data/models/user_profile_service.dart';
 import '../profile/presentation/logic/bloc/user_profile_bloc.dart';
 import '../theme/presentation/theme_cubit.dart';
 
@@ -22,40 +23,12 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   final UserProfileBloc userProfileBloc = sl<UserProfileBloc>();
-
-  @override
-  void dispose() {
-    userBox.listenable().removeListener(_onBoxChange);
-    super.dispose();
-  }
-
-  void _onBoxChange() {
-    if (mounted) {
-      setState(() {
-        getUserData();
-      });
-    }
-  }
-
-  UserProfileModel? user;
-  final userBox = Hive.box<UserProfileModel>('userBox');
-
-  @override
-  void initState() {
-    super.initState();
-
-    getUserData();
-    userBox.listenable().addListener(_onBoxChange);
-  }
-
-  void getUserData() {
-    if (userBox.isNotEmpty) {
-      user = userBox.getAt(0);
-    }
-  }
+  final userProfileService = sl<UserProfileService>();
 
   @override
   Widget build(BuildContext context) {
+    final user = userProfileService.user;
+    final userBox = userProfileService.userBox;
     return Scaffold(
       appBar: AppBar(),
       body: BlocBuilder<ThemeCubit, ThemeMode>(builder: (context, themeMode) {
@@ -158,7 +131,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                             child:
                                 BlocBuilder<UserProfileBloc, UserProfileState>(
                               builder: (context, state) {
-                           
                                 if (state is UserDeleted) {
                                   log('hi1');
                                   ScaffoldMessenger.of(context).showSnackBar(
@@ -185,7 +157,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       onPressed: () {
                                         context.read<UserProfileBloc>().add(
                                             DeleteUserEvent(
-                                                user!.id, user!.token));
+                                                user!.id, user.token));
                                         if (state is UserDeleted) {
                                           log('hi2');
                                           // Show Snackbar for successful delete
@@ -242,10 +214,5 @@ class _SettingsScreenState extends State<SettingsScreen> {
     final userBox = Hive.box<UserProfileModel>('userBox');
     await userBox.clear();
     if (!mounted) return;
-    if (mounted) {
-      setState(() {
-        getUserData();
-      });
-    }
   }
 }

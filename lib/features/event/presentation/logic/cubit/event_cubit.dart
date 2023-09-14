@@ -20,10 +20,10 @@ class EventCubit extends Cubit<EventState> {
     required this.updateEventUseCase,
   }) : super(const EventState.initial());
 
-  Future<void> getAllEvents({required String plannerId}) async {
+  Future<void> getAllEvents() async {
     emit(const EventState.loading());
 
-    final result = await getAllEventsUseCase.call(plannerId);
+    final result = await getAllEventsUseCase.call();
 
     return result.fold(
       (failure) => emit(EventState.error(message: failure.message)),
@@ -31,11 +31,10 @@ class EventCubit extends Cubit<EventState> {
     );
   }
 
-  Future<void> cancelEvent(
-      {required EventEntity event, required String token}) async {
+  Future<void> cancelEvent({required EventEntity event}) async {
     emit(const EventState.loading());
 
-    final result = await cancelEventUseCase.call(event, token);
+    final result = await cancelEventUseCase.call(event);
 
     return result.fold(
       (failure) => emit(EventState.error(message: failure.message)),
@@ -43,11 +42,10 @@ class EventCubit extends Cubit<EventState> {
     );
   }
 
-  Future<void> updateEvent(
-      {required EventEntity event, required String token}) async {
+  Future<void> updateEvent({required EventEntity event}) async {
     emit(const EventState.loading());
 
-    final result = await updateEventUseCase.call(event, token);
+    final result = await updateEventUseCase.call(event);
 
     return result.fold(
       (failure) => emit(EventState.error(message: failure.message)),

@@ -8,7 +8,7 @@ class CancelEventUseCase {
   final EventRepository repository;
   CancelEventUseCase(this.repository);
 
-  Future<Either<Failure, String>> call(EventEntity event, String token) async {
-    return await repository.cancelEvent(event, token);
+  Future<Either<Failure, String>> call(EventEntity event) async {
+    return await repository.cancelEvent(event);
   }
 }

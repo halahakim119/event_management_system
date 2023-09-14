@@ -8,7 +8,7 @@ class GetAllInitsUseCase {
   final InitRepository repository;
   GetAllInitsUseCase(this.repository);
 
-  Future<Either<Failure, List<EventEntity>>> call(String plannerId) async {
-    return await repository.getAllInits(plannerId);
+  Future<Either<Failure, List<EventEntity>>> call( ) async {
+    return await repository.getAllInits();
   }
 }

@@ -32,9 +32,13 @@ import '../../features/event/domain/usecases/request/cancel_request_usecase.dart
 import '../../features/event/domain/usecases/request/create_request_usecase.dart';
 import '../../features/event/domain/usecases/request/get_all_requests_usecase.dart';
 import '../../features/event/domain/usecases/request/update_request_usecase.dart';
+import '../../features/event/presentation/logic/cubit/event_cubit.dart';
+import '../../features/event/presentation/logic/cubit/init_cubit.dart';
+import '../../features/event/presentation/logic/cubit/request_cubit.dart';
 import '../../features/profile/data/datasource/user_profile_data_source.dart';
 import '../../features/profile/data/models/user_profile_model.dart';
 import '../../features/profile/data/models/user_profile_model_adapter.dart';
+import '../../features/profile/data/models/user_profile_service.dart';
 import '../../features/profile/data/repositories/user_profile_repository_impl.dart';
 import '../../features/profile/domain/repositories/user_profile_repository.dart';
 import '../../features/profile/domain/usecases/user_crud_use_cases.dart';
@@ -51,6 +55,7 @@ import '../../features/user/domain/repositories/user_repository.dart';
 import '../../features/user/domain/usecases/user_use_case.dart';
 import '../../features/user/presentation/logic/bloc/user_bloc.dart';
 import '../network/internet_checker.dart';
+import '../strings/strings.dart';
 import '../utils/api_provider.dart';
 
 final sl = GetIt.instance;
@@ -98,6 +103,13 @@ Future<void> init() async {
   } else {
     eventBox = Hive.box<EventModel>('eventBox');
   }
+
+  // Create and initialize UserProfileService
+  final userProfileService = UserProfileService(userBox: userBox);
+  userProfileService.init();
+
+  // Register UserProfileService as a singleton
+  sl.registerLazySingleton<UserProfileService>(() => userProfileService);
 
   // Register Hive boxes
   sl.registerLazySingleton<Box<UserProfileModel>>(() => userBox);
@@ -192,15 +204,17 @@ Future<void> init() async {
   sl.registerFactory(() => UserBloc(
         getUserUseCase: sl(),
       ));
+  final UserProfileModel? userProfileModel = UserProfileModel.getUserData();
 
   //! event
   // Data sources
-  sl.registerLazySingleton<EventRemoteDataSource>(
-      () => EventRemoteDataSourceImpl(baseUrl: sl()));
+
+  sl.registerLazySingleton<EventRemoteDataSource>(() =>
+      EventRemoteDataSourceImpl(baseUrl: baseUrl, user: userProfileModel));
   sl.registerLazySingleton<InitRemoteDataSource>(
-      () => InitRemoteDataSourceImpl(baseUrl: sl()));
-  sl.registerLazySingleton<RequestRemoteDataSource>(
-      () => RequestRemoteDataSourceImpl(sl()));
+      () => InitRemoteDataSourceImpl(baseUrl: baseUrl, user: userProfileModel));
+  sl.registerLazySingleton<RequestRemoteDataSource>(() =>
+      RequestRemoteDataSourceImpl(baseUrl: baseUrl, user: userProfileModel));
 
   // Repositories
   sl.registerLazySingleton<EventRepository>(
@@ -213,7 +227,23 @@ Future<void> init() async {
     () => RequestRepositoryImpl(requestRemoteDataSource: sl()),
   );
 
-  // BLoC
+  // Cubit
+  sl.registerFactory(() => InitCubit(
+      getAllInitsUseCase: sl(),
+      createInitUseCase: sl(),
+      deleteInitUseCase: sl(),
+      updateInitUseCase: sl()));
+
+  sl.registerFactory(() => RequestCubit(
+      getAllRequestsUseCase: sl(),
+      createRequestUseCase: sl(),
+      updateRequestUseCase: sl(),
+      cancelRequestUseCase: sl()));
+
+  sl.registerFactory(() => EventCubit(
+      getAllEventsUseCase: sl(),
+      cancelEventUseCase: sl(),
+      updateEventUseCase: sl()));
 
   // Use cases
   sl.registerLazySingleton(() => CreateInitUseCase(sl()));

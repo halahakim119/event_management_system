@@ -1,12 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../../core/injection/injection_container.dart';
 import '../../core/network/internet_checker.dart';
 import '../../core/router/app_router.dart';
-import '../profile/data/models/user_profile_model.dart';
+import '../profile/data/models/user_profile_service.dart';
 
 @RoutePage()
 class SplashScreen extends StatefulWidget {
@@ -17,50 +16,20 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  UserProfileModel? user;
-  final userBox = Hive.box<UserProfileModel>('userBox');
-
-  bool isExist = false;
-
-  @override
-  void dispose() {
-    userBox.listenable().removeListener(_onBoxChange);
-    super.dispose();
-  }
-
-  void getUserData() {
-    if (userBox.isNotEmpty) {
-      user = userBox.getAt(0);
-    }
-  }
-
-  void _onBoxChange() {
-    setState(() {
-      getUserData();
-    });
-  }
-
-  bool isUserExist() {
-    if (userBox.isNotEmpty) {
-      return true;
-    }
-    return false;
-  }
+  final userProfileService = sl<UserProfileService>();
 
   @override
   void initState() {
     super.initState();
     sl<InternetChecker>().run();
-    getUserData();
-    userBox.listenable().addListener(_onBoxChange);
-    isExist = isUserExist();
+
     Future.delayed(const Duration(seconds: 3), () async {
       checkUserBoxAndNavigate();
     });
   }
 
   Future<void> checkUserBoxAndNavigate() async {
-    if (isExist) {
+    if (userProfileService.userBox.isNotEmpty) {
       // sl<UserBloc>().add(GetUserEvent(user!.id));
       await context.router.popAndPush(const HomeRoute());
     } else {

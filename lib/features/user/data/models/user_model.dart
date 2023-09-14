@@ -1,3 +1,6 @@
+import 'package:event_management_system/features/profile/presentation/logic/bloc/user_profile_bloc.dart';
+import 'package:hive_flutter/adapters.dart';
+
 import '../../../event/data/models/event_model.dart';
 import '../../../event/domain/entities/event_entity.dart';
 import '../../domain/entities/user_entity.dart';
@@ -25,6 +28,8 @@ class UserModel extends UserEntity {
           events: events,
           attendance: attendance,
         );
+
+
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(

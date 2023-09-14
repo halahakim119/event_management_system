@@ -15,8 +15,7 @@ class RequestRepositoryImpl implements RequestRepository {
   });
 
   @override
-  Future<Either<Failure, String>> createRequest(
-      EventEntity event, String token) async {
+  Future<Either<Failure, String>> createRequest(EventEntity event) async {
     try {
       EventModel eventModel = EventModel(
         id: event.id,
@@ -37,8 +36,7 @@ class RequestRepositoryImpl implements RequestRepository {
         dressCode: event.dressCode,
       );
 
-      final response =
-          await requestRemoteDataSource.createRequest(eventModel, token);
+      final response = await requestRemoteDataSource.createRequest(eventModel);
 
       return response.fold(
         (failure) => Left(failure),
@@ -50,11 +48,9 @@ class RequestRepositoryImpl implements RequestRepository {
   }
 
   @override
-  Future<Either<Failure, String>> cancelRequest(
-      String id, String plannerId, String token) async {
+  Future<Either<Failure, String>> cancelRequest(String id) async {
     try {
-      final result =
-          await requestRemoteDataSource.cancelRequest(id, plannerId, token);
+      final result = await requestRemoteDataSource.cancelRequest(id);
 
       return result.fold(
         (failure) => Left(failure),
@@ -66,10 +62,9 @@ class RequestRepositoryImpl implements RequestRepository {
   }
 
   @override
-  Future<Either<Failure, List<EventEntity>>> getAllRequests(
-      String plannerId) async {
+  Future<Either<Failure, List<EventEntity>>> getAllRequests() async {
     try {
-      final result = await requestRemoteDataSource.getAllRequests(plannerId);
+      final result = await requestRemoteDataSource.getAllRequests();
 
       return result.fold(
         (failure) => Left(failure),
@@ -81,8 +76,7 @@ class RequestRepositoryImpl implements RequestRepository {
   }
 
   @override
-  Future<Either<Failure, String>> updateRequest(
-      EventEntity event, String token) async {
+  Future<Either<Failure, String>> updateRequest(EventEntity event) async {
     try {
       // Convert request entity to request model
       EventModel eventModel = EventModel(
@@ -104,8 +98,7 @@ class RequestRepositoryImpl implements RequestRepository {
         dressCode: event.dressCode,
       );
 
-      final result =
-          await requestRemoteDataSource.updateRequest(eventModel, token);
+      final result = await requestRemoteDataSource.updateRequest(eventModel);
 
       return result.fold(
         (failure) => Left(failure),

@@ -1,50 +1,57 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
+import '../../../profile/data/models/user_profile_model.dart';
 import '../models/event_model.dart';
 
 abstract class InitRemoteDataSource {
-  Future<Either<Failure, List<EventModel>>> getAllInits(String plannerId);
-  Future<Either<Failure, String>> createInit(EventModel event, String token);
-  Future<Either<Failure, String>> updateInit(EventModel event, String token);
-  Future<Either<Failure, String>> deleteInit(
-      String id, String plannerId, String token);
+  Future<Either<Failure, List<EventModel>>> getAllInits();
+  Future<Either<Failure, String>> createInit(EventModel event);
+  Future<Either<Failure, String>> updateInit(EventModel event);
+  Future<Either<Failure, String>> deleteInit(String id);
 }
 
 class InitRemoteDataSourceImpl implements InitRemoteDataSource {
   final String baseUrl;
-
-  InitRemoteDataSourceImpl({required this.baseUrl});
+  final UserProfileModel? user;
+  InitRemoteDataSourceImpl({
+    required this.baseUrl,
+    required this.user,
+  });
 
   @override
-  Future<Either<Failure, String>> deleteInit(
-      String id, String plannerId, String token) async {
+  Future<Either<Failure, String>> deleteInit(String id) async {
     try {
-      final response = await http.delete(
-        Uri.parse('$baseUrl/api/init?id=$id&plannerId=$plannerId'),
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
-      );
+      if (user != null) {
+        final uri = Uri.parse('$baseUrl/api/init')
+            .replace(queryParameters: {'id': id, 'plannerId': user!.id});
 
-      final jsonResponse = jsonDecode(response.body);
+        final response = await http.delete(
+          uri,
+          headers: {'Authorization': 'Bearer ${user!.token}'},
+        );
 
-      if (response.statusCode == 200) {
-        return const Right('deleted successfully');
-      } else if (response.statusCode == 400) {
-        if (jsonResponse.containsKey('error')) {
-          final errorMessage = jsonResponse['error'];
-          return Left(ServerFailure(errorMessage));
+        final jsonResponse = jsonDecode(response.body);
+
+        if (response.statusCode == 200) {
+          return const Right('deleted successfully');
+        } else if (response.statusCode == 400) {
+          if (jsonResponse.containsKey('error')) {
+            final errorMessage = jsonResponse['error'];
+            return Left(ServerFailure(errorMessage));
+          }
+        } else if (response.statusCode == 500) {
+          throw ServerFailure('Something went wrong');
         }
-      } else if (response.statusCode == 500) {
-        throw ServerFailure('Something went wrong');
+        throw ApiException('Failed to delete init');
       }
-      throw ApiException('Failed to delete init');
+      throw ApiException('User not logged in');
     } on ApiException catch (e) {
       return Left(ApiExceptionFailure(e.message));
     } catch (e) {
@@ -53,33 +60,36 @@ class InitRemoteDataSourceImpl implements InitRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, List<EventModel>>> getAllInits(
-      String plannerId) async {
+  Future<Either<Failure, List<EventModel>>> getAllInits() async {
     try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/api/inits/get'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          "plannerId": plannerId,
-        }),
-      );
+      if (user != null) {
+        final uri = Uri.parse('$baseUrl/api/init')
+            .replace(queryParameters: {'plannerId': user!.id});
 
-      final jsonResponse = jsonDecode(response.body);
+        final response = await http.get(
+          uri,
+          headers: {'Authorization': 'Bearer ${user!.token}'},
+        );
 
-      if (response.statusCode == 200 && jsonResponse.containsKey('data')) {
-        final initsJsonList = jsonResponse['data'] as List<dynamic>;
-        final inits =
-            initsJsonList.map((json) => EventModel.fromJsonInit(json)).toList();
-        return Right(inits);
-      } else if (response.statusCode == 400) {
-        if (jsonResponse.containsKey('error')) {
-          final errorMessage = jsonResponse['error'];
-          return Left(ServerFailure(errorMessage));
+        final jsonResponse = jsonDecode(response.body);
+
+        if (response.statusCode == 200 && jsonResponse.containsKey('data')) {
+          final initsJsonList = jsonResponse['data'] as List<dynamic>;
+          final inits = initsJsonList
+              .map((json) => EventModel.fromJsonInit(json))
+              .toList();
+          return Right(inits);
+        } else if (response.statusCode == 400) {
+          if (jsonResponse.containsKey('error')) {
+            final errorMessage = jsonResponse['error'];
+            return Left(ServerFailure(errorMessage));
+          }
+        } else if (response.statusCode == 500) {
+          throw ServerFailure('Something went wrong');
         }
-      } else if (response.statusCode == 500) {
-        throw ServerFailure('Something went wrong');
+        throw ApiException('Failed to retrieve inits');
       }
-      throw ApiException('Failed to retrieve inits');
+      throw ApiException('User not logged in');
     } on ApiException catch (e) {
       return Left(ApiExceptionFailure(e.message));
     } catch (e) {
@@ -88,31 +98,33 @@ class InitRemoteDataSourceImpl implements InitRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, String>> createInit(
-      EventModel event, String token) async {
+  Future<Either<Failure, String>> createInit(EventModel event) async {
     try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/api/init'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
+      if (user != null) {
+        final data = jsonEncode({
           ...event.toJsonInit(),
-          "token": token,
-        }),
-      );
+          "token": user!.token,
+        });
+        log(data);
 
-      final jsonResponse = jsonDecode(response.body);
+        final response = await http.post(Uri.parse('$baseUrl/api/init'),
+            headers: {'Content-Type': 'application/json'}, body: data);
 
-      if (response.statusCode == 200) {
-        return const Right('created successfully');
-      } else if (response.statusCode == 400) {
-        if (jsonResponse.containsKey('error')) {
-          final errorMessage = jsonResponse['error'];
-          return Left(ServerFailure(errorMessage));
+        final jsonResponse = jsonDecode(response.body);
+
+        if (response.statusCode == 200) {
+          return const Right('created successfully');
+        } else if (response.statusCode == 400) {
+          if (jsonResponse.containsKey('error')) {
+            final errorMessage = jsonResponse['error'];
+            return Left(ServerFailure(errorMessage));
+          }
+        } else if (response.statusCode == 500) {
+          throw ServerFailure('Something went wrong');
         }
-      } else if (response.statusCode == 500) {
-        throw ServerFailure('Something went wrong');
+        throw ApiException('Failed to create init');
       }
-      throw ApiException('Failed to create init');
+      throw ApiException('User not logged in');
     } on ApiException catch (e) {
       return Left(ApiExceptionFailure(e.message));
     } catch (e) {
@@ -121,31 +133,33 @@ class InitRemoteDataSourceImpl implements InitRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, String>> updateInit(
-      EventModel event, String token) async {
+  Future<Either<Failure, String>> updateInit(EventModel event) async {
     try {
-      final response = await http.put(
-        Uri.parse('$baseUrl/api/init'),
-        body: jsonEncode({
-          "id": event.id,
-          ...event.toJsonInit(),
-          "token": token,
-        }),
-      );
+      if (user != null) {
+        final response = await http.put(
+          Uri.parse('$baseUrl/api/init'),
+          body: jsonEncode({
+            "id": event.id,
+            ...event.toJsonInit(),
+            "token": user!.token,
+          }),
+        );
 
-      final jsonResponse = jsonDecode(response.body);
+        final jsonResponse = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
-        return const Right('init updated successfully');
-      } else if (response.statusCode == 400) {
-        if (jsonResponse.containsKey('error')) {
-          final errorMessage = jsonResponse['error'];
-          return Left(ServerFailure(errorMessage));
+        if (response.statusCode == 200) {
+          return const Right('init updated successfully');
+        } else if (response.statusCode == 400) {
+          if (jsonResponse.containsKey('error')) {
+            final errorMessage = jsonResponse['error'];
+            return Left(ServerFailure(errorMessage));
+          }
+        } else if (response.statusCode == 500) {
+          throw ServerFailure('Something went wrong');
         }
-      } else if (response.statusCode == 500) {
-        throw ServerFailure('Something went wrong');
+        throw ApiException('Failed to update init');
       }
-      throw ApiException('Failed to update init');
+      throw ApiException('User not logged in');
     } on ApiException catch (e) {
       return Left(ApiExceptionFailure(e.message));
     } catch (e) {

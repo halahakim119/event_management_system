@@ -3,11 +3,10 @@ import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../../../core/injection/injection_container.dart';
 import '../../../../../core/router/app_router.dart';
-import '../../../data/models/user_profile_model.dart';
+import '../../../data/models/user_profile_service.dart';
 import '../../logic/bloc/user_profile_bloc.dart';
 import '../widgets/not_logged_in.dart';
 
@@ -26,50 +25,30 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   // Create controllers for text fields
   bool isEditPhoneNumber = false;
   final phoneNumberController = TextEditingController();
-
-  @override
-  void dispose() {
-    userBox.listenable().removeListener(_onBoxChange);
-    super.dispose();
-  }
-
-  void _onBoxChange() {
-    if (mounted) {
-      setState(() {
-        getUserData();
-      });
-    }
-  }
-
-  UserProfileModel? user;
-  final userBox = Hive.box<UserProfileModel>('userBox');
+  final userProfileService = sl<UserProfileService>();
 
   @override
   void initState() {
     super.initState();
-    getUserData();
-    userBox.listenable().addListener(_onBoxChange);
-    if (userBox.isNotEmpty) {
-      phoneNumberController.text = user!.phoneNumber;
-    }
-  }
 
-  void getUserData() {
-    if (userBox.isNotEmpty) {
-      user = userBox.getAt(0);
+    if (userProfileService.userBox.isNotEmpty) {
+      phoneNumberController.text = userProfileService.user!.phoneNumber;
     }
   }
 
   void cancelPhoneNumberEditing() {
     setState(() {
       isEditPhoneNumber = false;
-      phoneNumberController.text =
-          user!.phoneNumber; // Reset the name value to the original value
+      phoneNumberController.text = userProfileService
+          .user!.phoneNumber; 
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = userProfileService.user;
+    final userBox = userProfileService.userBox;
+
     return Scaffold(
         appBar: AppBar(),
         body: userBox.isEmpty
@@ -124,7 +103,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               ListTile(
                                 onTap: () {
                                   context.router
-                                      .push(EditNameProvinceRoute(user: user!));
+                                      .push(EditNameProvinceRoute(user: user));
                                 },
                                 dense: true,
                                 title: Column(
@@ -132,14 +111,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   children: [
                                     Text(user!.name),
                                     const SizedBox(height: 10),
-                                    Text(user!.province),
+                                    Text(user.province),
                                   ],
                                 ),
                                 trailing: IconButton(
                                   icon: const Icon(Icons.edit),
                                   onPressed: () {
                                     context.router.push(
-                                        EditNameProvinceRoute(user: user!));
+                                        EditNameProvinceRoute(user: user));
                                   },
                                 ),
                               ),
@@ -165,7 +144,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(user!.phoneNumber),
+                                      Text(user.phoneNumber),
                                     ],
                                   ),
                                   trailing: IconButton(
@@ -211,8 +190,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                   onPressed: () {
                                     final newPhoneNumber =
                                         phoneNumberController.text;
-                                    final userId = user!.id;
-                                    final token = user!.token;
+                                    final userId = user.id;
+                                    final token = user.token;
 
                                     final verifyPhoneNumberEvent =
                                         VerifyPhoneNumberEvent(

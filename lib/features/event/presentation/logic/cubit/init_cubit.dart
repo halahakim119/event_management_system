@@ -23,10 +23,10 @@ class InitCubit extends Cubit<InitState> {
     required this.updateInitUseCase,
   }) : super(const InitState.initial());
 // Method to fetch all events
-  Future<void> getAllInit({required String plannerId}) async {
+  Future<void> getAllInit() async {
     emit(const InitState.loading());
 
-    final result = await getAllInitsUseCase.call(plannerId);
+    final result = await getAllInitsUseCase.call();
 
     return result.fold(
       (failure) => emit(InitState.error(message: failure.message)),
@@ -35,11 +35,10 @@ class InitCubit extends Cubit<InitState> {
   }
 
   // Method to create a new event
-  Future<void> createInit(
-      {required EventEntity event, required String token}) async {
+  Future<void> createInit({required EventEntity event}) async {
     emit(const InitState.loading());
 
-    final result = await createInitUseCase.call(event, token);
+    final result = await createInitUseCase.call(event);
 
     return result.fold(
       (failure) => emit(InitState.error(message: failure.message)),
@@ -48,13 +47,10 @@ class InitCubit extends Cubit<InitState> {
   }
 
   // Method to delete an event
-  Future<void> deleteInit(
-      {required String id,
-      required String plannerId,
-      required String token}) async {
+  Future<void> deleteInit({required String id}) async {
     emit(const InitState.loading());
 
-    final result = await deleteInitUseCase.call(id, plannerId, token);
+    final result = await deleteInitUseCase.call(id);
 
     return result.fold(
       (failure) => emit(InitState.error(message: failure.message)),
@@ -63,11 +59,10 @@ class InitCubit extends Cubit<InitState> {
   }
 
   // Method to update an event
-  Future<void> updateInit(
-      {required EventEntity event, required String token}) async {
+  Future<void> updateInit({required EventEntity event}) async {
     emit(const InitState.loading());
 
-    final result = await updateInitUseCase.call(event, token);
+    final result = await updateInitUseCase.call(event);
 
     return result.fold(
       (failure) => emit(InitState.error(message: failure.message)),

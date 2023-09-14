@@ -27,10 +27,10 @@ class EventModelAdapter extends TypeAdapter<EventModel> {
       guestsNumber: fields[6] as int,
       type: fields[7] as String,
       postType: fields[8] as String,
-      startsAt: DateTime.parse(fields[9] as String),
-      endsAt: DateTime.parse(fields[10] as String),
-      startingDate: DateTime.parse(fields[11] as String),
-      endingDate: DateTime.parse(fields[12] as String),
+      startsAt: fields[9] as String,
+      endsAt: fields[10] as String,
+      startingDate: fields[11] as String,
+      endingDate: fields[12] as String,
       adultsOnly: fields[13] as bool,
       food: fields[14] as bool,
       alcohol: fields[15] as bool,
@@ -68,13 +68,13 @@ class EventModelAdapter extends TypeAdapter<EventModel> {
       ..writeByte(8) // Field index 8, postType
       ..write(obj.postType)
       ..writeByte(9) // Field index 9, startsAt
-      ..write(obj.startsAt.toIso8601String())
+      ..write(obj.startsAt)
       ..writeByte(10) // Field index 10, endsAt
-      ..write(obj.endsAt.toIso8601String())
+      ..write(obj.endsAt)
       ..writeByte(11) // Field index 11, startingDate
-      ..write(obj.startingDate.toIso8601String())
+      ..write(obj.startingDate)
       ..writeByte(12) // Field index 12, endingDate
-      ..write(obj.endingDate.toIso8601String())
+      ..write(obj.endingDate)
       ..writeByte(13) // Field index 13, adultsOnly
       ..write(obj.adultsOnly)
       ..writeByte(14) // Field index 14, food

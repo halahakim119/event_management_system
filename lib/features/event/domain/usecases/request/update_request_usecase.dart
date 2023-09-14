@@ -8,7 +8,7 @@ class UpdateRequestUseCase {
   final RequestRepository repository;
   UpdateRequestUseCase(this.repository);
 
-  Future<Either<Failure, String>> call(EventEntity event, String token) async {
-    return await repository.updateRequest(event, token);
+  Future<Either<Failure, String>> call(EventEntity event) async {
+    return await repository.updateRequest(event);
   }
 }

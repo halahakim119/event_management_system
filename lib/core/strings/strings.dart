@@ -31,5 +31,7 @@ List<String> getPostTypes() {
 }
 
 List<String> getEventTypes() {
-  return ['wedding', 'birthday', 'babyshower'];
+  return ['Wedding', 'Funeral', 'Hangout'];
 }
+
+String baseUrl = 'http://35.180.62.182';

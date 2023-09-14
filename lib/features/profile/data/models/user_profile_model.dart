@@ -1,3 +1,5 @@
+import 'package:hive_flutter/hive_flutter.dart';
+
 import '../../../user/domain/entities/user_entity.dart';
 
 // ignore: must_be_immutable
@@ -16,6 +18,15 @@ class UserProfileModel extends UserEntity {
             phoneNumber: phoneNumber,
             token: token,
             province: province);
+
+  static UserProfileModel? getUserData() {
+    UserProfileModel? user;
+    final userBox = Hive.box<UserProfileModel>('userBox');
+    if (userBox.isNotEmpty) {
+      user = userBox.getAt(0);
+    }
+    return user;
+  }
 
   factory UserProfileModel.fromJson(Map<String, dynamic> json) {
     return UserProfileModel(

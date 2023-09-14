@@ -14,8 +14,7 @@ class EventRepositoryImpl implements EventRepository {
   });
 
   @override
-  Future<Either<Failure, String>> cancelEvent(
-      EventEntity event, String token) async {
+  Future<Either<Failure, String>> cancelEvent(EventEntity event) async {
     try {
       EventModel eventModel = EventModel(
         hostId: event.hostId!,
@@ -37,7 +36,7 @@ class EventRepositoryImpl implements EventRepository {
         dressCode: event.dressCode,
       );
 
-      final result = await eventRemoteDataSource.cancelEvent(eventModel, token);
+      final result = await eventRemoteDataSource.cancelEvent(eventModel);
 
       return result.fold(
         (failure) => Left(failure),
@@ -49,10 +48,9 @@ class EventRepositoryImpl implements EventRepository {
   }
 
   @override
-  Future<Either<Failure, List<EventEntity>>> getAllEvents(
-      String plannerId) async {
+  Future<Either<Failure, List<EventEntity>>> getAllEvents() async {
     try {
-      final result = await eventRemoteDataSource.getAllEvents(plannerId);
+      final result = await eventRemoteDataSource.getAllEvents();
 
       return result.fold(
         (failure) => Left(failure),
@@ -64,8 +62,7 @@ class EventRepositoryImpl implements EventRepository {
   }
 
   @override
-  Future<Either<Failure, String>> updateEvent(
-      EventEntity event, String token) async {
+  Future<Either<Failure, String>> updateEvent(EventEntity event) async {
     try {
       EventModel eventModel = EventModel(
         hostId: event.hostId!,
@@ -87,7 +84,7 @@ class EventRepositoryImpl implements EventRepository {
         dressCode: event.dressCode,
       );
 
-      final result = await eventRemoteDataSource.updateEvent(eventModel, token);
+      final result = await eventRemoteDataSource.updateEvent(eventModel);
 
       return result.fold(
         (failure) => Left(failure),

@@ -23,10 +23,10 @@ class RequestCubit extends Cubit<RequestState> {
     required this.cancelRequestUseCase,
   }) : super(const RequestState.initial());
 
-  Future<void> getAllRequests({required String plannerId}) async {
+  Future<void> getAllRequests() async {
     emit(const RequestState.loading());
 
-    final result = await getAllRequestsUseCase.call(plannerId);
+    final result = await getAllRequestsUseCase.call();
 
     return result.fold(
       (failure) => emit(RequestState.error(message: failure.message)),
@@ -34,10 +34,10 @@ class RequestCubit extends Cubit<RequestState> {
     );
   }
 
-  Future<void> createRequest({required EventEntity event, required String token}) async {
+  Future<void> createRequest({required EventEntity event}) async {
     emit(const RequestState.loading());
 
-    final result = await createRequestUseCase.call(event, token);
+    final result = await createRequestUseCase.call(event);
 
     return result.fold(
       (failure) => emit(RequestState.error(message: failure.message)),
@@ -45,10 +45,10 @@ class RequestCubit extends Cubit<RequestState> {
     );
   }
 
-  Future<void> updateRequest({required EventEntity event, required String token}) async {
+  Future<void> updateRequest({required EventEntity event}) async {
     emit(const RequestState.loading());
 
-    final result = await updateRequestUseCase.call(event, token);
+    final result = await updateRequestUseCase.call(event);
 
     return result.fold(
       (failure) => emit(RequestState.error(message: failure.message)),
@@ -56,10 +56,10 @@ class RequestCubit extends Cubit<RequestState> {
     );
   }
 
-  Future<void> cancelRequest({required String id, required String plannerId, required String token}) async {
+  Future<void> cancelRequest({required String id}) async {
     emit(const RequestState.loading());
 
-    final result = await cancelRequestUseCase.call(id, plannerId, token);
+    final result = await cancelRequestUseCase.call(id);
 
     return result.fold(
       (failure) => emit(RequestState.error(message: failure.message)),

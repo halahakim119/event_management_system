@@ -14,8 +14,7 @@ class InitRepositoryImpl implements InitRepository {
   });
 
   @override
-  Future<Either<Failure, String>> createInit(
-      EventEntity event, String token) async {
+  Future<Either<Failure, String>> createInit(EventEntity event) async {
     try {
       EventModel eventModel = EventModel(
           plannerId: event.plannerId,
@@ -32,7 +31,7 @@ class InitRepositoryImpl implements InitRepository {
           food: event.food,
           alcohol: event.alcohol,
           dressCode: event.dressCode);
-      final response = await initRemoteDataSource.createInit(eventModel, token);
+      final response = await initRemoteDataSource.createInit(eventModel);
       return response.fold(
         (failure) => Left(failure),
         (message) => Right(message),
@@ -43,11 +42,9 @@ class InitRepositoryImpl implements InitRepository {
   }
 
   @override
-  Future<Either<Failure, String>> deleteInit(
-      String id, String plannerId, String token) async {
+  Future<Either<Failure, String>> deleteInit(String id) async {
     try {
-      final result =
-          await initRemoteDataSource.deleteInit(id, plannerId, token);
+      final result = await initRemoteDataSource.deleteInit(id);
       return result.fold(
         (failure) => Left(failure),
         (message) => Right(message),
@@ -58,10 +55,9 @@ class InitRepositoryImpl implements InitRepository {
   }
 
   @override
-  Future<Either<Failure, List<EventEntity>>> getAllInits(
-      String plannerId) async {
+  Future<Either<Failure, List<EventEntity>>> getAllInits() async {
     try {
-      final result = await initRemoteDataSource.getAllInits(plannerId);
+      final result = await initRemoteDataSource.getAllInits();
       return result.fold(
         (failure) => Left(failure),
         (data) => Right(data),
@@ -72,8 +68,7 @@ class InitRepositoryImpl implements InitRepository {
   }
 
   @override
-  Future<Either<Failure, String>> updateInit(
-      EventEntity event, String token) async {
+  Future<Either<Failure, String>> updateInit(EventEntity event) async {
     try {
       EventModel eventModel = EventModel(
           id: event.id,
@@ -92,7 +87,7 @@ class InitRepositoryImpl implements InitRepository {
           food: event.food,
           alcohol: event.alcohol,
           dressCode: event.dressCode);
-      final result = await initRemoteDataSource.updateInit(eventModel, token);
+      final result = await initRemoteDataSource.updateInit(eventModel);
       return result.fold(
         (failure) => Left(failure),
         (message) => Right(message),

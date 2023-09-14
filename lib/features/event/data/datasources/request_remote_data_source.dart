@@ -6,45 +6,51 @@ import 'package:http/http.dart' as http;
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
+import '../../../profile/data/models/user_profile_model.dart';
 import '../models/event_model.dart';
 
 abstract class RequestRemoteDataSource {
-  Future<Either<Failure, List<EventModel>>> getAllRequests(String plannerId);
-  Future<Either<Failure, String>> createRequest(EventModel event, String token);
-  Future<Either<Failure, String>> updateRequest(EventModel event, String token);
-  Future<Either<Failure, String>> cancelRequest(
-      String requestId, String plannerId, String token);
+  Future<Either<Failure, List<EventModel>>> getAllRequests();
+  Future<Either<Failure, String>> createRequest(EventModel event);
+  Future<Either<Failure, String>> updateRequest(EventModel event);
+  Future<Either<Failure, String>> cancelRequest(String id);
 }
 
 class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
   final String baseUrl;
-
-  RequestRemoteDataSourceImpl(this.baseUrl);
+  final UserProfileModel? user;
+  RequestRemoteDataSourceImpl({
+    required this.baseUrl,
+    required this.user,
+  });
 
   @override
-  Future<Either<Failure, String>> cancelRequest(
-      String id, String plannerId, String token) async {
+  Future<Either<Failure, String>> cancelRequest(String id) async {
     try {
-      final response = await http.delete(
-        Uri.parse('$baseUrl/api/request?id=$id&plannerId=$plannerId'),
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
-      );
+      if (user != null) {
+        final uri = Uri.parse('$baseUrl/api/request')
+            .replace(queryParameters: {'id': id, 'plannerId': user!.id});
 
-      final jsonResponse = jsonDecode(response.body);
+        final response = await http.delete(
+          uri,
+          headers: {'Authorization': 'Bearer ${user!.token}'},
+        );
 
-      if (response.statusCode == 200) {
-        return const Right('request canceled successfully');
-      } else if (response.statusCode == 400) {
-        if (jsonResponse.containsKey('error')) {
-          final errorMessage = jsonResponse['error'];
-          return Left(ServerFailure(errorMessage));
+        final jsonResponse = jsonDecode(response.body);
+
+        if (response.statusCode == 200) {
+          return const Right('request canceled successfully');
+        } else if (response.statusCode == 400) {
+          if (jsonResponse.containsKey('error')) {
+            final errorMessage = jsonResponse['error'];
+            return Left(ServerFailure(errorMessage));
+          }
+        } else if (response.statusCode == 500) {
+          throw ServerFailure('Something went wrong');
         }
-      } else if (response.statusCode == 500) {
-        throw ServerFailure('Something went wrong');
+        throw ApiException('Failed to cancel request');
       }
-      throw ApiException('Failed to cancel request');
+      throw ApiException('User not logged in');
     } on ApiException catch (e) {
       return Left(ApiExceptionFailure(e.message));
     } catch (e) {
@@ -53,34 +59,36 @@ class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, List<EventModel>>> getAllRequests(
-      String plannerId) async {
+  Future<Either<Failure, List<EventModel>>> getAllRequests() async {
     try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/api/requests/get'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          "plannerId": plannerId,
-        }),
-      );
+      if (user != null) {
+        final uri = Uri.parse('$baseUrl/api/request')
+            .replace(queryParameters: {'plannerId': user!.id});
 
-      final jsonResponse = jsonDecode(response.body);
+        final response = await http.get(
+          uri,
+          headers: {'Authorization': 'Bearer ${user!.token}'},
+        );
 
-      if (response.statusCode == 200 && jsonResponse.containsKey('data')) {
-        final requestsJsonList = jsonResponse['data'] as List<dynamic>;
-        final events = requestsJsonList
-            .map((json) => EventModel.fromJsonRequest(json))
-            .toList();
-        return Right(events);
-      } else if (response.statusCode == 400) {
-        if (jsonResponse.containsKey('error')) {
-          final errorMessage = jsonResponse['error'];
-          return Left(ServerFailure(errorMessage));
+        final jsonResponse = jsonDecode(response.body);
+
+        if (response.statusCode == 200 && jsonResponse.containsKey('data')) {
+          final requestsJsonList = jsonResponse['data'] as List<dynamic>;
+          final events = requestsJsonList
+              .map((json) => EventModel.fromJsonRequest(json))
+              .toList();
+          return Right(events);
+        } else if (response.statusCode == 400) {
+          if (jsonResponse.containsKey('error')) {
+            final errorMessage = jsonResponse['error'];
+            return Left(ServerFailure(errorMessage));
+          }
+        } else if (response.statusCode == 500) {
+          throw ServerFailure('Something went wrong');
         }
-      } else if (response.statusCode == 500) {
-        throw ServerFailure('Something went wrong');
+        throw ApiException('Failed to retrieve requests');
       }
-      throw ApiException('Failed to retrieve requests');
+      throw ApiException('User not logged in');
     } on ApiException catch (e) {
       return Left(ApiExceptionFailure(e.message));
     } catch (e) {
@@ -89,34 +97,36 @@ class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, String>> createRequest(
-      EventModel event, String token) async {
+  Future<Either<Failure, String>> createRequest(EventModel event) async {
     try {
-      final response = await http.post(
-        Uri.parse('$baseUrl/api/request'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          "id": event.id,
-          "guests": event.guestsNumbers,
-          "plannerId": event.plannerId,
-          "token": token,
-          "hostId": event.hostId,
-        }),
-      );
+      if (user != null) {
+        final response = await http.post(
+          Uri.parse('$baseUrl/api/request'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({
+            "id": event.id,
+            "guests": event.guestsNumbers,
+            "plannerId": event.plannerId,
+            "token": user!.token,
+            "hostId": event.hostId,
+          }),
+        );
 
-      final jsonResponse = jsonDecode(response.body);
+        final jsonResponse = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
-        return const Right('request created successfully');
-      } else if (response.statusCode == 400) {
-        if (jsonResponse.containsKey('error')) {
-          final errorMessage = jsonResponse['error'];
-          return Left(ServerFailure(errorMessage));
+        if (response.statusCode == 200) {
+          return const Right('request created successfully');
+        } else if (response.statusCode == 400) {
+          if (jsonResponse.containsKey('error')) {
+            final errorMessage = jsonResponse['error'];
+            return Left(ServerFailure(errorMessage));
+          }
+        } else if (response.statusCode == 500) {
+          throw ServerFailure('Something went wrong');
         }
-      } else if (response.statusCode == 500) {
-        throw ServerFailure('Something went wrong');
+        throw ApiException('Failed to create request');
       }
-      throw ApiException('Failed to create request');
+      throw ApiException('User not logged in');
     } on ApiException catch (e) {
       return Left(ApiExceptionFailure(e.message));
     } catch (e) {
@@ -125,31 +135,33 @@ class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
   }
 
   @override
-  Future<Either<Failure, String>> updateRequest(
-      EventModel event, String token) async {
+  Future<Either<Failure, String>> updateRequest(EventModel event) async {
     try {
-      final response = await http.put(
-        Uri.parse('$baseUrl/api/request'),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode({
-          ...event.toJsonRequest(),
-          "token": token,
-        }),
-      );
+      if (user != null) {
+        final response = await http.put(
+          Uri.parse('$baseUrl/api/request'),
+          headers: {'Content-Type': 'application/json'},
+          body: jsonEncode({
+            ...event.toJsonRequest(),
+            "token": user!.token,
+          }),
+        );
 
-      final jsonResponse = jsonDecode(response.body);
+        final jsonResponse = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
-        return const Right('request updated successfully');
-      } else if (response.statusCode == 400) {
-        if (jsonResponse.containsKey('error')) {
-          final errorMessage = jsonResponse['error'];
-          return Left(ServerFailure(errorMessage));
+        if (response.statusCode == 200) {
+          return const Right('request updated successfully');
+        } else if (response.statusCode == 400) {
+          if (jsonResponse.containsKey('error')) {
+            final errorMessage = jsonResponse['error'];
+            return Left(ServerFailure(errorMessage));
+          }
+        } else if (response.statusCode == 500) {
+          throw ServerFailure('Something went wrong');
         }
-      } else if (response.statusCode == 500) {
-        throw ServerFailure('Something went wrong');
+        throw ApiException('Failed to update request');
       }
-      throw ApiException('Failed to update request');
+      throw ApiException('User not logged in');
     } on ApiException catch (e) {
       return Left(ApiExceptionFailure(e.message));
     } catch (e) {
