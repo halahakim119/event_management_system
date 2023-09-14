@@ -69,6 +69,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const HomeScreen(),
       );
     },
+    InvitationRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const InvitationScreen(),
+      );
+    },
     LanguagesRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -296,6 +302,20 @@ class HomeRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'HomeRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [InvitationScreen]
+class InvitationRoute extends PageRouteInfo<void> {
+  const InvitationRoute({List<PageRouteInfo>? children})
+      : super(
+          InvitationRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'InvitationRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

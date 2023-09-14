@@ -10,7 +10,6 @@ import 'package:intl/intl.dart';
 import '../../../../../core/injection/injection_container.dart';
 import '../../../../../core/strings/strings.dart';
 import '../../../../user/data/models/user_model.dart';
-import '../../../../user/data/models/user_service.dart';
 import '../../../domain/entities/event_entity.dart';
 import '../../logic/cubit/init_cubit.dart';
 

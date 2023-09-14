@@ -34,4 +34,25 @@ List<String> getEventTypes() {
   return ['Wedding', 'Funeral', 'Hangout'];
 }
 
+List<String> getHostCategorys() {
+  return [
+    'Halls',
+    'Restaurant',
+    'Hotel',
+    'Cafe',
+    'Center',
+    'Club',
+    'Institute',
+    'Other'
+  ];
+}
+
+List<String> getServices() {
+  return [
+    'Food',
+    'Entertainment',
+    'Educational',
+  ];
+}
+
 String baseUrl = 'http://35.180.62.182';

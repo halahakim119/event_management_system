@@ -60,20 +60,25 @@ class ProfileBody extends StatelessWidget {
                   duration: const Duration(milliseconds: 1000)),
               child: BlocBuilder<ThemeCubit, ThemeMode>(
                 builder: (context, state) {
-                  return Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).highlightColor,
-                        borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(15),
-                            topRight: Radius.circular(15),
-                            bottomLeft: Radius.circular(15),
-                            bottomRight: Radius.circular(15))),
-                    child: const Center(
-                        child: Text(
-                      'Host',
-                      textAlign: TextAlign.center,
-                    )),
+                  return GestureDetector(
+                    onTap: () {
+                      context.router.push(const InvitationRoute());
+                    },
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Theme.of(context).highlightColor,
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(15),
+                              topRight: Radius.circular(15),
+                              bottomLeft: Radius.circular(15),
+                              bottomRight: Radius.circular(15))),
+                      child: const Center(
+                          child: Text(
+                        'Host',
+                        textAlign: TextAlign.center,
+                      )),
+                    ),
                   );
                 },
               )),

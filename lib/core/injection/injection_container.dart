@@ -1,3 +1,6 @@
+import 'package:event_management_system/features/invitaions/data/datasources/invitations_data_source.dart';
+import 'package:event_management_system/features/invitaions/domain/repositories/invitations_repository.dart';
+import 'package:event_management_system/features/invitaions/presentation/logic/cubit/invitations_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -35,6 +38,8 @@ import '../../features/event/domain/usecases/request/update_request_usecase.dart
 import '../../features/event/presentation/logic/cubit/event_cubit.dart';
 import '../../features/event/presentation/logic/cubit/init_cubit.dart';
 import '../../features/event/presentation/logic/cubit/request_cubit.dart';
+import '../../features/invitaions/data/repositories/invitations_repository_impl.dart';
+import '../../features/invitaions/domain/usecases/get_users_use_case.dart';
 import '../../features/theme/data/theme_mode_adapter.dart';
 import '../../features/theme/data/theme_repository.dart';
 import '../../features/theme/domain/theme_interactor.dart';
@@ -168,6 +173,22 @@ Future<void> init() async {
         updatePhoneNumberUseCase: sl(),
         verifyPhoneNumberUseCase: sl(),
       ));
+
+  //! invitations
+  // Data sources
+  sl.registerLazySingleton<InvitationsRemoteDataSource>(
+      () => InvitationsRemoteDataSourceImpl());
+
+  // Repositories
+  sl.registerLazySingleton<InvitationsRepository>(
+    () => InvitationsRepositoryImpl(invitationsRemoteDataSource: sl()),
+  );
+
+  // Use cases
+  sl.registerLazySingleton(() => GetAllInvitationsUseCase(sl()));
+
+  // BLoC
+  sl.registerFactory(() => InvitationsCubit(sl()));
 
   //! event
   // Data sources

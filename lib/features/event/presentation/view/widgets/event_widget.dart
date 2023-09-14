@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
-import '../../../domain/entities/event_entity.dart';
-
 class EventWidget extends StatelessWidget {
   final Color? backgroundColor;
   final String title;
@@ -218,7 +216,9 @@ class EventWidget extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor:
                                           Theme.of(context).disabledColor),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                  
+                                  },
                                   child: const Text(
                                     'Invitations',
                                     style: TextStyle(color: Colors.white),
