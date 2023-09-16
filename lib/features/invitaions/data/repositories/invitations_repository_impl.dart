@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
-import 'package:event_management_system/features/invitaions/domain/entities/participant_entity.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../domain/entities/participant_entity.dart';
 import '../../domain/repositories/invitations_repository.dart';
 import '../datasources/invitations_data_source.dart';
 

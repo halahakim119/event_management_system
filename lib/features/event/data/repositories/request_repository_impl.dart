@@ -80,7 +80,7 @@ class RequestRepositoryImpl implements RequestRepository {
     try {
       // Convert request entity to request model
       EventModel eventModel = EventModel(
-        hostId: event.hostId!,
+        host: event.host!,
         id: event.id!,
         plannerId: event.plannerId,
         guestsNumber: event.guestsNumber,

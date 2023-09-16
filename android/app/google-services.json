@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "153305134949",
-    "project_id": "event-management-app-iraq",
-    "storage_bucket": "event-management-app-iraq.appspot.com"
+    "project_number": "955031811106",
+    "project_id": "notfications-6743e",
+    "storage_bucket": "notfications-6743e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:153305134949:android:730ef96f9968922ceb938c",
+        "mobilesdk_app_id": "1:955031811106:android:78d0799825fd25b113467b",
         "android_client_info": {
           "package_name": "com.swt_iq.eventapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "153305134949-gq4lgg1h7mdjbbcd4d3hagf43jf4o4a0.apps.googleusercontent.com",
+          "client_id": "955031811106-t0uh6kikdiksq325jen27j7aplqbelo1.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBRgahPN740Zyyv1GIun-tmlIp4ax1h3eA"
+          "current_key": "AIzaSyAKLnCZshSbsHk7wwjNM5xp8IgiVkAM_8M"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "153305134949-gq4lgg1h7mdjbbcd4d3hagf43jf4o4a0.apps.googleusercontent.com",
+              "client_id": "955031811106-t0uh6kikdiksq325jen27j7aplqbelo1.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

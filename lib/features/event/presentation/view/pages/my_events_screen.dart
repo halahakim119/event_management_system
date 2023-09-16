@@ -241,7 +241,10 @@ class MyEventsScreen extends StatelessWidget {
                                                             backgroundColor: Theme
                                                                     .of(context)
                                                                 .disabledColor),
-                                                    onPressed: () {},
+                                                    onPressed: () {
+                                                      context.router.push(
+                                                          const FilterHostsRoute());
+                                                    },
                                                     child: const Text(
                                                       'Host',
                                                       style: TextStyle(
@@ -481,7 +484,10 @@ class MyEventsScreen extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor:
                                           Theme.of(context).disabledColor),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    context.router
+                                        .push(const FilterHostsRoute());
+                                  },
                                   child: const Text(
                                     'Host',
                                     style: TextStyle(color: Colors.white),
@@ -560,12 +566,14 @@ class _EventsScreenState extends State<EventsScreen> {
       itemCount: user!.events!.length,
       itemBuilder: (context, index) {
         final event = user!.events![index];
+
         return _buildEventTile(event);
       },
     );
   }
 
   Widget _buildEventTile(EventEntity event) {
+  
     return ListTile(
       title: Text(event.title!),
       subtitle: Text(

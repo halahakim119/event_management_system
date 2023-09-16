@@ -33,7 +33,7 @@ class EventRemoteDataSourceImpl implements EventRemoteDataSource {
           body: jsonEncode({
             "plannerId": event.plannerId,
             "eventId": event.id,
-            "hostId": event.hostId,
+            "hostId": event.host!.id,
             "token": user!.token,
             "adultsOnly": event.adultsOnly,
             "alcohol": event.alcohol,
@@ -89,9 +89,8 @@ class EventRemoteDataSourceImpl implements EventRemoteDataSource {
 
         if (response.statusCode == 200 && jsonResponse.containsKey('data')) {
           final eventsJsonList = jsonResponse['data'] as List<dynamic>;
-          final events = eventsJsonList
-              .map((json) => EventModel.fromJson(json))
-              .toList();
+          final events =
+              eventsJsonList.map((json) => EventModel.fromJson(json)).toList();
           return Right(events);
         } else if (response.statusCode == 400) {
           if (jsonResponse.containsKey('error')) {
@@ -134,7 +133,7 @@ class EventRemoteDataSourceImpl implements EventRemoteDataSource {
             "type": event.type,
             "title": event.title,
             "token": user!.token,
-            "hostId": event.hostId,
+            "hostId": event.host!.id,
             "eventId": event.id,
           }),
         );

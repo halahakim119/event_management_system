@@ -11,4 +11,26 @@ class ParticipantModel extends ParticipantEntity {
       phoneNumber: json['phoneNumber'],
     );
   }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'phoneNumber': phoneNumber,
+    };
+  }
+
+  factory ParticipantModel.fromEntity(ParticipantEntity entity) {
+    return ParticipantModel(
+      id: entity.id,
+      name: entity.name,
+      phoneNumber: entity.phoneNumber,
+    );
+  }
+  ParticipantEntity toEntity() {
+    return ParticipantEntity(
+      id: id,
+      name: name,
+      phoneNumber: phoneNumber,
+    );
+  }
 }

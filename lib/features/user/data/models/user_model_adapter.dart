@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 
 import '../../../event/data/models/event_model.dart';
+import '../../../invitaions/data/models/invite_model.dart';
 import '../models/user_model.dart';
 
 class UserModelAdapter extends TypeAdapter<UserModel> {
@@ -35,7 +36,7 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
 
     final invites = fields[7] is List<dynamic>
         ? (fields[7] as List<dynamic>)
-            .map((e) => EventModel.fromJson(e))
+            .map((e) => InviteModel.fromJson(e).toEntity())
             .toList()
         : null;
 
@@ -83,7 +84,7 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
           [])
       ..writeByte(7) // Field index 7, invites
       ..write(obj.invites
-              ?.map((invites) => EventModel.fromEntity(invites).toJson())
+              ?.map((invites) => InviteModel.fromEntity(invites).toJson())
               .toList() ??
           [])
       ..writeByte(8) // Field index 8, FCMtokens

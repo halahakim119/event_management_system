@@ -1,11 +1,11 @@
-import '../../../user/data/models/user_model.dart';
+import '../../../host/data/models/host_model.dart';
+import '../../../invitaions/data/models/participant_model.dart';
 import '../../domain/entities/event_entity.dart';
 
 class EventModel extends EventEntity {
   const EventModel({
     super.id,
-    super.hostId,
-    super.hostName,
+    super.host,
     super.plannerId,
     super.title,
     super.description,
@@ -27,8 +27,7 @@ class EventModel extends EventEntity {
   factory EventModel.fromEntity(EventEntity entity) {
     return EventModel(
       id: entity.id,
-      hostId: entity.hostId,
-      hostName: entity.hostName,
+      host: entity.host,
       plannerId: entity.plannerId,
       title: entity.title,
       description: entity.description,
@@ -53,8 +52,7 @@ class EventModel extends EventEntity {
       // Case 1: From Entity
       return EventModel(
         id: data.id,
-        hostId: data.hostId,
-        hostName: data.hostName,
+        host: data.host,
         plannerId: data.plannerId,
         title: data.title,
         description: data.description,
@@ -84,8 +82,7 @@ class EventModel extends EventEntity {
   EventEntity toEntity() {
     return EventEntity(
       id: id,
-      hostId: hostId,
-      hostName: hostName,
+      host: host,
       title: title,
       description: description,
       guestsNumber: guestsNumber,
@@ -106,10 +103,24 @@ class EventModel extends EventEntity {
   }
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
+    List<String>? guestsNumbers;
+    if (json['guests'] is List) {
+      final guestsList = json['guests'] as List;
+      if (guestsList.isNotEmpty) {
+        final firstElement = guestsList.first;
+        if (firstElement is String) {
+          // If the first element is a string, assume all elements are strings
+          guestsNumbers = List<String>.from(guestsList);
+        } else if (firstElement is Map<String, dynamic>) {
+          // If the first element is a map, assume all elements are maps
+          guestsNumbers = null;
+        }
+      }
+    }
     // Case 3: From JSON
     return EventModel(
       id: json['id'],
-      hostId: json['hostId'],
+      host: HostModel.fromJson(json['host']).toEntity(),
       plannerId: json['plannerId'],
       guestsNumber: json['guestsNumber'],
       startsAt: json['startsAt'],
@@ -124,12 +135,13 @@ class EventModel extends EventEntity {
       alcohol: json['alcohol'],
       adultsOnly: json['adultsOnly'],
       food: json['food'],
-      guestsNumbers: List<String>.from(json['guests'] ?? []),
+      guestsNumbers: guestsNumbers,
       guests: (json['guests'] as List<dynamic>?)
-          ?.map((guestJson) => UserModel.fromJson(guestJson))
+          ?.map((guestJson) => ParticipantModel.fromJson(guestJson))
           .toList(),
       confirmedGuests: (json['confirmedGuests'] as List<dynamic>?)
-          ?.map((confirmedGuestJson) => UserModel.fromJson(confirmedGuestJson))
+          ?.map((confirmedGuestJson) =>
+              ParticipantModel.fromJson(confirmedGuestJson))
           .toList(),
     );
   }
@@ -138,7 +150,7 @@ class EventModel extends EventEntity {
     // Case 4: To JSON
     return {
       'id': id,
-      'hostId': hostId,
+      'host': HostModel.fromEntity(host).toJson(),
       'plannerId': plannerId,
       'guestsNumber': guestsNumber,
       'startsAt': startsAt,
@@ -152,11 +164,12 @@ class EventModel extends EventEntity {
       'alcohol': alcohol,
       'adultsOnly': adultsOnly,
       'food': food,
-      'guests':
-          guests?.map((guest) => UserModel.fromEntity(guest).toJson()).toList(),
+      'guests': guests
+          ?.map((guest) => ParticipantModel.fromEntity(guest).toJson())
+          .toList(),
       'confirmedGuests': confirmedGuests
-          ?.map(
-              (confirmedGuest) => UserModel.fromEntity(confirmedGuest).toJson())
+          ?.map((confirmedGuest) =>
+              ParticipantModel.fromEntity(confirmedGuest).toJson())
           .toList(),
       'postType': postType,
     };

@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
-import '../../../event/domain/entities/event_entity.dart';
 import '../../../event/data/models/event_model.dart';
+import '../../../invitaions/data/models/invite_model.dart';
 import '../../domain/entities/user_entity.dart';
 import '../models/user_model.dart';
 
@@ -52,7 +52,9 @@ class UserDataSourceImpl implements UserDataSource {
         }
         if (userDataJson['invites'] is List) {
           // Ensure 'invites' is a List
-          existingUser?.invites = userDataJson['invites'].cast<EventEntity>();
+          existingUser?.invites = (userDataJson['invites'] as List<dynamic>)
+              .map((invites) => InviteModel.fromJson(invites).toEntity())
+              .toList();
         }
         final events = [
           ...(userDataJson['init'] as List<dynamic>)

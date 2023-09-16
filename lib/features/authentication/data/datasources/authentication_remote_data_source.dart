@@ -1,16 +1,15 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-import 'package:event_management_system/features/user/data/models/user_model.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
+
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/injection/injection_container.dart';
 import '../../../../core/utils/api_provider.dart';
-
-import '../../../user/data/datasource/user_data_source.dart';
+import '../../../user/data/models/user_model.dart';
 import '../../../user/domain/entities/user_entity.dart';
 import '../../../user/presentation/logic/bloc/user_bloc.dart';
 
@@ -69,6 +68,7 @@ class AuthenticationRemoteDataSourceImpl
         'number': phoneNumber,
         'password': password,
       });
+      log(response['verificationCode']);
 
       return Right({
         'code': response['code'],
@@ -106,7 +106,7 @@ class AuthenticationRemoteDataSourceImpl
   }) async {
     try {
       final String? fcmToken = await _firebaseMessaging.getToken();
-      log(fcmToken!);
+      log("fcmToken: " + fcmToken!);
       final jsonResponse = await _apiProvider.post('user/login', {
         'number': phoneNumber,
         'password': password,

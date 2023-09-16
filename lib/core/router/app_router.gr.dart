@@ -49,6 +49,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const EditProfileScreen(),
       );
     },
+    FilterHostsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: FilterHostsScreen(),
+      );
+    },
     ForgotPasswordRoute.name: (routeData) {
       final args = routeData.argsAs<ForgotPasswordRouteArgs>(
           orElse: () => const ForgotPasswordRouteArgs());
@@ -245,6 +251,20 @@ class EditProfileRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'EditProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [FilterHostsScreen]
+class FilterHostsRoute extends PageRouteInfo<void> {
+  const FilterHostsRoute({List<PageRouteInfo>? children})
+      : super(
+          FilterHostsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'FilterHostsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

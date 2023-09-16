@@ -10,6 +10,7 @@ import '../../features/authentication/presentation/view/pages/verification_scree
 import '../../features/event/presentation/view/pages/add_event_form_screen.dart';
 import '../../features/event/presentation/view/pages/my_events_screen.dart';
 import '../../features/home/home_screen.dart';
+import '../../features/host/presentation/view/pages/filter_hosts_screen.dart';
 import '../../features/invitaions/presentation/view/pages/invitation_screen.dart';
 import '../../features/languages/pages/languages_screen.dart';
 import '../../features/main/main_screen.dart';
@@ -60,5 +61,6 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: MyEventsRoute.page),
 
         AutoRoute(page: InvitationRoute.page),
+        AutoRoute(page: FilterHostsRoute.page),
       ];
 }

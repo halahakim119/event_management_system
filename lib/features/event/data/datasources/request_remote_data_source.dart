@@ -108,7 +108,7 @@ class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
             "guests": event.guestsNumbers,
             "plannerId": event.plannerId,
             "token": user!.token,
-            "hostId": event.hostId,
+            "hostId": event.host!.id,
           }),
         );
 

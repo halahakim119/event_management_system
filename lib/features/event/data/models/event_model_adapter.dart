@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 
-import '../../../user/data/models/user_model.dart';
+import '../../../host/domain/entities/host_entity.dart';
+import '../../../invitaions/data/models/participant_model.dart';
 import '../models/event_model.dart';
 
 class EventModelAdapter extends TypeAdapter<EventModel> {
@@ -20,8 +21,7 @@ class EventModelAdapter extends TypeAdapter<EventModel> {
     return EventModel(
       id: fields[0] as String?,
       plannerId: fields[1] as String,
-      hostId: fields[2] as String?,
-      hostName: fields[3] as String?,
+      host: fields[2] as HostEntity?,
       title: fields[4] as String,
       description: fields[5] as String,
       guestsNumber: fields[6] as int,
@@ -37,10 +37,11 @@ class EventModelAdapter extends TypeAdapter<EventModel> {
       dressCode: fields[16] as String?,
       guestsNumbers: (fields[17] as List<dynamic>).cast<String>(),
       guests: (fields[18] as List<dynamic>)
-          .map((guestJson) => UserModel.fromJson(guestJson))
+          .map((guestJson) => ParticipantModel.fromJson(guestJson).toEntity())
           .toList(),
       confirmedGuests: (fields[19] as List<dynamic>)
-          .map((confirmedGuestJson) => UserModel.fromJson(confirmedGuestJson))
+          .map((confirmedGuestJson) =>
+              ParticipantModel.fromJson(confirmedGuestJson).toEntity())
           .toList(),
     );
   }
@@ -48,51 +49,49 @@ class EventModelAdapter extends TypeAdapter<EventModel> {
   @override
   void write(BinaryWriter writer, EventModel obj) {
     writer
-      ..writeByte(20) // Number of fields in the EventModel class
+      ..writeByte(19) // Number of fields in the EventModel class
       ..writeByte(0) // Field index 0, id
       ..write(obj.id)
       ..writeByte(1) // Field index 1, plannerId
       ..write(obj.plannerId)
       ..writeByte(2) // Field index 2, hostId
-      ..write(obj.hostId)
-      ..writeByte(3) // Field index 3, hostName
-      ..write(obj.hostName)
-      ..writeByte(4) // Field index 4, title
+      ..write(obj.host)
+      ..writeByte(3) // Field index 4, title
       ..write(obj.title)
-      ..writeByte(5) // Field index 5, description
+      ..writeByte(4) // Field index 5, description
       ..write(obj.description)
-      ..writeByte(6) // Field index 6, guestsNumber
+      ..writeByte(5) // Field index 6, guestsNumber
       ..write(obj.guestsNumber)
-      ..writeByte(7) // Field index 7, type
+      ..writeByte(6) // Field index 7, type
       ..write(obj.type)
-      ..writeByte(8) // Field index 8, postType
+      ..writeByte(7) // Field index 8, postType
       ..write(obj.postType)
-      ..writeByte(9) // Field index 9, startsAt
+      ..writeByte(8) // Field index 9, startsAt
       ..write(obj.startsAt)
-      ..writeByte(10) // Field index 10, endsAt
+      ..writeByte(9) // Field index 10, endsAt
       ..write(obj.endsAt)
-      ..writeByte(11) // Field index 11, startingDate
+      ..writeByte(10) // Field index 11, startingDate
       ..write(obj.startingDate)
-      ..writeByte(12) // Field index 12, endingDate
+      ..writeByte(11) // Field index 12, endingDate
       ..write(obj.endingDate)
-      ..writeByte(13) // Field index 13, adultsOnly
+      ..writeByte(12) // Field index 13, adultsOnly
       ..write(obj.adultsOnly)
-      ..writeByte(14) // Field index 14, food
+      ..writeByte(13) // Field index 14, food
       ..write(obj.food)
-      ..writeByte(15) // Field index 15, alcohol
+      ..writeByte(14) // Field index 15, alcohol
       ..write(obj.alcohol)
-      ..writeByte(16) // Field index 16, dressCode
+      ..writeByte(15) // Field index 16, dressCode
       ..write(obj.dressCode)
-      ..writeByte(17) // Field index 17, guestsNumbers
+      ..writeByte(16) // Field index 17, guestsNumbers
       ..write(obj.guestsNumbers)
-      ..writeByte(18) // Field index 18, guests
+      ..writeByte(17) // Field index 18, guests
       ..write(obj.guests
-          ?.map((guest) => UserModel.fromEntity(guest).toJson())
+          ?.map((guest) => ParticipantModel.fromEntity(guest).toJson())
           .toList())
-      ..writeByte(19) // Field index 19, confirmedGuests
+      ..writeByte(18) // Field index 19, confirmedGuests
       ..write(obj.confirmedGuests
-          ?.map(
-              (confirmedGuest) => UserModel.fromEntity(confirmedGuest).toJson())
+          ?.map((confirmedGuest) =>
+              ParticipantModel.fromEntity(confirmedGuest).toJson())
           .toList());
   }
 }

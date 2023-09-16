@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -114,7 +113,6 @@ class InitRemoteDataSourceImpl implements InitRemoteDataSource {
           ...event.toJson(),
           "token": user!.token,
         });
-        log(data);
 
         final response = await http.post(Uri.parse('$baseUrl/api/init'),
             headers: {'Content-Type': 'application/json'}, body: data);

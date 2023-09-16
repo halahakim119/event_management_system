@@ -219,7 +219,10 @@ class EventWidget extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor:
                                           Theme.of(context).disabledColor),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    context.router
+                                        .push(const InvitationRoute());
+                                  },
                                   child: const Text(
                                     'Invitations',
                                     style: TextStyle(color: Colors.white),
@@ -230,7 +233,7 @@ class EventWidget extends StatelessWidget {
                                           Theme.of(context).disabledColor),
                                   onPressed: () {
                                     context.router
-                                        .push(const InvitationRoute());
+                                        .push(const FilterHostsRoute());
                                   },
                                   child: const Text(
                                     'Host',

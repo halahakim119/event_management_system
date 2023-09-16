@@ -1,12 +1,13 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../user/domain/entities/user_entity.dart';
+import '../../../host/domain/entities/host_entity.dart';
+import '../../../invitaions/domain/entities/participant_entity.dart';
 
 class EventEntity extends Equatable {
   final String? id;
   final String? plannerId;
-  final String? hostId;
-  final String? hostName;
+  final HostEntity? host;
+
   final String? title;
   final String? description;
   final int? guestsNumber;
@@ -21,13 +22,12 @@ class EventEntity extends Equatable {
   final bool? alcohol;
   final String? dressCode;
   final List<String>? guestsNumbers;
-  final List<UserEntity>? guests;
-  final List<UserEntity>? confirmedGuests;
+  final List<ParticipantEntity>? guests;
+  final List<ParticipantEntity>? confirmedGuests;
 
   const EventEntity({
     this.id,
-    this.hostId,
-    this.hostName,
+    this.host,
     this.plannerId,
     this.title,
     this.description,
@@ -50,9 +50,8 @@ class EventEntity extends Equatable {
   @override
   List<Object?> get props => [
         id,
-        hostId,
+        host,
         guestsNumbers,
-        hostName,
         plannerId,
         guestsNumber,
         startsAt,

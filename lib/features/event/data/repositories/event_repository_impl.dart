@@ -17,7 +17,7 @@ class EventRepositoryImpl implements EventRepository {
   Future<Either<Failure, String>> cancelEvent(EventEntity event) async {
     try {
       EventModel eventModel = EventModel(
-        hostId: event.hostId!,
+        host: event.host!,
         id: event.id,
         guests: event.guests,
         plannerId: event.plannerId,
@@ -65,7 +65,7 @@ class EventRepositoryImpl implements EventRepository {
   Future<Either<Failure, String>> updateEvent(EventEntity event) async {
     try {
       EventModel eventModel = EventModel(
-        hostId: event.hostId!,
+        host: event.host!,
         id: event.id,
         guests: event.guests,
         plannerId: event.plannerId,

@@ -37,7 +37,7 @@ class _SplashScreenState extends State<SplashScreen> {
     }
   }
 
- void _onBoxChange() {
+  void _onBoxChange() {
     if (mounted) {
       setState(() {
         getUserData();
@@ -66,7 +66,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> checkUserBoxAndNavigate() async {
     if (isExist) {
-      sl<UserBloc>()..add(GetUserEvent(user!.id!));
+      final userBloc = sl<UserBloc>();
+      // Add an event to load user data
+      await userBloc
+        ..add(GetUserEvent(user!.id!));
+
+      // Wait for the loading to complete
+      await userBloc.stream
+          .firstWhere((state) => state is UserLoaded || state is UserError);
+
       log("user!.events.toString()");
       log(user!.events.toString());
       await context.router.popAndPush(const HomeRoute());

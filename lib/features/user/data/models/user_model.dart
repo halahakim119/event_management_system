@@ -1,6 +1,7 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../event/data/models/event_model.dart';
+import '../../../invitaions/data/models/invite_model.dart';
 import '../../domain/entities/user_entity.dart';
 
 // ignore: must_be_immutable
@@ -35,15 +36,15 @@ class UserModel extends UserEntity {
       province: json['province'] ?? '',
       FCMtokens: List<String>.from(json['FCMtokens'] ?? []),
       following: (json['following'] as List<dynamic>?)
-              ?.map((e) => UserModel.fromJson(e))
+              ?.map((e) => UserModel.fromJson(e).toEntity())
               .toList() ??
           [],
       events: (json['events'] as List<dynamic>?)
-              ?.map((e) => EventModel.fromJson(e))
+              ?.map((e) => EventModel.fromJson(e).toEntity())
               .toList() ??
           [],
       invites: (json['invites'] as List<dynamic>?)
-              ?.map((e) => EventModel.fromJson(e))
+              ?.map((e) => InviteModel.fromJson(e).toEntity())
               .toList() ??
           [],
     );
@@ -65,7 +66,7 @@ class UserModel extends UserEntity {
               .toList() ??
           [],
       'invites': invites
-              ?.map((invites) => EventModel.fromEntity(invites).toJson())
+              ?.map((invites) => InviteModel.fromEntity(invites).toJson())
               .toList() ??
           [],
     };

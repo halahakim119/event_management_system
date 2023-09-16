@@ -35,6 +35,11 @@ import '../../features/event/domain/usecases/request/update_request_usecase.dart
 import '../../features/event/presentation/logic/cubit/event_cubit.dart';
 import '../../features/event/presentation/logic/cubit/init_cubit.dart';
 import '../../features/event/presentation/logic/cubit/request_cubit.dart';
+import '../../features/host/data/datasources/host_remote_data_source.dart';
+import '../../features/host/data/repositories/host_repository_impl.dart';
+import '../../features/host/domain/repositories/host_repository.dart';
+import '../../features/host/domain/usecases/filter_hosts_use_case.dart';
+import '../../features/host/presentation/logic/cubit/hosts_cubit.dart';
 import '../../features/invitaions/data/datasources/invitations_data_source.dart';
 import '../../features/invitaions/data/repositories/invitations_repository_impl.dart';
 import '../../features/invitaions/domain/repositories/invitations_repository.dart';
@@ -189,6 +194,22 @@ Future<void> init() async {
 
   // BLoC
   sl.registerFactory(() => InvitationsCubit(sl()));
+
+  //! host
+  // Data sources
+  sl.registerLazySingleton<HostRemoteDataSource>(
+      () => HostRemoteDataSourceImpl());
+
+  // Repositories
+  sl.registerLazySingleton<HostRepository>(
+    () => HostRepositoryImpl(hostRemoteDataSource: sl()),
+  );
+
+  // Use cases
+  sl.registerLazySingleton(() => FilterHostsUseCase(sl()));
+
+  // BLoC
+  sl.registerFactory(() => HostsCubit(sl()));
 
   //! event
   // Data sources

@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:event_management_system/features/invitaions/domain/entities/invite_entity.dart';
 
 import '../../../event/domain/entities/event_entity.dart';
 
@@ -27,7 +28,7 @@ class UserEntity extends Equatable {
   // List of maps representing the events
   List<EventEntity>? events;
 
-  List<EventEntity>? invites;
+  List<InviteEntity>? invites;
 
   UserEntity(
       {this.id,
