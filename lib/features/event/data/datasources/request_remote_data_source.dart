@@ -75,7 +75,7 @@ class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
         if (response.statusCode == 200 && jsonResponse.containsKey('data')) {
           final requestsJsonList = jsonResponse['data'] as List<dynamic>;
           final events = requestsJsonList
-              .map((json) => EventModel.fromJsonRequest(json))
+              .map((json) => EventModel.fromJson(json))
               .toList();
           return Right(events);
         } else if (response.statusCode == 400) {
@@ -142,7 +142,7 @@ class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
           Uri.parse('$baseUrl/api/request'),
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
-            ...event.toJsonRequest(),
+            ...event.toJson(),
             "token": user!.token,
           }),
         );

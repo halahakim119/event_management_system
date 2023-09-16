@@ -1,8 +1,10 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/error/exception.dart';
@@ -19,9 +21,11 @@ abstract class InitRemoteDataSource {
 
 class InitRemoteDataSourceImpl implements InitRemoteDataSource {
   final String baseUrl;
+  final Box<UserModel> userBox;
   final UserModel? user;
   InitRemoteDataSourceImpl({
     required this.baseUrl,
+    required this.userBox,
     required this.user,
   });
 
@@ -40,6 +44,12 @@ class InitRemoteDataSourceImpl implements InitRemoteDataSource {
         final jsonResponse = jsonDecode(response.body);
 
         if (response.statusCode == 200) {
+          // Delete the event from the user's events list in Hive
+          user!.events?.removeWhere((event) => event.id == id);
+
+          // Save the updated user data in Hive
+          await userBox.put('userBox', user!);
+
           return const Right('deleted successfully');
         } else if (response.statusCode == 400) {
           if (jsonResponse.containsKey('error')) {
@@ -75,9 +85,8 @@ class InitRemoteDataSourceImpl implements InitRemoteDataSource {
 
         if (response.statusCode == 200 && jsonResponse.containsKey('data')) {
           final initsJsonList = jsonResponse['data'] as List<dynamic>;
-          final inits = initsJsonList
-              .map((json) => EventModel.fromJsonInit(json))
-              .toList();
+          final inits =
+              initsJsonList.map((json) => EventModel.fromJson(json)).toList();
           return Right(inits);
         } else if (response.statusCode == 400) {
           if (jsonResponse.containsKey('error')) {
@@ -102,7 +111,7 @@ class InitRemoteDataSourceImpl implements InitRemoteDataSource {
     try {
       if (user != null) {
         final data = jsonEncode({
-          ...event.toJsonInit(),
+          ...event.toJson(),
           "token": user!.token,
         });
         log(data);
@@ -113,6 +122,16 @@ class InitRemoteDataSourceImpl implements InitRemoteDataSource {
         final jsonResponse = jsonDecode(response.body);
 
         if (response.statusCode == 200) {
+          // Parse the response event data
+          final eventJson = jsonResponse['init'] as Map<String, dynamic>;
+          final eventModel = EventModel.fromJson(eventJson);
+          final event = eventModel.toEntity();
+          // Add the event to the events list
+          user!.events?.add(event);
+
+          // Save the updated user data in Hive
+          await userBox.put('userBox', user!);
+
           return const Right('created successfully');
         } else if (response.statusCode == 400) {
           if (jsonResponse.containsKey('error')) {
@@ -140,7 +159,7 @@ class InitRemoteDataSourceImpl implements InitRemoteDataSource {
           Uri.parse('$baseUrl/api/init'),
           body: jsonEncode({
             "id": event.id,
-            ...event.toJsonInit(),
+            ...event.toJson(),
             "token": user!.token,
           }),
         );
@@ -148,6 +167,20 @@ class InitRemoteDataSourceImpl implements InitRemoteDataSource {
         final jsonResponse = jsonDecode(response.body);
 
         if (response.statusCode == 200) {
+          // Update the event in the user's events list
+          final updatedEvent = EventModel.fromJson(jsonResponse['init']);
+          final userIndex =
+              user!.events!.indexWhere((e) => e.id == updatedEvent.id);
+          if (userIndex != -1) {
+            user!.events![userIndex] = updatedEvent;
+          } else {
+            // If the event doesn't exist in the list, you can add it
+            user!.events!.add(updatedEvent);
+          }
+
+          // Save the updated user data in Hive
+          await userBox.put('userBox', user!);
+
           return const Right('init updated successfully');
         } else if (response.statusCode == 400) {
           if (jsonResponse.containsKey('error')) {

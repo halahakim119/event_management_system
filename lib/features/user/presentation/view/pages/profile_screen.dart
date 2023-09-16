@@ -16,9 +16,11 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   void _onBoxChange() {
-    setState(() {
-      getUserData();
-    });
+    if (mounted) {
+      setState(() {
+        getUserData();
+      });
+    }
   }
 
   UserModel? user;
@@ -59,7 +61,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Row(
                       children: [
                         Text(
-                          user!.province,
+                          user!.province!,
                           style: const TextStyle(
                             fontSize: 12,
                             color: Colors.grey,
@@ -73,7 +75,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
                     Text(
-                      user!.phoneNumber,
+                      user!.phoneNumber!,
                       textDirection: TextDirection.ltr,
                       style: const TextStyle(
                         fontSize: 10,
@@ -93,7 +95,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               automaticallyImplyLeading: false,
               centerTitle: true,
               title: Text(
-                user!.name,
+                user!.name!,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,

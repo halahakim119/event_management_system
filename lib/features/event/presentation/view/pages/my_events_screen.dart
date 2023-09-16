@@ -1,12 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
 
 import '../../../../../core/injection/injection_container.dart';
-import '../../../../../core/theme/app_theme.dart';
+import '../../../../../core/router/app_router.dart';
 import '../../../../theme/presentation/theme_cubit.dart';
+import '../../../../user/data/models/user_model.dart';
+import '../../../domain/entities/event_entity.dart';
 
 @RoutePage()
 class MyEventsScreen extends StatelessWidget {
@@ -23,47 +26,244 @@ class MyEventsScreen extends StatelessWidget {
       },
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, themeMode) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-
-            // app theme
-            theme: themeMode == ThemeMode.light
-                ? AppTheme.themeData
-                : AppTheme.darkTheme,
-            darkTheme: AppTheme.darkTheme,
-            themeMode: ThemeMode.light,
-            home: Scaffold(
-                appBar: AppBar(),
-                body: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 10,
+          return Scaffold(
+              appBar: AppBar(),
+              body: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => EventsScreen(),
+                            ),
+                          );
+                        },
+                        child: Text('View Events'),
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            context.router.push(const InvitationRoute());
+                          },
+                          child: CircleAvatar()),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 260,
+                        child: Row(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onInverseSurface,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              padding: const EdgeInsets.all(10.0),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: const Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '4:30 am',
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                  Text(
+                                    '9:00 pm',
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                  SizedBox(height: 20),
+                                  Text(
+                                    'Baghdad',
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onInverseSurface,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                                child: Stack(
+                                  children: [
+                                    Positioned.fill(
+                                        bottom: 0,
+                                        child: _buildwave(context: context)),
+                                    Padding(
+                                      padding: const EdgeInsets.all(15.0),
+                                      child: SizedBox(
+                                        width: double.infinity,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.stretch,
+                                          children: [
+                                            Container(
+                                              height: 50,
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.transparent,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          15)),
+                                              child: Text(
+                                                  'text is here'.toUpperCase(),
+                                                  textAlign: TextAlign.center,
+                                                  maxLines: 2,
+                                                  style: const TextStyle(
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.bold)),
+                                            ),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.stretch,
+                                              children: [
+                                                const Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.check,
+                                                          size: 18,
+                                                        ),
+                                                        SizedBox(width: 5),
+                                                        Text(
+                                                          'Food',
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.check,
+                                                          size: 18,
+                                                        ),
+                                                        SizedBox(width: 5),
+                                                        Text(
+                                                          'children allowed',
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.min,
+                                                      children: [
+                                                        Icon(
+                                                          Icons.check,
+                                                          size: 18,
+                                                        ),
+                                                        SizedBox(width: 5),
+                                                        Text(
+                                                          'alcohol',
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+                                                Container(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 10),
+                                                  padding:
+                                                      const EdgeInsets.all(10),
+                                                  decoration: BoxDecoration(
+                                                      color: Theme.of(context)
+                                                          .disabledColor,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15)),
+                                                  child: const Row(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceEvenly,
+                                                    children: [
+                                                      Text(
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        '2023-22-32',
+                                                      ),
+                                                      Text(
+                                                        style: TextStyle(
+                                                            color:
+                                                                Colors.white),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        '2023-22-82',
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            Wrap(
+                                              alignment:
+                                                  WrapAlignment.spaceBetween,
+                                              children: [
+                                                ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            backgroundColor: Theme
+                                                                    .of(context)
+                                                                .disabledColor),
+                                                    onPressed: () {
+                                                      context.router.push(
+                                                          const InvitationRoute());
+                                                    },
+                                                    child: const Text(
+                                                      'Invitations',
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    )),
+                                                ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            backgroundColor: Theme
+                                                                    .of(context)
+                                                                .disabledColor),
+                                                    onPressed: () {},
+                                                    child: const Text(
+                                                      'Host',
+                                                      style: TextStyle(
+                                                          color: Colors.white),
+                                                    ))
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                        _buildCardInfo(
-                            title: 'A Decade of Dreams: 10th Birthday Bash',
-                            context: context),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        // _buildCard(
-                        //     title: 'ss',
-                        //     backgroundColor: Color.fromARGB(255, 83, 0, 161),
-                        //     context: context),
-                        // const SizedBox(
-                        //   height: 10,
-                        // ),
-                        // _buildCard(
-                        //     title: 'ss',
-                        //     backgroundColor: Colors.amber,
-                        //     context: context)
-                      ],
-                    ),
+                      )
+                    ],
                   ),
-                )),
-          );
+                ),
+              ));
         },
       ),
     );
@@ -269,7 +469,10 @@ class MyEventsScreen extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor:
                                           Theme.of(context).disabledColor),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    context.router
+                                        .push(const InvitationRoute());
+                                  },
                                   child: const Text(
                                     'Invitations',
                                     style: TextStyle(color: Colors.white),
@@ -299,12 +502,75 @@ class MyEventsScreen extends StatelessWidget {
   }
 }
 
-// void main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
+class EventsScreen extends StatefulWidget {
+  @override
+  _EventsScreenState createState() => _EventsScreenState();
+}
 
-//   await init();
-//   runApp(
-//     MyEventsScreen(),
-//   );
-// }
+class _EventsScreenState extends State<EventsScreen> {
+  void _onBoxChange() {
+    if (mounted) {
+      setState(() {
+        getUserData();
+      });
+    }
+  }
 
+  UserModel? user;
+  final userBox = Hive.box<UserModel>('userBox');
+
+  @override
+  void initState() {
+    super.initState();
+
+    getUserData();
+    userBox.listenable().addListener(_onBoxChange);
+  }
+
+  void getUserData() {
+    if (userBox.isNotEmpty) {
+      user = userBox.getAt(0);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Events List'),
+      ),
+      body: _buildEventsList(),
+    );
+  }
+
+  Widget _buildEventsList() {
+    if (userBox == null || userBox.isEmpty) {
+      return Center(
+        child: Text('No events available.'),
+      );
+    }
+
+    if (user == null) {
+      return Center(
+        child: Text('No '),
+      );
+    }
+
+    return ListView.builder(
+      itemCount: user!.events!.length,
+      itemBuilder: (context, index) {
+        final event = user!.events![index];
+        return _buildEventTile(event);
+      },
+    );
+  }
+
+  Widget _buildEventTile(EventEntity event) {
+    return ListTile(
+      title: Text(event.title!),
+      subtitle: Text(
+          event.description! + event.endingDate! + event.adultsOnly.toString()),
+      // Add more event information or custom styling as needed
+    );
+  }
+}

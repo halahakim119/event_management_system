@@ -1,32 +1,21 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../event/data/models/event_model.dart';
-import '../../../event/domain/entities/event_entity.dart';
 import '../../domain/entities/user_entity.dart';
 
 // ignore: must_be_immutable
 class UserModel extends UserEntity {
   UserModel({
-    required String id,
-    required String token,
-    required String name,
-    required String phoneNumber,
-    required String province,
-    required List<String> FCMtokens,
-    List<UserEntity>? following,
-    List<EventEntity>? events,
-    List<EventEntity>? attendance,
-  }) : super(
-          FCMtokens: FCMtokens,
-          id: id,
-          name: name,
-          phoneNumber: phoneNumber,
-          token: token,
-          province: province,
-          following: following,
-          events: events,
-          attendance: attendance,
-        );
+    super.id,
+    super.token,
+    super.name,
+    super.phoneNumber,
+    super.province,
+    super.FCMtokens,
+    super.following,
+    super.events,
+    super.invites,
+  });
 
   static UserModel? getUserData() {
     UserModel? user;
@@ -39,22 +28,22 @@ class UserModel extends UserEntity {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
-      id: json['id'],
+      id: json['id'] ?? '',
       name: json['name'],
-      phoneNumber: json['phoneNumber'],
-      token: json['token'],
-      province: json['province'],
-      FCMtokens: List<String>.from(json['FCMtokens']),
+      phoneNumber: json['phoneNumber'] ?? '',
+      token: json['token'] ?? '',
+      province: json['province'] ?? '',
+      FCMtokens: List<String>.from(json['FCMtokens'] ?? []),
       following: (json['following'] as List<dynamic>?)
               ?.map((e) => UserModel.fromJson(e))
               .toList() ??
           [],
       events: (json['events'] as List<dynamic>?)
-              ?.map((e) => EventModel.fromJsonEvent(e))
+              ?.map((e) => EventModel.fromJson(e))
               .toList() ??
           [],
-      attendance: (json['attendance'] as List<dynamic>?)
-              ?.map((e) => EventModel.fromJsonEvent(e))
+      invites: (json['invites'] as List<dynamic>?)
+              ?.map((e) => EventModel.fromJson(e))
               .toList() ??
           [],
     );
@@ -72,12 +61,11 @@ class UserModel extends UserEntity {
               .toList() ??
           [],
       'events': events
-              ?.map((event) => EventModel.fromEntity(event).toJsonEvent())
+              ?.map((event) => EventModel.fromEntity(event).toJson())
               .toList() ??
           [],
-      'attendance': attendance
-              ?.map((attendance) =>
-                  EventModel.fromEntity(attendance).toJsonEvent())
+      'invites': invites
+              ?.map((invites) => EventModel.fromEntity(invites).toJson())
               .toList() ??
           [],
     };
@@ -93,7 +81,7 @@ class UserModel extends UserEntity {
       province: entity.province,
       following: entity.following,
       events: entity.events,
-      attendance: entity.attendance,
+      invites: entity.invites,
     );
   }
 
@@ -107,7 +95,7 @@ class UserModel extends UserEntity {
       following: following,
       events: events,
       FCMtokens: FCMtokens,
-      attendance: attendance,
+      invites: invites,
     );
   }
 }

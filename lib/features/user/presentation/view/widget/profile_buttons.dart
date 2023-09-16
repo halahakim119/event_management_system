@@ -61,9 +61,7 @@ class ProfileBody extends StatelessWidget {
               child: BlocBuilder<ThemeCubit, ThemeMode>(
                 builder: (context, state) {
                   return GestureDetector(
-                    onTap: () {
-                      context.router.push(const InvitationRoute());
-                    },
+                    onTap: () {},
                     child: Container(
                       height: 50,
                       decoration: BoxDecoration(

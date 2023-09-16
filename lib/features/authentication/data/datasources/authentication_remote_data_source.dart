@@ -7,9 +7,12 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
+import '../../../../core/injection/injection_container.dart';
 import '../../../../core/utils/api_provider.dart';
 
+import '../../../user/data/datasource/user_data_source.dart';
 import '../../../user/domain/entities/user_entity.dart';
+import '../../../user/presentation/logic/bloc/user_bloc.dart';
 
 abstract class AuthenticationRemoteDataSource {
   Future<Either<Failure, Map<String, String>>> signUpWithPhone({
@@ -41,10 +44,10 @@ abstract class AuthenticationRemoteDataSource {
 
 class AuthenticationRemoteDataSourceImpl
     implements AuthenticationRemoteDataSource {
-  final Box<UserModel> _userBox;
-
   final ApiProvider _apiProvider;
-  String? fcmToken;
+  final Box<UserModel> _userBox;
+  UserModel? userModelData;
+
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   AuthenticationRemoteDataSourceImpl(this._apiProvider, this._userBox);
 
@@ -114,10 +117,19 @@ class AuthenticationRemoteDataSourceImpl
       final userJson = jsonResponse['user'] as Map<String, dynamic>;
       final userData = UserModel.fromJson(userJson);
       log(userJson.toString());
-  
-      await _userBox.put('userBox', userData);
 
-      return Right(userData);
+      await _userBox.put('userBox', userData);
+      userModelData = UserModel.getUserData();
+
+      // ignore: unnecessary_null_comparison
+      if (userData != null) {
+        String? userId = userModelData!.id;
+
+        sl<UserBloc>()..add(GetUserEvent(userId!));
+
+        return Right(userData);
+      }
+      return Left(ApiExceptionFailure('fail to login'));
     } on ApiException catch (e) {
       return Left(ApiExceptionFailure(e.message));
     } catch (e) {

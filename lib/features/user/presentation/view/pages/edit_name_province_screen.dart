@@ -32,7 +32,7 @@ class _EditNameProvinceScreenState extends State<EditNameProvinceScreen> {
   void initState() {
     super.initState();
     setState(() {});
-    nameController.text = widget.user.name;
+    nameController.text = widget.user.name!;
   }
 
   @override
@@ -40,9 +40,9 @@ class _EditNameProvinceScreenState extends State<EditNameProvinceScreen> {
     super.didChangeDependencies();
     if (EasyLocalization.of(context)!.locale == const Locale('ar')) {
       provinceController.text =
-          translateProvince(widget.user.province, toEnglish: false);
+          translateProvince(widget.user.province!, toEnglish: false);
     } else {
-      provinceController.text = widget.user.province;
+      provinceController.text = widget.user.province!;
     }
   }
 
@@ -186,8 +186,8 @@ class _EditNameProvinceScreenState extends State<EditNameProvinceScreen> {
 
                         context.read<UserBloc>().add(
                               EditUserEvent(
-                                widget.user.id,
-                                widget.user.token,
+                                widget.user.id!,
+                                widget.user.token!,
                                 nameController.text.trim(),
                                 selectedProvince,
                               ),

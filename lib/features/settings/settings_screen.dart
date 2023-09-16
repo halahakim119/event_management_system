@@ -23,9 +23,11 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final UserBloc userBloc = sl<UserBloc>();
   void _onBoxChange() {
-    setState(() {
-      getUserData();
-    });
+    if (mounted) {
+      setState(() {
+        getUserData();
+      });
+    }
   }
 
   UserModel? user;
@@ -180,7 +182,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                       onPressed: () {
                                         context.read<UserBloc>().add(
                                             DeleteUserEvent(
-                                                user!.id, user!.token));
+                                                user!.id!, user!.token!));
                                         if (state is UserDeleted) {
                                           log('hi2');
                                           // Show Snackbar for successful delete

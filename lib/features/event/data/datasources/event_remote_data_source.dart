@@ -90,7 +90,7 @@ class EventRemoteDataSourceImpl implements EventRemoteDataSource {
         if (response.statusCode == 200 && jsonResponse.containsKey('data')) {
           final eventsJsonList = jsonResponse['data'] as List<dynamic>;
           final events = eventsJsonList
-              .map((json) => EventModel.fromJsonEvent(json))
+              .map((json) => EventModel.fromJson(json))
               .toList();
           return Right(events);
         } else if (response.statusCode == 400) {

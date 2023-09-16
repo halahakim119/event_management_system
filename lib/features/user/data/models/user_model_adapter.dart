@@ -23,14 +23,19 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
             .map((e) => UserModel.fromJson(e))
             .toList()
         : null;
-    final events = fields[6] is List<dynamic>
-        ? (fields[6] as List<dynamic>)
-            .map((e) => EventModel.fromJsonEvent(e))
+    final events = fields[6] is List<Map<String, dynamic>>
+        ? (fields[6] as List<Map<String, dynamic>>)
+            .map((e) {
+              return EventModel.fromJson(e).toEntity();
+            })
+            // ignore: unnecessary_null_comparison
+            .where((event) => event != null)
             .toList()
         : null;
-    final attendance = fields[7] is List<dynamic>
+
+    final invites = fields[7] is List<dynamic>
         ? (fields[7] as List<dynamic>)
-            .map((e) => EventModel.fromJsonEvent(e))
+            .map((e) => EventModel.fromJson(e))
             .toList()
         : null;
 
@@ -47,7 +52,7 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
       province: fields[4] as String,
       following: following,
       events: events,
-      attendance: attendance,
+      invites: invites,
       FCMtokens: fcmTokens,
     );
   }
@@ -73,13 +78,12 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
           [])
       ..writeByte(6) // Field index 6, events
       ..write(obj.events
-              ?.map((events) => EventModel.fromEntity(events).toJsonEvent())
+              ?.map((events) => EventModel.fromEntity(events).toJson())
               .toList() ??
           [])
-      ..writeByte(7) // Field index 7, attendance
-      ..write(obj.attendance
-              ?.map((attendance) =>
-                  EventModel.fromEntity(attendance).toJsonEvent())
+      ..writeByte(7) // Field index 7, invites
+      ..write(obj.invites
+              ?.map((invites) => EventModel.fromEntity(invites).toJson())
               .toList() ??
           [])
       ..writeByte(8) // Field index 8, FCMtokens

@@ -28,9 +28,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final phoneNumberController = TextEditingController();
 
   void _onBoxChange() {
-    setState(() {
-      getUserData();
-    });
+    if (mounted) {
+      setState(() {
+        getUserData();
+      });
+    }
   }
 
   UserModel? user;
@@ -43,7 +45,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     getUserData();
     userBox.listenable().addListener(_onBoxChange);
     if (userBox.isNotEmpty) {
-      phoneNumberController.text = user!.phoneNumber;
+      phoneNumberController.text = user!.phoneNumber!;
     }
   }
 
@@ -62,7 +64,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   void cancelPhoneNumberEditing() {
     setState(() {
       isEditPhoneNumber = false;
-      phoneNumberController.text = user!.phoneNumber;
+      phoneNumberController.text = user!.phoneNumber!;
     });
   }
 
@@ -128,9 +130,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                 title: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(user!.name),
+                                    Text(user!.name!),
                                     const SizedBox(height: 10),
-                                    Text(user!.province),
+                                    Text(user!.province!),
                                   ],
                                 ),
                                 trailing: IconButton(
@@ -163,7 +165,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(user!.phoneNumber),
+                                      Text(user!.phoneNumber!),
                                     ],
                                   ),
                                   trailing: IconButton(
@@ -214,7 +216,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
                                     final verifyPhoneNumberEvent =
                                         VerifyPhoneNumberEvent(
-                                            userId, newPhoneNumber, token);
+                                            userId!, newPhoneNumber, token!);
                                     context
                                         .read<UserBloc>()
                                         .add(verifyPhoneNumberEvent);

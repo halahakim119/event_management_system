@@ -88,9 +88,11 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
   }
 
   void _onBoxChange() {
-    setState(() {
-      getUserData();
-    });
+    if (mounted) {
+      setState(() {
+        getUserData();
+      });
+    }
   }
 
   UserModel? user;
@@ -491,7 +493,7 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                                 EventEntity eventEntity = _dressCodeColor ==
                                         null
                                     ? EventEntity(
-                                        plannerId: user!.id,
+                                        plannerId: user!.id!,
                                         title: _titleController.text,
                                         description:
                                             _descriptionController.text,
@@ -507,7 +509,7 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                                         food: _food,
                                         alcohol: _alcohol)
                                     : EventEntity(
-                                        plannerId: user!.id,
+                                        plannerId: user!.id!,
                                         title: _titleController.text,
                                         description:
                                             _descriptionController.text,

@@ -6,20 +6,20 @@ import '../../../event/domain/entities/event_entity.dart';
 // ignore: must_be_immutable
 class UserEntity extends Equatable {
   // Unique identifier for the user.
-  final String id;
+  String? id;
 
   // Authentication token
-  final String token;
+  String? token;
 
   // User's name.
-  String name;
+  String? name;
 
   // User's phone number.
-  String phoneNumber;
+  String? phoneNumber;
 
   // User's province.
-  String province;
-  List<String> FCMtokens;
+  String? province;
+  List<String>? FCMtokens;
 
   // List of maps representing the hosts that the current user is following.
   List<UserEntity>? following;
@@ -27,18 +27,18 @@ class UserEntity extends Equatable {
   // List of maps representing the events
   List<EventEntity>? events;
 
-  List<EventEntity>? attendance;
+  List<EventEntity>? invites;
 
   UserEntity(
-      {required this.id,
-      required this.token,
-      required this.name,
-      required this.phoneNumber,
-      required this.province,
-      required this.FCMtokens,
+      {this.id,
+      this.token,
+      this.name,
+      this.phoneNumber,
+      this.province,
+      this.FCMtokens,
       this.following,
       this.events,
-      this.attendance});
+      this.invites});
   // Equatable requires overriding the 'props' getter to compare instances for equality.
   @override
   List<Object?> get props => [
@@ -50,6 +50,6 @@ class UserEntity extends Equatable {
         province,
         following,
         events,
-        attendance
+        invites
       ];
 }
