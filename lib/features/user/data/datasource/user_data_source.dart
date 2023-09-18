@@ -56,14 +56,19 @@ class UserDataSourceImpl implements UserDataSource {
               .map((invites) => InviteModel.fromJson(invites).toEntity())
               .toList();
         }
+        final initEvents = userDataJson['init'] as List<dynamic>? ?? [];
+        final plannedEvents =
+            userDataJson['eventsPlanned'] as List<dynamic>? ?? [];
+        final requests = userDataJson['requests'] as List<dynamic>? ?? [];
+
         final events = [
-          ...(userDataJson['init'] as List<dynamic>)
+          ...initEvents
               .map((eventJson) => EventModel.fromJson(eventJson).toEntity())
               .toList(),
-          ...(userDataJson['eventsPlanned'] as List<dynamic>)
+          ...requests
               .map((eventJson) => EventModel.fromJson(eventJson).toEntity())
               .toList(),
-          ...(userDataJson['requests'] as List<dynamic>)
+          ...plannedEvents
               .map((eventJson) => EventModel.fromJson(eventJson).toEntity())
               .toList(),
         ];

@@ -21,11 +21,10 @@ abstract class InitRemoteDataSource {
 class InitRemoteDataSourceImpl implements InitRemoteDataSource {
   final String baseUrl;
   final Box<UserModel> userBox;
-  final UserModel? user;
+  final UserModel? user = UserModel.getUserData();
   InitRemoteDataSourceImpl({
     required this.baseUrl,
     required this.userBox,
-    required this.user,
   });
 
   @override
@@ -124,8 +123,8 @@ class InitRemoteDataSourceImpl implements InitRemoteDataSource {
           final eventJson = jsonResponse['init'] as Map<String, dynamic>;
           final eventModel = EventModel.fromJson(eventJson);
           final event = eventModel.toEntity();
-          // Add the event to the events list
-          user!.events?.add(event);
+          // Add the event to the events list as the first element
+          user!.events?.insert(0, event);
 
           // Save the updated user data in Hive
           await userBox.put('userBox', user!);
@@ -141,7 +140,7 @@ class InitRemoteDataSourceImpl implements InitRemoteDataSource {
         }
         throw ApiException('Failed to create init');
       }
-      throw ApiException('User not logged in');
+      return Left(ServerFailure('user not logged in'));
     } on ApiException catch (e) {
       return Left(ApiExceptionFailure(e.message));
     } catch (e) {
@@ -173,7 +172,7 @@ class InitRemoteDataSourceImpl implements InitRemoteDataSource {
             user!.events![userIndex] = updatedEvent;
           } else {
             // If the event doesn't exist in the list, you can add it
-            user!.events!.add(updatedEvent);
+            user!.events?.insert(userIndex, updatedEvent);
           }
 
           // Save the updated user data in Hive

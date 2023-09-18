@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:hive/hive.dart';
 
 import '../../../event/data/models/event_model.dart';
@@ -24,18 +26,18 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
             .map((e) => UserModel.fromJson(e))
             .toList()
         : null;
-    final events = fields[6] is List<Map<String, dynamic>>
-        ? (fields[6] as List<Map<String, dynamic>>)
-            .map((e) {
-              return EventModel.fromJson(e).toEntity();
-            })
-            // ignore: unnecessary_null_comparison
-            .where((event) => event != null)
+    log('hi' + fields[6].toString());
+
+    final events = fields[6] != null && fields[6] is List<dynamic>
+        ? (fields[6] as List<dynamic>)
+            .whereType<Map<String, dynamic>>()
+            .map((e) => EventModel.fromJson(e).toEntity())
             .toList()
         : null;
 
-    final invites = fields[7] is List<dynamic>
+    final invites = fields[7] != null && fields[7] is List<dynamic>
         ? (fields[7] as List<dynamic>)
+            .whereType<Map<String, dynamic>>()
             .map((e) => InviteModel.fromJson(e).toEntity())
             .toList()
         : null;

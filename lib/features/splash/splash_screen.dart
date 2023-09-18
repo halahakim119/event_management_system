@@ -77,7 +77,9 @@ class _SplashScreenState extends State<SplashScreen> {
 
       log("user!.events.toString()");
       log(user!.events.toString());
-      await context.router.popAndPush(const HomeRoute());
+      if (user != null) {
+        await context.router.popAndPush(const HomeRoute());
+      }
     } else {
       await context.router.popAndPush(const LanguagesRoute());
     }

@@ -102,10 +102,7 @@ Future<void> init() async {
     eventBox = Hive.box<EventModel>('eventBox');
   }
 
-  // Check if the user is logged in and get user data
-  final UserModel? userModel =
-      UserModel.getUserData(); // Replace with your login logic
-
+  
   // Register Hive boxes
   sl.registerLazySingleton<Box<UserModel>>(() => userBox);
   sl.registerLazySingleton<Box<EventModel>>(() => eventBox);
@@ -215,11 +212,12 @@ Future<void> init() async {
   // Data sources
 
   sl.registerLazySingleton<EventRemoteDataSource>(
-      () => EventRemoteDataSourceImpl(baseUrl: baseUrl, user: userModel));
+      () => EventRemoteDataSourceImpl(baseUrl: baseUrl));
   sl.registerLazySingleton<InitRemoteDataSource>(() => InitRemoteDataSourceImpl(
-      baseUrl: baseUrl, user: userModel, userBox: userBox));
-  sl.registerLazySingleton<RequestRemoteDataSource>(
-      () => RequestRemoteDataSourceImpl(baseUrl: baseUrl, user: userModel));
+      baseUrl: baseUrl,  userBox: userBox));
+  sl.registerLazySingleton<RequestRemoteDataSource>(() =>
+      RequestRemoteDataSourceImpl(
+          baseUrl: baseUrl,  userBox: userBox));
 
   // Repositories
   sl.registerLazySingleton<EventRepository>(

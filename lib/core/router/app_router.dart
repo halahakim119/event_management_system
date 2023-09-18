@@ -7,6 +7,7 @@ import '../../features/authentication/presentation/view/pages/login_screen.dart'
 import '../../features/authentication/presentation/view/pages/reset_password_screen.dart';
 import '../../features/authentication/presentation/view/pages/signup_screen.dart';
 import '../../features/authentication/presentation/view/pages/verification_screen.dart';
+import '../../features/event/domain/entities/event_entity.dart';
 import '../../features/event/presentation/view/pages/add_event_form_screen.dart';
 import '../../features/event/presentation/view/pages/my_events_screen.dart';
 import '../../features/home/home_screen.dart';

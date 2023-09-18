@@ -4,28 +4,27 @@ import '../../../host/domain/entities/host_entity.dart';
 import '../../../invitaions/domain/entities/participant_entity.dart';
 
 class EventEntity extends Equatable {
-  final String? id;
-  final String? plannerId;
-  final HostEntity? host;
+  String? id;
+  String? plannerId;
+  HostEntity? host;
+  String? title;
+  String? description;
+  int? guestsNumber;
+  String? type;
+  String? postType;
+  String? startsAt;
+  String? endsAt;
+  String? startingDate;
+  String? endingDate;
+  bool? adultsOnly;
+  bool? food;
+  bool? alcohol;
+  String? dressCode;
+  List<String>? guestsNumbers;
+  List<ParticipantEntity>? guests;
+  List<ParticipantEntity>? confirmedGuests;
 
-  final String? title;
-  final String? description;
-  final int? guestsNumber;
-  final String? type;
-  final String? postType;
-  final String? startsAt;
-  final String? endsAt;
-  final String? startingDate;
-  final String? endingDate;
-  final bool? adultsOnly;
-  final bool? food;
-  final bool? alcohol;
-  final String? dressCode;
-  final List<String>? guestsNumbers;
-  final List<ParticipantEntity>? guests;
-  final List<ParticipantEntity>? confirmedGuests;
-
-  const EventEntity({
+  EventEntity({
     this.id,
     this.host,
     this.plannerId,

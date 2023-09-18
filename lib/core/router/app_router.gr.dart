@@ -50,9 +50,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     FilterHostsRoute.name: (routeData) {
+      final args = routeData.argsAs<FilterHostsRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: FilterHostsScreen(),
+        child: FilterHostsScreen(
+          key: args.key,
+          event: args.event,
+        ),
       );
     },
     ForgotPasswordRoute.name: (routeData) {
@@ -257,16 +261,40 @@ class EditProfileRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [FilterHostsScreen]
-class FilterHostsRoute extends PageRouteInfo<void> {
-  const FilterHostsRoute({List<PageRouteInfo>? children})
-      : super(
+class FilterHostsRoute extends PageRouteInfo<FilterHostsRouteArgs> {
+  FilterHostsRoute({
+    Key? key,
+    required EventEntity event,
+    List<PageRouteInfo>? children,
+  }) : super(
           FilterHostsRoute.name,
+          args: FilterHostsRouteArgs(
+            key: key,
+            event: event,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'FilterHostsRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<FilterHostsRouteArgs> page =
+      PageInfo<FilterHostsRouteArgs>(name);
+}
+
+class FilterHostsRouteArgs {
+  const FilterHostsRouteArgs({
+    this.key,
+    required this.event,
+  });
+
+  final Key? key;
+
+  final EventEntity event;
+
+  @override
+  String toString() {
+    return 'FilterHostsRouteArgs{key: $key, event: $event}';
+  }
 }
 
 /// generated route for

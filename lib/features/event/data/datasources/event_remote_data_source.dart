@@ -17,10 +17,10 @@ abstract class EventRemoteDataSource {
 
 class EventRemoteDataSourceImpl implements EventRemoteDataSource {
   final String baseUrl;
-  final UserModel? user;
+  final UserModel? user = UserModel.getUserData();
   EventRemoteDataSourceImpl({
     required this.baseUrl,
-    required this.user,
+
   });
 
   @override

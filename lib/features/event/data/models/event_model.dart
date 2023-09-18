@@ -1,9 +1,12 @@
+import 'package:event_management_system/features/host/domain/entities/host_entity.dart';
+
 import '../../../host/data/models/host_model.dart';
 import '../../../invitaions/data/models/participant_model.dart';
+import '../../../invitaions/domain/entities/participant_entity.dart';
 import '../../domain/entities/event_entity.dart';
 
 class EventModel extends EventEntity {
-  const EventModel({
+  EventModel({
     super.id,
     super.host,
     super.plannerId,
@@ -104,6 +107,7 @@ class EventModel extends EventEntity {
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
     List<String>? guestsNumbers;
+    List<ParticipantEntity>? guests;
     if (json['guests'] is List) {
       final guestsList = json['guests'] as List;
       if (guestsList.isNotEmpty) {
@@ -112,15 +116,26 @@ class EventModel extends EventEntity {
           // If the first element is a string, assume all elements are strings
           guestsNumbers = List<String>.from(guestsList);
         } else if (firstElement is Map<String, dynamic>) {
-          // If the first element is a map, assume all elements are maps
-          guestsNumbers = null;
+             guests = guestsList
+            .whereType<Map<String, dynamic>>()
+            .map((guestJson) => ParticipantModel.fromJson(guestJson))
+            .toList();
         }
       }
     }
+    HostEntity? host;
+
+    if (json['host'] != null) {
+      host =
+          HostModel.fromJson(json['host'] as Map<String, dynamic>).toEntity();
+    }
+
+// Now, you have a `host` variable that may contain a `HostModel` if it was not null in the JSON.
+
     // Case 3: From JSON
     return EventModel(
       id: json['id'],
-      host: HostModel.fromJson(json['host']).toEntity(),
+      host: host,
       plannerId: json['plannerId'],
       guestsNumber: json['guestsNumber'],
       startsAt: json['startsAt'],
@@ -136,9 +151,7 @@ class EventModel extends EventEntity {
       adultsOnly: json['adultsOnly'],
       food: json['food'],
       guestsNumbers: guestsNumbers,
-      guests: (json['guests'] as List<dynamic>?)
-          ?.map((guestJson) => ParticipantModel.fromJson(guestJson))
-          .toList(),
+      guests: guests,
       confirmedGuests: (json['confirmedGuests'] as List<dynamic>?)
           ?.map((confirmedGuestJson) =>
               ParticipantModel.fromJson(confirmedGuestJson))
@@ -147,10 +160,14 @@ class EventModel extends EventEntity {
   }
 
   Map<String, dynamic> toJson() {
+    Map<String, dynamic>? hostData;
     // Case 4: To JSON
+    if (host != null) {
+      hostData = HostModel.fromEntity(host).toJson();
+    }
     return {
       'id': id,
-      'host': HostModel.fromEntity(host).toJson(),
+      'host': hostData,
       'plannerId': plannerId,
       'guestsNumber': guestsNumber,
       'startsAt': startsAt,

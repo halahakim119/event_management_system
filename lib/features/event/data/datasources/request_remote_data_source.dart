@@ -2,10 +2,12 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:dartz/dartz.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
+import '../../../host/domain/entities/host_entity.dart';
 import '../../../user/data/models/user_model.dart';
 import '../models/event_model.dart';
 
@@ -18,10 +20,11 @@ abstract class RequestRemoteDataSource {
 
 class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
   final String baseUrl;
-  final UserModel? user;
+  final UserModel? user = UserModel.getUserData();
+  final Box<UserModel> userBox;
   RequestRemoteDataSourceImpl({
     required this.baseUrl,
-    required this.user,
+    required this.userBox,
   });
 
   @override
@@ -105,17 +108,40 @@ class RequestRemoteDataSourceImpl implements RequestRemoteDataSource {
           headers: {'Content-Type': 'application/json'},
           body: jsonEncode({
             "id": event.id,
-            "guests": event.guestsNumbers,
-            "plannerId": event.plannerId,
+            "guests": event.guests ?? [],
+            "plannerId": user!.id,
             "token": user!.token,
-            "hostId": event.host!.id,
+            "hostId": 'clmdik5790004o0lq457uwcjk',
           }),
         );
 
         final jsonResponse = jsonDecode(response.body);
 
         if (response.statusCode == 200) {
-          return const Right('request created successfully');
+          // Parse the response event data
+
+          final eventJson = jsonResponse['request'] as Map<String, dynamic>;
+
+          final guestList = eventJson['guest'];
+          final id = eventJson['id'];
+          final hostId = eventJson['hostId'];
+
+          final eventJsonInit = jsonResponse['init'] as Map<String, dynamic>;
+          final eventModelInit = EventModel.fromJson(eventJsonInit);
+          final eventInit = eventModelInit.toEntity();
+
+          final userCopy = user!.events!.toList();
+          final index = userCopy.indexWhere((e) => e.id == eventInit.id);
+          if (index != -1) {
+            userCopy[index].id = id;
+            userCopy[index].host = HostEntity(id: hostId);
+            userCopy[index].guestsNumbers = guestList ?? [];
+            user!.events = userCopy;
+
+            // Save the updated user data in Hive
+            await userBox.put('userBox', user!);
+            return const Right('request created successfully');
+          }
         } else if (response.statusCode == 400) {
           if (jsonResponse.containsKey('error')) {
             final errorMessage = jsonResponse['error'];
