@@ -7,8 +7,13 @@ import '../../features/authentication/presentation/view/pages/login_screen.dart'
 import '../../features/authentication/presentation/view/pages/reset_password_screen.dart';
 import '../../features/authentication/presentation/view/pages/signup_screen.dart';
 import '../../features/authentication/presentation/view/pages/verification_screen.dart';
+import '../../features/draft/domain/entities/draft/draft.dart';
+import '../../features/draft/presentation/add/add_draft_screen.dart';
+import '../../features/draft/presentation/add/edit_draft_screen.dart';
+import '../../features/draft/presentation/list/draft_list_screen.dart';
 import '../../features/event/domain/entities/event_entity.dart';
 import '../../features/event/presentation/view/pages/add_event_form_screen.dart';
+import '../../features/event/presentation/view/pages/drafts_screen.dart';
 import '../../features/event/presentation/view/pages/my_events_screen.dart';
 import '../../features/home/home_screen.dart';
 import '../../features/host/presentation/view/pages/filter_hosts_screen.dart';
@@ -60,6 +65,9 @@ class AppRouter extends _$AppRouter {
 
         AutoRoute(page: AddEventFormRoute.page),
         AutoRoute(page: MyEventsRoute.page),
+        AutoRoute(page: DraftListRoute.page),
+        AutoRoute(page: AddDraftRoute.page),
+        AutoRoute(page: EditDraftRoute.page),
 
         AutoRoute(page: InvitationRoute.page),
         AutoRoute(page: FilterHostsRoute.page),

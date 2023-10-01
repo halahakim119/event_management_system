@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,7 +37,6 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
   bool _adultsOnly = false;
   bool _food = false;
   bool _alcohol = false;
-  Color? pickerColor;
   Color? _dressCodeColor;
   String? startingDate;
   String? endingDate;
@@ -465,30 +462,30 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                               if (_formKey.currentState!.validate()) {
                                 // Submit the form
 
-                                log("Title: ${_titleController.text}");
-                                log("Description: ${_descriptionController.text}");
+                                // log("Title: ${_titleController.text}");
+                                // log("Description: ${_descriptionController.text}");
 
-                                log("Seat Number: ${_seatNumberController.text}");
+                                // log("Seat Number: ${_seatNumberController.text}");
 
-                                log("Starting Date: ${_startingDateController.text}");
-                                log("Ending Date: ${_endingDateController.text}");
-                                log("Starts At: ${_startsAtController.text}");
-                                log("Ends At: ${_endsAtController.text}");
+                                // log("Starting Date: ${_startingDateController.text}");
+                                // log("Ending Date: ${_endingDateController.text}");
+                                // log("Starts At: ${_startsAtController.text}");
+                                // log("Ends At: ${_endsAtController.text}");
 
-                                log("Event Type: $_selectedEventType");
-                                log("Post Type: $_selectedPostType");
-                                log(startingDate.toString());
-                                log(endingDate.toString());
+                                // log("Event Type: $_selectedEventType");
+                                // log("Post Type: $_selectedPostType");
+                                // log(startingDate.toString());
+                                // log(endingDate.toString());
 
-                                log(startsAt.toString());
-                                log(endsAt.toString());
-                                log('plannerid${user!.id}');
+                                // log(startsAt.toString());
+                                // log(endsAt.toString());
+                                // log('plannerid${user!.id}');
 
-                                log(_dressCodeColor.toString());
+                                // log(_dressCodeColor.toString());
 
-                                log("Adults Only: $_adultsOnly");
-                                log("Food: $_food");
-                                log("Alcohol: $_alcohol");
+                                // log("Adults Only: $_adultsOnly");
+                                // log("Food: $_food");
+                                // log("Alcohol: $_alcohol");
 
                                 EventEntity eventEntity = _dressCodeColor ==
                                         null
@@ -525,8 +522,8 @@ class _AddEventFormScreenState extends State<AddEventFormScreen> {
                                         adultsOnly: _adultsOnly,
                                         food: _food,
                                         alcohol: _alcohol);
-                                context.read<InitCubit>()
-                                  ..createInit(event: eventEntity);
+                                // context.read<InitCubit>()
+                                //   ..createInit(event: eventEntity);
                               }
                             },
                             child: const Text('CREATE EVENT'),

@@ -10,6 +10,7 @@ import '../../features/authentication/domain/usecases/signup_with_phone.dart';
 import '../../features/authentication/domain/usecases/verify_phone_reset_password.dart';
 import '../../features/authentication/domain/usecases/verify_phone_signup.dart';
 import '../../features/authentication/presentation/logic/bloc/authentication_bloc.dart';
+import '../../features/event/data/datasources/event_local_data_source.dart';
 import '../../features/event/data/datasources/event_remote_data_source.dart';
 import '../../features/event/data/datasources/init_remote_data_source.dart';
 import '../../features/event/data/datasources/request_remote_data_source.dart';
@@ -102,7 +103,6 @@ Future<void> init() async {
     eventBox = Hive.box<EventModel>('eventBox');
   }
 
-  
   // Register Hive boxes
   sl.registerLazySingleton<Box<UserModel>>(() => userBox);
   sl.registerLazySingleton<Box<EventModel>>(() => eventBox);
@@ -209,28 +209,35 @@ Future<void> init() async {
   sl.registerFactory(() => HostsCubit(sl()));
 
   //! event
-  // Data sources
 
   sl.registerLazySingleton<EventRemoteDataSource>(
       () => EventRemoteDataSourceImpl(baseUrl: baseUrl));
-  sl.registerLazySingleton<InitRemoteDataSource>(() => InitRemoteDataSourceImpl(
-      baseUrl: baseUrl,  userBox: userBox));
-  sl.registerLazySingleton<RequestRemoteDataSource>(() =>
-      RequestRemoteDataSourceImpl(
-          baseUrl: baseUrl,  userBox: userBox));
+  sl.registerLazySingleton<InitRemoteDataSource>(
+      () => InitRemoteDataSourceImpl(baseUrl: baseUrl, userBox: userBox));
+  sl.registerLazySingleton<EventLocalDataSource>(
+      () => EventLocalDataSourceImpl(userBox: userBox));
+  sl.registerLazySingleton<RequestRemoteDataSource>(
+      () => RequestRemoteDataSourceImpl(baseUrl: baseUrl, userBox: userBox));
 
   // Repositories
   sl.registerLazySingleton<EventRepository>(
-    () => EventRepositoryImpl(eventRemoteDataSource: sl()),
+    () => EventRepositoryImpl(
+        eventRemoteDataSource: sl(), eventLocalDataSource: sl()),
   );
   sl.registerLazySingleton<InitRepository>(
-    () => InitRepositoryImpl(initRemoteDataSource: sl()),
+    () => InitRepositoryImpl(
+        initRemoteDataSource: sl(), eventLocalDataSource: sl()),
   );
   sl.registerLazySingleton<RequestRepository>(
     () => RequestRepositoryImpl(requestRemoteDataSource: sl()),
   );
 
   // Cubit
+
+  sl.registerFactory(() => EventCubit(
+      getAllEventsUseCase: sl(),
+      cancelEventUseCase: sl(),
+      updateEventUseCase: sl()));
   sl.registerFactory(() => InitCubit(
       getAllInitsUseCase: sl(),
       createInitUseCase: sl(),
@@ -242,11 +249,6 @@ Future<void> init() async {
       createRequestUseCase: sl(),
       updateRequestUseCase: sl(),
       cancelRequestUseCase: sl()));
-
-  sl.registerFactory(() => EventCubit(
-      getAllEventsUseCase: sl(),
-      cancelEventUseCase: sl(),
-      updateEventUseCase: sl()));
 
   // Use cases
   sl.registerLazySingleton(() => CreateInitUseCase(sl()));

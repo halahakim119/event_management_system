@@ -1,9 +1,6 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:wave/config.dart';
 import 'package:wave/wave.dart';
-
-import '../../../../../core/router/app_router.dart';
 
 class EventWidget extends StatelessWidget {
   final Color? backgroundColor;
@@ -219,10 +216,7 @@ class EventWidget extends StatelessWidget {
                                   style: ElevatedButton.styleFrom(
                                       backgroundColor:
                                           Theme.of(context).disabledColor),
-                                  onPressed: () {
-                                    context.router
-                                        .push(const InvitationRoute());
-                                  },
+                                  onPressed: () {},
                                   child: const Text(
                                     'Invitations',
                                     style: TextStyle(color: Colors.white),

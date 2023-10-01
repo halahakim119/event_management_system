@@ -7,4 +7,5 @@ abstract class EventRepository {
   Future<Either<Failure, List<EventEntity>>> getAllEvents();
   Future<Either<Failure, String>> updateEvent(EventEntity event);
   Future<Either<Failure, String>> cancelEvent(EventEntity event);
+  Future<Either<Failure, String>> addDraft(EventEntity draft);
 }

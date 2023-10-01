@@ -6,17 +6,17 @@ import '../../domain/entities/user_entity.dart';
 
 // ignore: must_be_immutable
 class UserModel extends UserEntity {
-  UserModel({
-    super.id,
-    super.token,
-    super.name,
-    super.phoneNumber,
-    super.province,
-    super.FCMtokens,
-    super.following,
-    super.events,
-    super.invites,
-  });
+  UserModel(
+      {super.id,
+      super.token,
+      super.name,
+      super.phoneNumber,
+      super.province,
+      super.FCMtokens,
+      super.following,
+      super.events,
+      super.invites,
+   });
 
   static UserModel? getUserData() {
     UserModel? user;
@@ -47,6 +47,7 @@ class UserModel extends UserEntity {
               ?.map((e) => InviteModel.fromJson(e).toEntity())
               .toList() ??
           [],
+     
     );
   }
   Map<String, dynamic> toJson() {
@@ -69,6 +70,7 @@ class UserModel extends UserEntity {
               ?.map((invites) => InviteModel.fromEntity(invites).toJson())
               .toList() ??
           [],
+   
     };
   }
 
@@ -83,6 +85,7 @@ class UserModel extends UserEntity {
       following: entity.following,
       events: entity.events,
       invites: entity.invites,
+      
     );
   }
 
@@ -97,6 +100,7 @@ class UserModel extends UserEntity {
       events: events,
       FCMtokens: FCMtokens,
       invites: invites,
+
     );
   }
 }

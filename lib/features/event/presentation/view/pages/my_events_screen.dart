@@ -121,9 +121,9 @@ class _MyEventsScreenState extends State<MyEventsScreen> {
                                   EventCardBody(
                                       event: event, isArabic: isArabic),
                                   EventCardFooter(
-                                      event: event,
-                                      isArabic: isArabic,
-                                      user: user),
+                                    event: event,
+                                    isArabic: isArabic,
+                                  ),
                                 ],
                               ),
                             ),

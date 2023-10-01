@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../domain/entities/event_entity.dart';
@@ -16,11 +17,13 @@ class InitCubit extends Cubit<InitState> {
   final DeleteInitUseCase deleteInitUseCase;
   final UpdateInitUseCase updateInitUseCase;
 
+
   InitCubit({
     required this.getAllInitsUseCase,
     required this.createInitUseCase,
     required this.deleteInitUseCase,
     required this.updateInitUseCase,
+ 
   }) : super(const InitState.initial());
 // Method to fetch all events
   Future<void> getAllInit() async {

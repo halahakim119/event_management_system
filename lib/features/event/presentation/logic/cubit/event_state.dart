@@ -8,6 +8,7 @@ sealed class EventState with _$EventState {
   const factory EventState.loaded({required List<EventEntity> events}) =
       _Loaded;
   const factory EventState.updated({required String message}) = _Updated;
+    const factory EventState.added({required String message}) = _Added;
   const factory EventState.deleted({required String message}) = _Deleted;
   const factory EventState.error({required String message}) = _Error;
 }

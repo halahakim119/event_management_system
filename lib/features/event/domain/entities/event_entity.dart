@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:uuid/uuid.dart';
 
 import '../../../host/domain/entities/host_entity.dart';
 import '../../../invitaions/domain/entities/participant_entity.dart';
@@ -23,28 +24,30 @@ class EventEntity extends Equatable {
   List<String>? guestsNumbers;
   List<ParticipantEntity>? guests;
   List<ParticipantEntity>? confirmedGuests;
+  List<HostEntity>? hostsRejected;
 
-  EventEntity({
-    this.id,
-    this.host,
-    this.plannerId,
-    this.title,
-    this.description,
-    this.guestsNumber,
-    this.type,
-    this.postType,
-    this.startsAt,
-    this.endsAt,
-    this.startingDate,
-    this.endingDate,
-    this.adultsOnly,
-    this.food,
-    this.alcohol,
-    this.dressCode,
-    this.guestsNumbers,
-    this.guests,
-    this.confirmedGuests,
-  });
+  EventEntity(
+      {String? id,
+      this.host,
+      this.plannerId,
+      this.title,
+      this.description,
+      this.guestsNumber,
+      this.type,
+      this.postType,
+      this.startsAt,
+      this.endsAt,
+      this.startingDate,
+      this.endingDate,
+      this.adultsOnly,
+      this.food,
+      this.alcohol,
+      this.dressCode,
+      this.guestsNumbers,
+      this.guests,
+      this.confirmedGuests,
+      this.hostsRejected})
+      : id = id ?? const Uuid().v4();
 
   @override
   List<Object?> get props => [
@@ -67,5 +70,6 @@ class EventEntity extends Equatable {
         alcohol,
         guests,
         confirmedGuests,
+        hostsRejected
       ];
 }

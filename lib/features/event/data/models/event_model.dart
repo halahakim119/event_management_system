@@ -1,6 +1,5 @@
-import 'package:event_management_system/features/host/domain/entities/host_entity.dart';
-
 import '../../../host/data/models/host_model.dart';
+import '../../../host/domain/entities/host_entity.dart';
 import '../../../invitaions/data/models/participant_model.dart';
 import '../../../invitaions/domain/entities/participant_entity.dart';
 import '../../domain/entities/event_entity.dart';
@@ -26,6 +25,7 @@ class EventModel extends EventEntity {
     super.guestsNumbers,
     super.guests,
     super.confirmedGuests,
+    super.hostsRejected,
   });
   factory EventModel.fromEntity(EventEntity entity) {
     return EventModel(
@@ -116,10 +116,10 @@ class EventModel extends EventEntity {
           // If the first element is a string, assume all elements are strings
           guestsNumbers = List<String>.from(guestsList);
         } else if (firstElement is Map<String, dynamic>) {
-             guests = guestsList
-            .whereType<Map<String, dynamic>>()
-            .map((guestJson) => ParticipantModel.fromJson(guestJson))
-            .toList();
+          guests = guestsList
+              .whereType<Map<String, dynamic>>()
+              .map((guestJson) => ParticipantModel.fromJson(guestJson))
+              .toList();
         }
       }
     }

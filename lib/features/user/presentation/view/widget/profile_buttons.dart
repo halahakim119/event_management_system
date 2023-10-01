@@ -90,7 +90,7 @@ class ProfileBody extends StatelessWidget {
                 builder: (context, state) {
                   return GestureDetector(
                     onTap: () {
-                      context.router.push(const AddEventFormRoute());
+                      context.router.push(const DraftListRoute());
                     },
                     child: Container(
                       height: 50,
@@ -103,7 +103,7 @@ class ProfileBody extends StatelessWidget {
                               bottomRight: Radius.circular(15))),
                       child: const Center(
                           child: Text(
-                        'Add Event',
+                        'Drafts',
                         textAlign: TextAlign.center,
                       )),
                     ),

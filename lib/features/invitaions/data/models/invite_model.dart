@@ -2,9 +2,9 @@ import '../../domain/entities/invite_entity.dart';
 
 class InviteModel extends InviteEntity {
   InviteModel({
-    required super.id,
-    required super.title,
-    required super.type,
+     super.id,
+     super.title,
+     super.type,
   });
 
   factory InviteModel.fromJson(Map<String, dynamic> json) {

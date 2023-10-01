@@ -21,6 +21,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AboutUsScreen(),
       );
     },
+    AddDraftRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const AddDraftScreen(),
+      );
+    },
     AddEventFormRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -31,6 +37,28 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const AuthScreen(),
+      );
+    },
+    DraftListRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const DraftListScreen(),
+      );
+    },
+    DraftsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const DraftsScreen(),
+      );
+    },
+    EditDraftRoute.name: (routeData) {
+      final args = routeData.argsAs<EditDraftRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: EditDraftScreen(
+          key: args.key,
+          draft: args.draft,
+        ),
       );
     },
     EditNameProvinceRoute.name: (routeData) {
@@ -80,9 +108,14 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     InvitationRoute.name: (routeData) {
+      final args = routeData.argsAs<InvitationRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const InvitationScreen(),
+        child: InvitationScreen(
+          key: args.key,
+          draft: args.draft,
+          isEdit: args.isEdit,
+        ),
       );
     },
     LanguagesRoute.name: (routeData) {
@@ -180,6 +213,20 @@ class AboutUsRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [AddDraftScreen]
+class AddDraftRoute extends PageRouteInfo<void> {
+  const AddDraftRoute({List<PageRouteInfo>? children})
+      : super(
+          AddDraftRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'AddDraftRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [AddEventFormScreen]
 class AddEventFormRoute extends PageRouteInfo<void> {
   const AddEventFormRoute({List<PageRouteInfo>? children})
@@ -205,6 +252,72 @@ class AuthRoute extends PageRouteInfo<void> {
   static const String name = 'AuthRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [DraftListScreen]
+class DraftListRoute extends PageRouteInfo<void> {
+  const DraftListRoute({List<PageRouteInfo>? children})
+      : super(
+          DraftListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DraftListRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [DraftsScreen]
+class DraftsRoute extends PageRouteInfo<void> {
+  const DraftsRoute({List<PageRouteInfo>? children})
+      : super(
+          DraftsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DraftsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [EditDraftScreen]
+class EditDraftRoute extends PageRouteInfo<EditDraftRouteArgs> {
+  EditDraftRoute({
+    Key? key,
+    required Draft draft,
+    List<PageRouteInfo>? children,
+  }) : super(
+          EditDraftRoute.name,
+          args: EditDraftRouteArgs(
+            key: key,
+            draft: draft,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'EditDraftRoute';
+
+  static const PageInfo<EditDraftRouteArgs> page =
+      PageInfo<EditDraftRouteArgs>(name);
+}
+
+class EditDraftRouteArgs {
+  const EditDraftRouteArgs({
+    this.key,
+    required this.draft,
+  });
+
+  final Key? key;
+
+  final Draft draft;
+
+  @override
+  String toString() {
+    return 'EditDraftRouteArgs{key: $key, draft: $draft}';
+  }
 }
 
 /// generated route for
@@ -356,16 +469,45 @@ class HomeRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [InvitationScreen]
-class InvitationRoute extends PageRouteInfo<void> {
-  const InvitationRoute({List<PageRouteInfo>? children})
-      : super(
+class InvitationRoute extends PageRouteInfo<InvitationRouteArgs> {
+  InvitationRoute({
+    Key? key,
+    required Draft draft,
+    bool? isEdit,
+    List<PageRouteInfo>? children,
+  }) : super(
           InvitationRoute.name,
+          args: InvitationRouteArgs(
+            key: key,
+            draft: draft,
+            isEdit: isEdit,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'InvitationRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<InvitationRouteArgs> page =
+      PageInfo<InvitationRouteArgs>(name);
+}
+
+class InvitationRouteArgs {
+  const InvitationRouteArgs({
+    this.key,
+    required this.draft,
+    this.isEdit,
+  });
+
+  final Key? key;
+
+  final Draft draft;
+
+  final bool? isEdit;
+
+  @override
+  String toString() {
+    return 'InvitationRouteArgs{key: $key, draft: $draft, isEdit: $isEdit}';
+  }
 }
 
 /// generated route for

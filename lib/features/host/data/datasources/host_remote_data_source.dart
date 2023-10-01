@@ -35,10 +35,7 @@ class HostRemoteDataSourceImpl implements HostRemoteDataSource {
           queryParameters['maxCapacity'] =
               filterHostEntity.maxCapacity!.toString();
         }
-        if (filterHostEntity.services != null &&
-            filterHostEntity.services!.isNotEmpty) {
-          queryParameters['services'] = filterHostEntity.services!.join(',');
-        }
+ 
         if (filterHostEntity.category != null) {
           queryParameters['category'] = filterHostEntity.category!;
         }

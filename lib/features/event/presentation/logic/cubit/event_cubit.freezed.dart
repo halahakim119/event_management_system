@@ -22,6 +22,7 @@ mixin _$EventState {
     required TResult Function() loading,
     required TResult Function(List<EventEntity> events) loaded,
     required TResult Function(String message) updated,
+    required TResult Function(String message) added,
     required TResult Function(String message) deleted,
     required TResult Function(String message) error,
   }) =>
@@ -32,6 +33,7 @@ mixin _$EventState {
     TResult? Function()? loading,
     TResult? Function(List<EventEntity> events)? loaded,
     TResult? Function(String message)? updated,
+    TResult? Function(String message)? added,
     TResult? Function(String message)? deleted,
     TResult? Function(String message)? error,
   }) =>
@@ -42,6 +44,7 @@ mixin _$EventState {
     TResult Function()? loading,
     TResult Function(List<EventEntity> events)? loaded,
     TResult Function(String message)? updated,
+    TResult Function(String message)? added,
     TResult Function(String message)? deleted,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -53,6 +56,7 @@ mixin _$EventState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
     required TResult Function(_Updated value) updated,
+    required TResult Function(_Added value) added,
     required TResult Function(_Deleted value) deleted,
     required TResult Function(_Error value) error,
   }) =>
@@ -63,6 +67,7 @@ mixin _$EventState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Loaded value)? loaded,
     TResult? Function(_Updated value)? updated,
+    TResult? Function(_Added value)? added,
     TResult? Function(_Deleted value)? deleted,
     TResult? Function(_Error value)? error,
   }) =>
@@ -73,6 +78,7 @@ mixin _$EventState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
     TResult Function(_Updated value)? updated,
+    TResult Function(_Added value)? added,
     TResult Function(_Deleted value)? deleted,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -139,6 +145,7 @@ class _$_Initial implements _Initial {
     required TResult Function() loading,
     required TResult Function(List<EventEntity> events) loaded,
     required TResult Function(String message) updated,
+    required TResult Function(String message) added,
     required TResult Function(String message) deleted,
     required TResult Function(String message) error,
   }) {
@@ -152,6 +159,7 @@ class _$_Initial implements _Initial {
     TResult? Function()? loading,
     TResult? Function(List<EventEntity> events)? loaded,
     TResult? Function(String message)? updated,
+    TResult? Function(String message)? added,
     TResult? Function(String message)? deleted,
     TResult? Function(String message)? error,
   }) {
@@ -165,6 +173,7 @@ class _$_Initial implements _Initial {
     TResult Function()? loading,
     TResult Function(List<EventEntity> events)? loaded,
     TResult Function(String message)? updated,
+    TResult Function(String message)? added,
     TResult Function(String message)? deleted,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -182,6 +191,7 @@ class _$_Initial implements _Initial {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
     required TResult Function(_Updated value) updated,
+    required TResult Function(_Added value) added,
     required TResult Function(_Deleted value) deleted,
     required TResult Function(_Error value) error,
   }) {
@@ -195,6 +205,7 @@ class _$_Initial implements _Initial {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Loaded value)? loaded,
     TResult? Function(_Updated value)? updated,
+    TResult? Function(_Added value)? added,
     TResult? Function(_Deleted value)? deleted,
     TResult? Function(_Error value)? error,
   }) {
@@ -208,6 +219,7 @@ class _$_Initial implements _Initial {
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
     TResult Function(_Updated value)? updated,
+    TResult Function(_Added value)? added,
     TResult Function(_Deleted value)? deleted,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -264,6 +276,7 @@ class _$_Loading implements _Loading {
     required TResult Function() loading,
     required TResult Function(List<EventEntity> events) loaded,
     required TResult Function(String message) updated,
+    required TResult Function(String message) added,
     required TResult Function(String message) deleted,
     required TResult Function(String message) error,
   }) {
@@ -277,6 +290,7 @@ class _$_Loading implements _Loading {
     TResult? Function()? loading,
     TResult? Function(List<EventEntity> events)? loaded,
     TResult? Function(String message)? updated,
+    TResult? Function(String message)? added,
     TResult? Function(String message)? deleted,
     TResult? Function(String message)? error,
   }) {
@@ -290,6 +304,7 @@ class _$_Loading implements _Loading {
     TResult Function()? loading,
     TResult Function(List<EventEntity> events)? loaded,
     TResult Function(String message)? updated,
+    TResult Function(String message)? added,
     TResult Function(String message)? deleted,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -307,6 +322,7 @@ class _$_Loading implements _Loading {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
     required TResult Function(_Updated value) updated,
+    required TResult Function(_Added value) added,
     required TResult Function(_Deleted value) deleted,
     required TResult Function(_Error value) error,
   }) {
@@ -320,6 +336,7 @@ class _$_Loading implements _Loading {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Loaded value)? loaded,
     TResult? Function(_Updated value)? updated,
+    TResult? Function(_Added value)? added,
     TResult? Function(_Deleted value)? deleted,
     TResult? Function(_Error value)? error,
   }) {
@@ -333,6 +350,7 @@ class _$_Loading implements _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
     TResult Function(_Updated value)? updated,
+    TResult Function(_Added value)? added,
     TResult Function(_Deleted value)? deleted,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -420,6 +438,7 @@ class _$_Loaded implements _Loaded {
     required TResult Function() loading,
     required TResult Function(List<EventEntity> events) loaded,
     required TResult Function(String message) updated,
+    required TResult Function(String message) added,
     required TResult Function(String message) deleted,
     required TResult Function(String message) error,
   }) {
@@ -433,6 +452,7 @@ class _$_Loaded implements _Loaded {
     TResult? Function()? loading,
     TResult? Function(List<EventEntity> events)? loaded,
     TResult? Function(String message)? updated,
+    TResult? Function(String message)? added,
     TResult? Function(String message)? deleted,
     TResult? Function(String message)? error,
   }) {
@@ -446,6 +466,7 @@ class _$_Loaded implements _Loaded {
     TResult Function()? loading,
     TResult Function(List<EventEntity> events)? loaded,
     TResult Function(String message)? updated,
+    TResult Function(String message)? added,
     TResult Function(String message)? deleted,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -463,6 +484,7 @@ class _$_Loaded implements _Loaded {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
     required TResult Function(_Updated value) updated,
+    required TResult Function(_Added value) added,
     required TResult Function(_Deleted value) deleted,
     required TResult Function(_Error value) error,
   }) {
@@ -476,6 +498,7 @@ class _$_Loaded implements _Loaded {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Loaded value)? loaded,
     TResult? Function(_Updated value)? updated,
+    TResult? Function(_Added value)? added,
     TResult? Function(_Deleted value)? deleted,
     TResult? Function(_Error value)? error,
   }) {
@@ -489,6 +512,7 @@ class _$_Loaded implements _Loaded {
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
     TResult Function(_Updated value)? updated,
+    TResult Function(_Added value)? added,
     TResult Function(_Deleted value)? deleted,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -576,6 +600,7 @@ class _$_Updated implements _Updated {
     required TResult Function() loading,
     required TResult Function(List<EventEntity> events) loaded,
     required TResult Function(String message) updated,
+    required TResult Function(String message) added,
     required TResult Function(String message) deleted,
     required TResult Function(String message) error,
   }) {
@@ -589,6 +614,7 @@ class _$_Updated implements _Updated {
     TResult? Function()? loading,
     TResult? Function(List<EventEntity> events)? loaded,
     TResult? Function(String message)? updated,
+    TResult? Function(String message)? added,
     TResult? Function(String message)? deleted,
     TResult? Function(String message)? error,
   }) {
@@ -602,6 +628,7 @@ class _$_Updated implements _Updated {
     TResult Function()? loading,
     TResult Function(List<EventEntity> events)? loaded,
     TResult Function(String message)? updated,
+    TResult Function(String message)? added,
     TResult Function(String message)? deleted,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -619,6 +646,7 @@ class _$_Updated implements _Updated {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
     required TResult Function(_Updated value) updated,
+    required TResult Function(_Added value) added,
     required TResult Function(_Deleted value) deleted,
     required TResult Function(_Error value) error,
   }) {
@@ -632,6 +660,7 @@ class _$_Updated implements _Updated {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Loaded value)? loaded,
     TResult? Function(_Updated value)? updated,
+    TResult? Function(_Added value)? added,
     TResult? Function(_Deleted value)? deleted,
     TResult? Function(_Error value)? error,
   }) {
@@ -645,6 +674,7 @@ class _$_Updated implements _Updated {
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
     TResult Function(_Updated value)? updated,
+    TResult Function(_Added value)? added,
     TResult Function(_Deleted value)? deleted,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -662,6 +692,167 @@ abstract class _Updated implements EventState {
   String get message;
   @JsonKey(ignore: true)
   _$$_UpdatedCopyWith<_$_Updated> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$_AddedCopyWith<$Res> {
+  factory _$$_AddedCopyWith(_$_Added value, $Res Function(_$_Added) then) =
+      __$$_AddedCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$_AddedCopyWithImpl<$Res>
+    extends _$EventStateCopyWithImpl<$Res, _$_Added>
+    implements _$$_AddedCopyWith<$Res> {
+  __$$_AddedCopyWithImpl(_$_Added _value, $Res Function(_$_Added) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? message = null,
+  }) {
+    return _then(_$_Added(
+      message: null == message
+          ? _value.message
+          : message // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$_Added implements _Added {
+  const _$_Added({required this.message});
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'EventState.added(message: $message)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Added &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_AddedCopyWith<_$_Added> get copyWith =>
+      __$$_AddedCopyWithImpl<_$_Added>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(List<EventEntity> events) loaded,
+    required TResult Function(String message) updated,
+    required TResult Function(String message) added,
+    required TResult Function(String message) deleted,
+    required TResult Function(String message) error,
+  }) {
+    return added(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(List<EventEntity> events)? loaded,
+    TResult? Function(String message)? updated,
+    TResult? Function(String message)? added,
+    TResult? Function(String message)? deleted,
+    TResult? Function(String message)? error,
+  }) {
+    return added?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(List<EventEntity> events)? loaded,
+    TResult Function(String message)? updated,
+    TResult Function(String message)? added,
+    TResult Function(String message)? deleted,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (added != null) {
+      return added(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Updated value) updated,
+    required TResult Function(_Added value) added,
+    required TResult Function(_Deleted value) deleted,
+    required TResult Function(_Error value) error,
+  }) {
+    return added(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Updated value)? updated,
+    TResult? Function(_Added value)? added,
+    TResult? Function(_Deleted value)? deleted,
+    TResult? Function(_Error value)? error,
+  }) {
+    return added?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Updated value)? updated,
+    TResult Function(_Added value)? added,
+    TResult Function(_Deleted value)? deleted,
+    TResult Function(_Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (added != null) {
+      return added(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Added implements EventState {
+  const factory _Added({required final String message}) = _$_Added;
+
+  String get message;
+  @JsonKey(ignore: true)
+  _$$_AddedCopyWith<_$_Added> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -732,6 +923,7 @@ class _$_Deleted implements _Deleted {
     required TResult Function() loading,
     required TResult Function(List<EventEntity> events) loaded,
     required TResult Function(String message) updated,
+    required TResult Function(String message) added,
     required TResult Function(String message) deleted,
     required TResult Function(String message) error,
   }) {
@@ -745,6 +937,7 @@ class _$_Deleted implements _Deleted {
     TResult? Function()? loading,
     TResult? Function(List<EventEntity> events)? loaded,
     TResult? Function(String message)? updated,
+    TResult? Function(String message)? added,
     TResult? Function(String message)? deleted,
     TResult? Function(String message)? error,
   }) {
@@ -758,6 +951,7 @@ class _$_Deleted implements _Deleted {
     TResult Function()? loading,
     TResult Function(List<EventEntity> events)? loaded,
     TResult Function(String message)? updated,
+    TResult Function(String message)? added,
     TResult Function(String message)? deleted,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -775,6 +969,7 @@ class _$_Deleted implements _Deleted {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
     required TResult Function(_Updated value) updated,
+    required TResult Function(_Added value) added,
     required TResult Function(_Deleted value) deleted,
     required TResult Function(_Error value) error,
   }) {
@@ -788,6 +983,7 @@ class _$_Deleted implements _Deleted {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Loaded value)? loaded,
     TResult? Function(_Updated value)? updated,
+    TResult? Function(_Added value)? added,
     TResult? Function(_Deleted value)? deleted,
     TResult? Function(_Error value)? error,
   }) {
@@ -801,6 +997,7 @@ class _$_Deleted implements _Deleted {
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
     TResult Function(_Updated value)? updated,
+    TResult Function(_Added value)? added,
     TResult Function(_Deleted value)? deleted,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -887,6 +1084,7 @@ class _$_Error implements _Error {
     required TResult Function() loading,
     required TResult Function(List<EventEntity> events) loaded,
     required TResult Function(String message) updated,
+    required TResult Function(String message) added,
     required TResult Function(String message) deleted,
     required TResult Function(String message) error,
   }) {
@@ -900,6 +1098,7 @@ class _$_Error implements _Error {
     TResult? Function()? loading,
     TResult? Function(List<EventEntity> events)? loaded,
     TResult? Function(String message)? updated,
+    TResult? Function(String message)? added,
     TResult? Function(String message)? deleted,
     TResult? Function(String message)? error,
   }) {
@@ -913,6 +1112,7 @@ class _$_Error implements _Error {
     TResult Function()? loading,
     TResult Function(List<EventEntity> events)? loaded,
     TResult Function(String message)? updated,
+    TResult Function(String message)? added,
     TResult Function(String message)? deleted,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -930,6 +1130,7 @@ class _$_Error implements _Error {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Loaded value) loaded,
     required TResult Function(_Updated value) updated,
+    required TResult Function(_Added value) added,
     required TResult Function(_Deleted value) deleted,
     required TResult Function(_Error value) error,
   }) {
@@ -943,6 +1144,7 @@ class _$_Error implements _Error {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Loaded value)? loaded,
     TResult? Function(_Updated value)? updated,
+    TResult? Function(_Added value)? added,
     TResult? Function(_Deleted value)? deleted,
     TResult? Function(_Error value)? error,
   }) {
@@ -956,6 +1158,7 @@ class _$_Error implements _Error {
     TResult Function(_Loading value)? loading,
     TResult Function(_Loaded value)? loaded,
     TResult Function(_Updated value)? updated,
+    TResult Function(_Added value)? added,
     TResult Function(_Deleted value)? deleted,
     TResult Function(_Error value)? error,
     required TResult orElse(),

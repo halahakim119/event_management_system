@@ -29,6 +29,7 @@ class UserEntity extends Equatable {
   List<EventEntity>? events;
 
   List<InviteEntity>? invites;
+  List<EventEntity>? drafts;
 
   UserEntity(
       {this.id,
@@ -39,7 +40,8 @@ class UserEntity extends Equatable {
       this.FCMtokens,
       this.following,
       this.events,
-      this.invites});
+      this.invites,
+      this.drafts});
   // Equatable requires overriding the 'props' getter to compare instances for equality.
   @override
   List<Object?> get props => [
@@ -51,6 +53,7 @@ class UserEntity extends Equatable {
         province,
         following,
         events,
-        invites
+        invites,
+        drafts
       ];
 }

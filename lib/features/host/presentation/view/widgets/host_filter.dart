@@ -17,7 +17,6 @@ class HostFilter extends StatefulWidget {
 class _HostFilterState extends State<HostFilter> {
   String? selectedProvince;
   String? selectedCategory;
-  List<String> selectedServices = [];
   double? minCapacity;
   double? maxCapacity;
   RangeValues _currentRangeValues = RangeValues(0, 10); // Set initial values
@@ -142,36 +141,11 @@ class _HostFilterState extends State<HostFilter> {
             ],
           ),
           const Divider(height: 50, thickness: 0.5),
-          const Text('Select Services:'),
-          Wrap(
-            children: getServices().map((service) {
-              return CheckboxListTile(
-                title: Text(service),
-                controlAffinity: ListTileControlAffinity.leading,
-                checkColor: Theme.of(context).primaryColor,
-                activeColor: Colors.transparent,
-                value: selectedServices.contains(service),
-                onChanged: (bool? value) {
-                  setState(() {
-                    if (value != null) {
-                      if (value) {
-                        selectedServices.add(service);
-                      } else {
-                        selectedServices.remove(service);
-                      }
-                    }
-                  });
-                },
-              );
-            }).toList(),
-          ),
-          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               FilterHostEntity filterHostEntity = FilterHostEntity(
                 category: selectedCategory,
                 province: selectedProvince,
-                services: selectedServices,
                 maxCapacity: maxCapacity == null ? null : maxCapacity!.toInt(),
                 minCapacity: minCapacity == null ? null : minCapacity!.toInt(),
               );
@@ -185,7 +159,7 @@ class _HostFilterState extends State<HostFilter> {
               setState(() {
                 selectedCategory = null;
                 selectedProvince = null;
-                selectedServices = [];
+
                 maxCapacity = 0;
                 minCapacity = 0;
                 _currentRangeValues = RangeValues(0, 10);

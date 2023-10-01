@@ -5,7 +5,6 @@ class FilterHostModel extends FilterHostEntity {
     super.province,
     super.minCapacity,
     super.maxCapacity,
-    super.services,
     super.category,
   });
 
@@ -14,9 +13,6 @@ class FilterHostModel extends FilterHostEntity {
       province: json['province'],
       minCapacity: json['minCapacity'],
       maxCapacity: json['maxCapacity'],
-      services: (json['services'] as List<dynamic>?)
-          ?.map((service) => service.toString())
-          .toList(),
       category: json['category'],
     );
   }
@@ -26,7 +22,6 @@ class FilterHostModel extends FilterHostEntity {
       'province': province,
       'minCapacity': minCapacity,
       'maxCapacity': maxCapacity,
-      'services': services,
       'category': category,
     };
   }
@@ -36,7 +31,6 @@ class FilterHostModel extends FilterHostEntity {
       province: province,
       minCapacity: minCapacity,
       maxCapacity: maxCapacity,
-      services: services,
       category: category,
     );
   }

@@ -152,9 +152,7 @@ class EventCardBody extends StatelessWidget {
                                   backgroundColor:
                                       Theme.of(context).disabledColor,
                                 ),
-                                onPressed: () {
-                                  context.router.push(const InvitationRoute());
-                                },
+                                onPressed: () {},
                                 child: const Text(
                                   'Invitations',
                                   style: TextStyle(color: Colors.white),

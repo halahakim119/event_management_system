@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 
-import '../../../../user/data/models/user_model.dart';
 import '../../../domain/entities/event_entity.dart';
 
 class EventCardFooter extends StatelessWidget {
   final EventEntity event;
-  final UserModel? user;
+
   final bool isArabic;
 
   const EventCardFooter({
     Key? key,
     required this.event,
-    required this.user,
     required this.isArabic,
   }) : super(key: key);
 
@@ -55,7 +53,7 @@ class EventCardFooter extends StatelessWidget {
                         ),
                       )
                     : TextSpan(
-                        text: user?.name ?? "",
+                        text: 'Description',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize:
@@ -72,7 +70,7 @@ class EventCardFooter extends StatelessWidget {
                         ),
                       )
                     : TextSpan(
-                        text: user!.name ?? "",
+                        text: 'Description',
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize:

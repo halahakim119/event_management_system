@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import 'core/injection/injection_container.dart';
+import 'core/injection/modules/dependency_injection.dart';
 import 'core/network/internet_checker.dart';
 import 'core/network/no_internet.dart';
 import 'core/router/app_router.dart';
@@ -14,12 +15,13 @@ import 'translations/codegen_loader.g.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
- 
+
   await init();
+  await configureDependencies();
   await EasyLocalization.ensureInitialized();
   bool isConnected = await sl<InternetChecker>().checkInternet();
 
-  if (isConnected) { 
+  if (isConnected) {
     await Firebase.initializeApp();
     runApp(OverlaySupport.global(
       child: EasyLocalization(

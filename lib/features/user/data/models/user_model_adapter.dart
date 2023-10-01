@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:hive/hive.dart';
 
 import '../../../event/data/models/event_model.dart';
@@ -26,7 +24,6 @@ class UserModelAdapter extends TypeAdapter<UserModel> {
             .map((e) => UserModel.fromJson(e))
             .toList()
         : null;
-    log('hi' + fields[6].toString());
 
     final events = fields[6] != null && fields[6] is List<dynamic>
         ? (fields[6] as List<dynamic>)

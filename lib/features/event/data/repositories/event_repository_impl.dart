@@ -3,15 +3,17 @@ import 'package:dartz/dartz.dart';
 import '../../../../core/error/failure.dart';
 import '../../domain/entities/event_entity.dart';
 import '../../domain/repositories/event_repository.dart';
+import '../datasources/event_local_data_source.dart';
 import '../datasources/event_remote_data_source.dart';
 import '../models/event_model.dart';
 
 class EventRepositoryImpl implements EventRepository {
   final EventRemoteDataSource eventRemoteDataSource;
+  final EventLocalDataSourceImpl eventLocalDataSource;
 
-  EventRepositoryImpl({
-    required this.eventRemoteDataSource,
-  });
+  EventRepositoryImpl(
+      {required this.eventRemoteDataSource,
+      required this.eventLocalDataSource});
 
   @override
   Future<Either<Failure, String>> cancelEvent(EventEntity event) async {
@@ -85,6 +87,21 @@ class EventRepositoryImpl implements EventRepository {
       );
 
       final result = await eventRemoteDataSource.updateEvent(eventModel);
+
+      return result.fold(
+        (failure) => Left(failure),
+        (message) => Right(message),
+      );
+    } catch (e) {
+      return Left(ServerFailure('Failed to update event'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> addDraft(EventEntity draft) async {
+    try {
+      final draftModel = EventModel.fromEntity(draft);
+      final result = await eventLocalDataSource.addDraft(draftModel);
 
       return result.fold(
         (failure) => Left(failure),
