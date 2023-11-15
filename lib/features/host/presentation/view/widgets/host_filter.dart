@@ -19,7 +19,8 @@ class _HostFilterState extends State<HostFilter> {
   String? selectedCategory;
   double? minCapacity;
   double? maxCapacity;
-  RangeValues _currentRangeValues = RangeValues(0, 10); // Set initial values
+  RangeValues _currentRangeValues =
+      const RangeValues(0, 1000); // Set initial values
 
   String translateProvince(String province, {required bool toEnglish}) {
     // Map containing Arabic province names as keys and their corresponding English names as values
@@ -113,22 +114,24 @@ class _HostFilterState extends State<HostFilter> {
               ),
             ],
           ),
-          const Divider(height: 50, thickness: 0.5),
           Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                      'Min Capacity: ${_currentRangeValues.start.toStringAsFixed(0)}'),
-                  Text(
-                      'Max Capacity: ${_currentRangeValues.end.toStringAsFixed(0)}'),
-                ],
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                        'Min Capacity: ${_currentRangeValues.start.toStringAsFixed(0)}'),
+                    Text(
+                        'Max Capacity: ${_currentRangeValues.end.toStringAsFixed(0)}'),
+                  ],
+                ),
               ), // Display the end value of the range
               RangeSlider(
                 values: _currentRangeValues,
                 min: 0,
-                max: 1000,
+                max: 5000,
                 onChanged: (RangeValues values) {
                   // Update the current values when the user interacts with the slider
                   setState(() {
@@ -140,34 +143,47 @@ class _HostFilterState extends State<HostFilter> {
               ),
             ],
           ),
-          const Divider(height: 50, thickness: 0.5),
-          ElevatedButton(
-            onPressed: () {
-              FilterHostEntity filterHostEntity = FilterHostEntity(
-                category: selectedCategory,
-                province: selectedProvince,
-                maxCapacity: maxCapacity == null ? null : maxCapacity!.toInt(),
-                minCapacity: minCapacity == null ? null : minCapacity!.toInt(),
-              );
-              context.read<HostsCubit>()
-                ..filterHosts(filterHostEntity: filterHostEntity);
-            },
-            child: const Text('Apply filter'),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              setState(() {
-                selectedCategory = null;
-                selectedProvince = null;
+          SizedBox(
+            width: double.infinity,
+            child: Wrap(
+              alignment: WrapAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    FilterHostEntity filterHostEntity = FilterHostEntity(
+                        category: selectedCategory,
+                        province: selectedProvince,
+                        maxCapacity:
+                            maxCapacity == null ? null : maxCapacity!.toInt(),
+                        minCapacity:
+                            minCapacity == null ? null : minCapacity!.toInt(),
+                        count: 0);
+                    context.read<HostsCubit>()
+                      ..filterHosts(
+                        filterHostEntity: filterHostEntity,
+                      );
+                  },
+                  child: const Text('APPLY'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedCategory = null;
+                      selectedProvince = null;
 
-                maxCapacity = 0;
-                minCapacity = 0;
-                _currentRangeValues = RangeValues(0, 10);
-              });
+                      maxCapacity = 1000;
+                      minCapacity = 0;
+                      _currentRangeValues = RangeValues(0, 1000);
+                    });
 
-              context.read<HostsCubit>()..filterHosts();
-            },
-            child: const Text('reset and show all'),
+                    context.read<HostsCubit>()
+                      ..filterHosts(
+                          filterHostEntity: FilterHostEntity(count: 0));
+                  },
+                  child: const Text('RESET & SHOW ALL'),
+                ),
+              ],
+            ),
           ),
         ],
       ),

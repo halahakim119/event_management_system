@@ -75,8 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
       await userBloc.stream
           .firstWhere((state) => state is UserLoaded || state is UserError);
 
-      log("user!.events.toString()");
-      log(user!.events.toString());
+    
       if (user != null) {
         await context.router.popAndPush(const HomeRoute());
       }

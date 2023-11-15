@@ -22,8 +22,8 @@ class HostRemoteDataSourceImpl implements HostRemoteDataSource {
     try {
       // Construct the query parameters based on the provided FilterHostEntity
       Uri uri;
+      final Map<String, String> queryParameters = {};
       if (filterHostEntity != null) {
-        final Map<String, String> queryParameters = {};
         if (filterHostEntity.province != null) {
           queryParameters['province'] = filterHostEntity.province!;
         }
@@ -35,14 +35,19 @@ class HostRemoteDataSourceImpl implements HostRemoteDataSource {
           queryParameters['maxCapacity'] =
               filterHostEntity.maxCapacity!.toString();
         }
- 
+
         if (filterHostEntity.category != null) {
           queryParameters['category'] = filterHostEntity.category!;
+        }
+        if (filterHostEntity.count != null) {
+          queryParameters['count'] = filterHostEntity.count!.toString();
         }
         uri = Uri.parse('$baseUrl/api/filter/host')
             .replace(queryParameters: queryParameters);
       } else {
-        uri = Uri.parse('$baseUrl/api/filter/host');
+        queryParameters['count'] = filterHostEntity!.count!.toString();
+        uri = Uri.parse('$baseUrl/api/filter/host')
+            .replace(queryParameters: queryParameters);
       }
       final response = await http.get(uri);
 

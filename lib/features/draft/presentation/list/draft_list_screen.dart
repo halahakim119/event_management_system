@@ -21,11 +21,12 @@ class DraftListScreen extends StatelessWidget {
           title: const Text('Draft List'),
         ),
         body: const DraftListWidget(),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             context.router.push(const AddDraftRoute());
           },
-          child: const Icon(Icons.add),
+          label: const Text('DRAFT'),
+          icon: const Icon(Icons.add),
         ),
       ),
     );

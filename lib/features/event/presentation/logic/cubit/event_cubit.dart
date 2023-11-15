@@ -1,44 +1,44 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:bloc/bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import '../../../domain/entities/event_entity.dart';
-
-import '../../../domain/usecases/event/cancel_event_usecase.dart';
-import '../../../domain/usecases/event/get_all_events_usecase.dart';
-import '../../../domain/usecases/event/update_event_usecase.dart';
+import '../../../domain/usecases/create_event_usecase.dart';
+import '../../../domain/usecases/delete_event_usecase.dart';
 
 part 'event_cubit.freezed.dart';
 part 'event_state.dart';
 
 class EventCubit extends Cubit<EventState> {
-  final GetAllEventsUseCase getAllEventsUseCase;
-  final CancelEventUseCase cancelEventUseCase;
-  final UpdateEventUseCase updateEventUseCase;
+  
+  final CreateEventUseCase createEventUseCase;
+  final DeleteEventUseCase deleteEventUseCase;
 
 
   EventCubit({
-    required this.getAllEventsUseCase,
-    required this.cancelEventUseCase,
-    required this.updateEventUseCase,
-
+   
+    required this.createEventUseCase,
+    required this.deleteEventUseCase,
+  
+ 
   }) : super(const EventState.initial());
 
-  Future<void> getAllEvents() async {
+  // Method to create a new event
+  Future<void> create({required EventEntity event}) async {
     emit(const EventState.loading());
 
-    final result = await getAllEventsUseCase.call();
+    final result = await createEventUseCase.call(event);
 
     return result.fold(
       (failure) => emit(EventState.error(message: failure.message)),
-      (events) => emit(EventState.loaded(events: events)),
+      (message) => emit(EventState.created(message: message)),
     );
   }
 
-  Future<void> cancelEvent({required EventEntity event}) async {
+  // Method to delete an event
+  Future<void> delete({required String id}) async {
     emit(const EventState.loading());
 
-    final result = await cancelEventUseCase.call(event);
+    final result = await deleteEventUseCase.call(id);
 
     return result.fold(
       (failure) => emit(EventState.error(message: failure.message)),
@@ -46,16 +46,4 @@ class EventCubit extends Cubit<EventState> {
     );
   }
 
-  Future<void> updateEvent({required EventEntity event}) async {
-    emit(const EventState.loading());
-
-    final result = await updateEventUseCase.call(event);
-
-    return result.fold(
-      (failure) => emit(EventState.error(message: failure.message)),
-      (message) => emit(EventState.updated(message: message)),
-    );
-  }
-
- 
 }

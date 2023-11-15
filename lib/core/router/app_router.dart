@@ -1,34 +1,4 @@
-import 'package:auto_route/auto_route.dart';
-import 'package:flutter/material.dart';
-
-import '../../features/authentication/presentation/view/pages/auth_screen.dart';
-import '../../features/authentication/presentation/view/pages/forgot_password_screen.dart';
-import '../../features/authentication/presentation/view/pages/login_screen.dart';
-import '../../features/authentication/presentation/view/pages/reset_password_screen.dart';
-import '../../features/authentication/presentation/view/pages/signup_screen.dart';
-import '../../features/authentication/presentation/view/pages/verification_screen.dart';
-import '../../features/draft/domain/entities/draft/draft.dart';
-import '../../features/draft/presentation/add/add_draft_screen.dart';
-import '../../features/draft/presentation/add/edit_draft_screen.dart';
-import '../../features/draft/presentation/list/draft_list_screen.dart';
-import '../../features/event/domain/entities/event_entity.dart';
-import '../../features/event/presentation/view/pages/add_event_form_screen.dart';
-import '../../features/event/presentation/view/pages/drafts_screen.dart';
-import '../../features/event/presentation/view/pages/my_events_screen.dart';
-import '../../features/home/home_screen.dart';
-import '../../features/host/presentation/view/pages/filter_hosts_screen.dart';
-import '../../features/invitaions/presentation/view/pages/invitation_screen.dart';
-import '../../features/languages/pages/languages_screen.dart';
-import '../../features/main/main_screen.dart';
-import '../../features/search and filter/search_screen.dart';
-import '../../features/settings/about_us_screen.dart';
-import '../../features/settings/help_center_screen.dart';
-import '../../features/settings/settings_screen.dart';
-import '../../features/splash/splash_screen.dart';
-import '../../features/user/data/models/user_model.dart';
-import '../../features/user/presentation/view/pages/edit_name_province_screen.dart';
-import '../../features/user/presentation/view/pages/edit_profile_screen.dart';
-import '../../features/user/presentation/view/pages/profile_screen.dart';
+import 'router_imports.dart';
 
 part 'app_router.gr.dart';
 
@@ -63,8 +33,9 @@ class AppRouter extends _$AppRouter {
         AutoRoute(page: EditProfileRoute.page),
         AutoRoute(page: EditNameProvinceRoute.page),
 
-        AutoRoute(page: AddEventFormRoute.page),
         AutoRoute(page: MyEventsRoute.page),
+        AutoRoute(page: ServicesFormRoute.page),
+
         AutoRoute(page: DraftListRoute.page),
         AutoRoute(page: AddDraftRoute.page),
         AutoRoute(page: EditDraftRoute.page),

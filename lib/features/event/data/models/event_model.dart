@@ -1,79 +1,82 @@
 import '../../../host/data/models/host_model.dart';
+import '../../../host/data/models/host_rejected_model.dart';
 import '../../../host/domain/entities/host_entity.dart';
 import '../../../invitaions/data/models/participant_model.dart';
 import '../../../invitaions/domain/entities/participant_entity.dart';
 import '../../domain/entities/event_entity.dart';
 
 class EventModel extends EventEntity {
-  EventModel({
-    super.id,
-    super.host,
-    super.plannerId,
-    super.title,
-    super.description,
-    super.guestsNumber,
-    super.type,
-    super.postType,
-    super.startsAt,
-    super.endsAt,
-    super.startingDate,
-    super.endingDate,
-    super.adultsOnly,
-    super.food,
-    super.alcohol,
-    super.dressCode,
-    super.guestsNumbers,
-    super.guests,
-    super.confirmedGuests,
-    super.hostsRejected,
-  });
+  EventModel(
+      {super.id,
+      super.host,
+      super.plannerId,
+      super.title,
+      super.description,
+      super.guestsNumber,
+      super.type,
+      super.postType,
+      super.startsAt,
+      super.endsAt,
+      super.startingDate,
+      super.endingDate,
+      super.adultsOnly,
+      super.food,
+      super.alcohol,
+      super.dressCode,
+      super.guestsNumbers,
+      super.guests,
+      super.confirmedGuests,
+      super.hostRejected,
+      super.eventStatus});
   factory EventModel.fromEntity(EventEntity entity) {
     return EventModel(
-      id: entity.id,
-      host: entity.host,
-      plannerId: entity.plannerId,
-      title: entity.title,
-      description: entity.description,
-      guestsNumber: entity.guestsNumber,
-      type: entity.type,
-      postType: entity.postType,
-      startsAt: entity.startsAt,
-      endsAt: entity.endsAt,
-      startingDate: entity.startingDate,
-      endingDate: entity.endingDate,
-      adultsOnly: entity.adultsOnly,
-      food: entity.food,
-      alcohol: entity.alcohol,
-      dressCode: entity.dressCode,
-      guestsNumbers: entity.guestsNumbers,
-      guests: entity.guests,
-      confirmedGuests: entity.confirmedGuests,
-    );
+        id: entity.id,
+        host: entity.host,
+        plannerId: entity.plannerId,
+        title: entity.title,
+        description: entity.description,
+        guestsNumber: entity.guestsNumber,
+        type: entity.type,
+        postType: entity.postType,
+        startsAt: entity.startsAt,
+        endsAt: entity.endsAt,
+        startingDate: entity.startingDate,
+        endingDate: entity.endingDate,
+        adultsOnly: entity.adultsOnly,
+        food: entity.food,
+        alcohol: entity.alcohol,
+        dressCode: entity.dressCode,
+        guestsNumbers: entity.guestsNumbers,
+        guests: entity.guests,
+        confirmedGuests: entity.confirmedGuests,
+        eventStatus: entity.eventStatus,
+        hostRejected: entity.hostRejected);
   }
   factory EventModel.from(dynamic data) {
     if (data is EventEntity) {
       // Case 1: From Entity
       return EventModel(
-        id: data.id,
-        host: data.host,
-        plannerId: data.plannerId,
-        title: data.title,
-        description: data.description,
-        guestsNumber: data.guestsNumber,
-        type: data.type,
-        postType: data.postType,
-        startsAt: data.startsAt,
-        endsAt: data.endsAt,
-        startingDate: data.startingDate,
-        endingDate: data.endingDate,
-        adultsOnly: data.adultsOnly,
-        food: data.food,
-        alcohol: data.alcohol,
-        dressCode: data.dressCode,
-        guestsNumbers: data.guestsNumbers,
-        guests: data.guests,
-        confirmedGuests: data.confirmedGuests,
-      );
+          id: data.id,
+          host: data.host,
+          plannerId: data.plannerId,
+          title: data.title,
+          description: data.description,
+          guestsNumber: data.guestsNumber,
+          type: data.type,
+          postType: data.postType,
+          startsAt: data.startsAt,
+          endsAt: data.endsAt,
+          startingDate: data.startingDate,
+          endingDate: data.endingDate,
+          adultsOnly: data.adultsOnly,
+          food: data.food,
+          alcohol: data.alcohol,
+          dressCode: data.dressCode,
+          guestsNumbers: data.guestsNumbers,
+          guests: data.guests,
+          confirmedGuests: data.confirmedGuests,
+          eventStatus: data.eventStatus,
+          hostRejected: data.hostRejected);
     } else if (data is Map<String, dynamic>) {
       // Case 2: From JSON
       return EventModel.fromJson(data);
@@ -84,25 +87,27 @@ class EventModel extends EventEntity {
 
   EventEntity toEntity() {
     return EventEntity(
-      id: id,
-      host: host,
-      title: title,
-      description: description,
-      guestsNumber: guestsNumber,
-      type: type,
-      postType: postType,
-      startsAt: startsAt,
-      endsAt: endsAt,
-      startingDate: startingDate,
-      endingDate: endingDate,
-      adultsOnly: adultsOnly,
-      food: food,
-      alcohol: alcohol,
-      dressCode: dressCode,
-      guestsNumbers: guestsNumbers,
-      guests: guests,
-      confirmedGuests: confirmedGuests,
-    );
+        id: id,
+        host: host,
+        title: title,
+        description: description,
+        guestsNumber: guestsNumber,
+        type: type,
+        postType: postType,
+        startsAt: startsAt,
+        endsAt: endsAt,
+        startingDate: startingDate,
+        endingDate: endingDate,
+        adultsOnly: adultsOnly,
+        food: food,
+        alcohol: alcohol,
+        dressCode: dressCode,
+        guestsNumbers: guestsNumbers,
+        guests: guests,
+        confirmedGuests: confirmedGuests,
+        eventStatus: eventStatus,
+        hostRejected: hostRejected,
+        plannerId: plannerId);
   }
 
   factory EventModel.fromJson(Map<String, dynamic> json) {
@@ -152,6 +157,10 @@ class EventModel extends EventEntity {
       food: json['food'],
       guestsNumbers: guestsNumbers,
       guests: guests,
+      eventStatus: json['eventStatus'],
+      hostRejected: json['rejection'] == null
+          ? null
+          : HostRejectedModel.fromJson(json['rejection']),
       confirmedGuests: (json['confirmedGuests'] as List<dynamic>?)
           ?.map((confirmedGuestJson) =>
               ParticipantModel.fromJson(confirmedGuestJson))
@@ -161,9 +170,13 @@ class EventModel extends EventEntity {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic>? hostData;
+    Map<String, dynamic>? hostRejectionData;
     // Case 4: To JSON
     if (host != null) {
       hostData = HostModel.fromEntity(host).toJson();
+    }
+    if (hostRejected != null) {
+      hostRejectionData = HostRejectedModel.fromEntity(hostRejected).toJson();
     }
     return {
       'id': id,
@@ -180,6 +193,7 @@ class EventModel extends EventEntity {
       'dressCode': dressCode,
       'alcohol': alcohol,
       'adultsOnly': adultsOnly,
+      'rejection': hostRejectionData,
       'food': food,
       'guests': guests
           ?.map((guest) => ParticipantModel.fromEntity(guest).toJson())

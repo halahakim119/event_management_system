@@ -20,9 +20,7 @@ mixin _$EventState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<EventEntity> events) loaded,
-    required TResult Function(String message) updated,
-    required TResult Function(String message) added,
+    required TResult Function(String message) created,
     required TResult Function(String message) deleted,
     required TResult Function(String message) error,
   }) =>
@@ -31,9 +29,7 @@ mixin _$EventState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<EventEntity> events)? loaded,
-    TResult? Function(String message)? updated,
-    TResult? Function(String message)? added,
+    TResult? Function(String message)? created,
     TResult? Function(String message)? deleted,
     TResult? Function(String message)? error,
   }) =>
@@ -42,9 +38,7 @@ mixin _$EventState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<EventEntity> events)? loaded,
-    TResult Function(String message)? updated,
-    TResult Function(String message)? added,
+    TResult Function(String message)? created,
     TResult Function(String message)? deleted,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -54,9 +48,7 @@ mixin _$EventState {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Updated value) updated,
-    required TResult Function(_Added value) added,
+    required TResult Function(_Created value) created,
     required TResult Function(_Deleted value) deleted,
     required TResult Function(_Error value) error,
   }) =>
@@ -65,9 +57,7 @@ mixin _$EventState {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Updated value)? updated,
-    TResult? Function(_Added value)? added,
+    TResult? Function(_Created value)? created,
     TResult? Function(_Deleted value)? deleted,
     TResult? Function(_Error value)? error,
   }) =>
@@ -76,9 +66,7 @@ mixin _$EventState {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Updated value)? updated,
-    TResult Function(_Added value)? added,
+    TResult Function(_Created value)? created,
     TResult Function(_Deleted value)? deleted,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -143,9 +131,7 @@ class _$_Initial implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<EventEntity> events) loaded,
-    required TResult Function(String message) updated,
-    required TResult Function(String message) added,
+    required TResult Function(String message) created,
     required TResult Function(String message) deleted,
     required TResult Function(String message) error,
   }) {
@@ -157,9 +143,7 @@ class _$_Initial implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<EventEntity> events)? loaded,
-    TResult? Function(String message)? updated,
-    TResult? Function(String message)? added,
+    TResult? Function(String message)? created,
     TResult? Function(String message)? deleted,
     TResult? Function(String message)? error,
   }) {
@@ -171,9 +155,7 @@ class _$_Initial implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<EventEntity> events)? loaded,
-    TResult Function(String message)? updated,
-    TResult Function(String message)? added,
+    TResult Function(String message)? created,
     TResult Function(String message)? deleted,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -189,9 +171,7 @@ class _$_Initial implements _Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Updated value) updated,
-    required TResult Function(_Added value) added,
+    required TResult Function(_Created value) created,
     required TResult Function(_Deleted value) deleted,
     required TResult Function(_Error value) error,
   }) {
@@ -203,9 +183,7 @@ class _$_Initial implements _Initial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Updated value)? updated,
-    TResult? Function(_Added value)? added,
+    TResult? Function(_Created value)? created,
     TResult? Function(_Deleted value)? deleted,
     TResult? Function(_Error value)? error,
   }) {
@@ -217,9 +195,7 @@ class _$_Initial implements _Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Updated value)? updated,
-    TResult Function(_Added value)? added,
+    TResult Function(_Created value)? created,
     TResult Function(_Deleted value)? deleted,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -274,9 +250,7 @@ class _$_Loading implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<EventEntity> events) loaded,
-    required TResult Function(String message) updated,
-    required TResult Function(String message) added,
+    required TResult Function(String message) created,
     required TResult Function(String message) deleted,
     required TResult Function(String message) error,
   }) {
@@ -288,9 +262,7 @@ class _$_Loading implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<EventEntity> events)? loaded,
-    TResult? Function(String message)? updated,
-    TResult? Function(String message)? added,
+    TResult? Function(String message)? created,
     TResult? Function(String message)? deleted,
     TResult? Function(String message)? error,
   }) {
@@ -302,9 +274,7 @@ class _$_Loading implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<EventEntity> events)? loaded,
-    TResult Function(String message)? updated,
-    TResult Function(String message)? added,
+    TResult Function(String message)? created,
     TResult Function(String message)? deleted,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -320,9 +290,7 @@ class _$_Loading implements _Loading {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Updated value) updated,
-    required TResult Function(_Added value) added,
+    required TResult Function(_Created value) created,
     required TResult Function(_Deleted value) deleted,
     required TResult Function(_Error value) error,
   }) {
@@ -334,9 +302,7 @@ class _$_Loading implements _Loading {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Updated value)? updated,
-    TResult? Function(_Added value)? added,
+    TResult? Function(_Created value)? created,
     TResult? Function(_Deleted value)? deleted,
     TResult? Function(_Error value)? error,
   }) {
@@ -348,9 +314,7 @@ class _$_Loading implements _Loading {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Updated value)? updated,
-    TResult Function(_Added value)? added,
+    TResult Function(_Created value)? created,
     TResult Function(_Deleted value)? deleted,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -367,186 +331,19 @@ abstract class _Loading implements EventState {
 }
 
 /// @nodoc
-abstract class _$$_LoadedCopyWith<$Res> {
-  factory _$$_LoadedCopyWith(_$_Loaded value, $Res Function(_$_Loaded) then) =
-      __$$_LoadedCopyWithImpl<$Res>;
-  @useResult
-  $Res call({List<EventEntity> events});
-}
-
-/// @nodoc
-class __$$_LoadedCopyWithImpl<$Res>
-    extends _$EventStateCopyWithImpl<$Res, _$_Loaded>
-    implements _$$_LoadedCopyWith<$Res> {
-  __$$_LoadedCopyWithImpl(_$_Loaded _value, $Res Function(_$_Loaded) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? events = null,
-  }) {
-    return _then(_$_Loaded(
-      events: null == events
-          ? _value._events
-          : events // ignore: cast_nullable_to_non_nullable
-              as List<EventEntity>,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$_Loaded implements _Loaded {
-  const _$_Loaded({required final List<EventEntity> events}) : _events = events;
-
-  final List<EventEntity> _events;
-  @override
-  List<EventEntity> get events {
-    if (_events is EqualUnmodifiableListView) return _events;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_events);
-  }
-
-  @override
-  String toString() {
-    return 'EventState.loaded(events: $events)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_Loaded &&
-            const DeepCollectionEquality().equals(other._events, _events));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_events));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_LoadedCopyWith<_$_Loaded> get copyWith =>
-      __$$_LoadedCopyWithImpl<_$_Loaded>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(List<EventEntity> events) loaded,
-    required TResult Function(String message) updated,
-    required TResult Function(String message) added,
-    required TResult Function(String message) deleted,
-    required TResult Function(String message) error,
-  }) {
-    return loaded(events);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(List<EventEntity> events)? loaded,
-    TResult? Function(String message)? updated,
-    TResult? Function(String message)? added,
-    TResult? Function(String message)? deleted,
-    TResult? Function(String message)? error,
-  }) {
-    return loaded?.call(events);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(List<EventEntity> events)? loaded,
-    TResult Function(String message)? updated,
-    TResult Function(String message)? added,
-    TResult Function(String message)? deleted,
-    TResult Function(String message)? error,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(events);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Updated value) updated,
-    required TResult Function(_Added value) added,
-    required TResult Function(_Deleted value) deleted,
-    required TResult Function(_Error value) error,
-  }) {
-    return loaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Updated value)? updated,
-    TResult? Function(_Added value)? added,
-    TResult? Function(_Deleted value)? deleted,
-    TResult? Function(_Error value)? error,
-  }) {
-    return loaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Updated value)? updated,
-    TResult Function(_Added value)? added,
-    TResult Function(_Deleted value)? deleted,
-    TResult Function(_Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Loaded implements EventState {
-  const factory _Loaded({required final List<EventEntity> events}) = _$_Loaded;
-
-  List<EventEntity> get events;
-  @JsonKey(ignore: true)
-  _$$_LoadedCopyWith<_$_Loaded> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$_UpdatedCopyWith<$Res> {
-  factory _$$_UpdatedCopyWith(
-          _$_Updated value, $Res Function(_$_Updated) then) =
-      __$$_UpdatedCopyWithImpl<$Res>;
+abstract class _$$_CreatedCopyWith<$Res> {
+  factory _$$_CreatedCopyWith(
+          _$_Created value, $Res Function(_$_Created) then) =
+      __$$_CreatedCopyWithImpl<$Res>;
   @useResult
   $Res call({String message});
 }
 
 /// @nodoc
-class __$$_UpdatedCopyWithImpl<$Res>
-    extends _$EventStateCopyWithImpl<$Res, _$_Updated>
-    implements _$$_UpdatedCopyWith<$Res> {
-  __$$_UpdatedCopyWithImpl(_$_Updated _value, $Res Function(_$_Updated) _then)
+class __$$_CreatedCopyWithImpl<$Res>
+    extends _$EventStateCopyWithImpl<$Res, _$_Created>
+    implements _$$_CreatedCopyWith<$Res> {
+  __$$_CreatedCopyWithImpl(_$_Created _value, $Res Function(_$_Created) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -554,7 +351,7 @@ class __$$_UpdatedCopyWithImpl<$Res>
   $Res call({
     Object? message = null,
   }) {
-    return _then(_$_Updated(
+    return _then(_$_Created(
       message: null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
@@ -565,22 +362,22 @@ class __$$_UpdatedCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Updated implements _Updated {
-  const _$_Updated({required this.message});
+class _$_Created implements _Created {
+  const _$_Created({required this.message});
 
   @override
   final String message;
 
   @override
   String toString() {
-    return 'EventState.updated(message: $message)';
+    return 'EventState.created(message: $message)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Updated &&
+            other is _$_Created &&
             (identical(other.message, message) || other.message == message));
   }
 
@@ -590,21 +387,19 @@ class _$_Updated implements _Updated {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_UpdatedCopyWith<_$_Updated> get copyWith =>
-      __$$_UpdatedCopyWithImpl<_$_Updated>(this, _$identity);
+  _$$_CreatedCopyWith<_$_Created> get copyWith =>
+      __$$_CreatedCopyWithImpl<_$_Created>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<EventEntity> events) loaded,
-    required TResult Function(String message) updated,
-    required TResult Function(String message) added,
+    required TResult Function(String message) created,
     required TResult Function(String message) deleted,
     required TResult Function(String message) error,
   }) {
-    return updated(message);
+    return created(message);
   }
 
   @override
@@ -612,13 +407,11 @@ class _$_Updated implements _Updated {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<EventEntity> events)? loaded,
-    TResult? Function(String message)? updated,
-    TResult? Function(String message)? added,
+    TResult? Function(String message)? created,
     TResult? Function(String message)? deleted,
     TResult? Function(String message)? error,
   }) {
-    return updated?.call(message);
+    return created?.call(message);
   }
 
   @override
@@ -626,15 +419,13 @@ class _$_Updated implements _Updated {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<EventEntity> events)? loaded,
-    TResult Function(String message)? updated,
-    TResult Function(String message)? added,
+    TResult Function(String message)? created,
     TResult Function(String message)? deleted,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
-    if (updated != null) {
-      return updated(message);
+    if (created != null) {
+      return created(message);
     }
     return orElse();
   }
@@ -644,13 +435,11 @@ class _$_Updated implements _Updated {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Updated value) updated,
-    required TResult Function(_Added value) added,
+    required TResult Function(_Created value) created,
     required TResult Function(_Deleted value) deleted,
     required TResult Function(_Error value) error,
   }) {
-    return updated(this);
+    return created(this);
   }
 
   @override
@@ -658,13 +447,11 @@ class _$_Updated implements _Updated {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Updated value)? updated,
-    TResult? Function(_Added value)? added,
+    TResult? Function(_Created value)? created,
     TResult? Function(_Deleted value)? deleted,
     TResult? Function(_Error value)? error,
   }) {
-    return updated?.call(this);
+    return created?.call(this);
   }
 
   @override
@@ -672,187 +459,24 @@ class _$_Updated implements _Updated {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Updated value)? updated,
-    TResult Function(_Added value)? added,
+    TResult Function(_Created value)? created,
     TResult Function(_Deleted value)? deleted,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
-    if (updated != null) {
-      return updated(this);
+    if (created != null) {
+      return created(this);
     }
     return orElse();
   }
 }
 
-abstract class _Updated implements EventState {
-  const factory _Updated({required final String message}) = _$_Updated;
+abstract class _Created implements EventState {
+  const factory _Created({required final String message}) = _$_Created;
 
   String get message;
   @JsonKey(ignore: true)
-  _$$_UpdatedCopyWith<_$_Updated> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$_AddedCopyWith<$Res> {
-  factory _$$_AddedCopyWith(_$_Added value, $Res Function(_$_Added) then) =
-      __$$_AddedCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String message});
-}
-
-/// @nodoc
-class __$$_AddedCopyWithImpl<$Res>
-    extends _$EventStateCopyWithImpl<$Res, _$_Added>
-    implements _$$_AddedCopyWith<$Res> {
-  __$$_AddedCopyWithImpl(_$_Added _value, $Res Function(_$_Added) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? message = null,
-  }) {
-    return _then(_$_Added(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$_Added implements _Added {
-  const _$_Added({required this.message});
-
-  @override
-  final String message;
-
-  @override
-  String toString() {
-    return 'EventState.added(message: $message)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$_Added &&
-            (identical(other.message, message) || other.message == message));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, message);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$_AddedCopyWith<_$_Added> get copyWith =>
-      __$$_AddedCopyWithImpl<_$_Added>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(List<EventEntity> events) loaded,
-    required TResult Function(String message) updated,
-    required TResult Function(String message) added,
-    required TResult Function(String message) deleted,
-    required TResult Function(String message) error,
-  }) {
-    return added(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(List<EventEntity> events)? loaded,
-    TResult? Function(String message)? updated,
-    TResult? Function(String message)? added,
-    TResult? Function(String message)? deleted,
-    TResult? Function(String message)? error,
-  }) {
-    return added?.call(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(List<EventEntity> events)? loaded,
-    TResult Function(String message)? updated,
-    TResult Function(String message)? added,
-    TResult Function(String message)? deleted,
-    TResult Function(String message)? error,
-    required TResult orElse(),
-  }) {
-    if (added != null) {
-      return added(message);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Updated value) updated,
-    required TResult Function(_Added value) added,
-    required TResult Function(_Deleted value) deleted,
-    required TResult Function(_Error value) error,
-  }) {
-    return added(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Updated value)? updated,
-    TResult? Function(_Added value)? added,
-    TResult? Function(_Deleted value)? deleted,
-    TResult? Function(_Error value)? error,
-  }) {
-    return added?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Updated value)? updated,
-    TResult Function(_Added value)? added,
-    TResult Function(_Deleted value)? deleted,
-    TResult Function(_Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (added != null) {
-      return added(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Added implements EventState {
-  const factory _Added({required final String message}) = _$_Added;
-
-  String get message;
-  @JsonKey(ignore: true)
-  _$$_AddedCopyWith<_$_Added> get copyWith =>
+  _$$_CreatedCopyWith<_$_Created> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -921,9 +545,7 @@ class _$_Deleted implements _Deleted {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<EventEntity> events) loaded,
-    required TResult Function(String message) updated,
-    required TResult Function(String message) added,
+    required TResult Function(String message) created,
     required TResult Function(String message) deleted,
     required TResult Function(String message) error,
   }) {
@@ -935,9 +557,7 @@ class _$_Deleted implements _Deleted {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<EventEntity> events)? loaded,
-    TResult? Function(String message)? updated,
-    TResult? Function(String message)? added,
+    TResult? Function(String message)? created,
     TResult? Function(String message)? deleted,
     TResult? Function(String message)? error,
   }) {
@@ -949,9 +569,7 @@ class _$_Deleted implements _Deleted {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<EventEntity> events)? loaded,
-    TResult Function(String message)? updated,
-    TResult Function(String message)? added,
+    TResult Function(String message)? created,
     TResult Function(String message)? deleted,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -967,9 +585,7 @@ class _$_Deleted implements _Deleted {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Updated value) updated,
-    required TResult Function(_Added value) added,
+    required TResult Function(_Created value) created,
     required TResult Function(_Deleted value) deleted,
     required TResult Function(_Error value) error,
   }) {
@@ -981,9 +597,7 @@ class _$_Deleted implements _Deleted {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Updated value)? updated,
-    TResult? Function(_Added value)? added,
+    TResult? Function(_Created value)? created,
     TResult? Function(_Deleted value)? deleted,
     TResult? Function(_Error value)? error,
   }) {
@@ -995,9 +609,7 @@ class _$_Deleted implements _Deleted {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Updated value)? updated,
-    TResult Function(_Added value)? added,
+    TResult Function(_Created value)? created,
     TResult Function(_Deleted value)? deleted,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -1082,9 +694,7 @@ class _$_Error implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<EventEntity> events) loaded,
-    required TResult Function(String message) updated,
-    required TResult Function(String message) added,
+    required TResult Function(String message) created,
     required TResult Function(String message) deleted,
     required TResult Function(String message) error,
   }) {
@@ -1096,9 +706,7 @@ class _$_Error implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<EventEntity> events)? loaded,
-    TResult? Function(String message)? updated,
-    TResult? Function(String message)? added,
+    TResult? Function(String message)? created,
     TResult? Function(String message)? deleted,
     TResult? Function(String message)? error,
   }) {
@@ -1110,9 +718,7 @@ class _$_Error implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<EventEntity> events)? loaded,
-    TResult Function(String message)? updated,
-    TResult Function(String message)? added,
+    TResult Function(String message)? created,
     TResult Function(String message)? deleted,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -1128,9 +734,7 @@ class _$_Error implements _Error {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Updated value) updated,
-    required TResult Function(_Added value) added,
+    required TResult Function(_Created value) created,
     required TResult Function(_Deleted value) deleted,
     required TResult Function(_Error value) error,
   }) {
@@ -1142,9 +746,7 @@ class _$_Error implements _Error {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Updated value)? updated,
-    TResult? Function(_Added value)? added,
+    TResult? Function(_Created value)? created,
     TResult? Function(_Deleted value)? deleted,
     TResult? Function(_Error value)? error,
   }) {
@@ -1156,9 +758,7 @@ class _$_Error implements _Error {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Updated value)? updated,
-    TResult Function(_Added value)? added,
+    TResult Function(_Created value)? created,
     TResult Function(_Deleted value)? deleted,
     TResult Function(_Error value)? error,
     required TResult orElse(),

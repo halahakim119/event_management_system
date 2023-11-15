@@ -1,17 +1,23 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../../../../../core/router/app_router.dart';
+import '../../../../../core/strings/strings.dart';
 import '../../../domain/entities/event_entity.dart';
 import 'check_boxes_card.dart';
-import 'wave_card.dart';
 
 class EventCardBody extends StatelessWidget {
   final EventEntity event;
   final bool isArabic;
+  final EventStatus? currentEventStatus;
 
-  EventCardBody({required this.event, required this.isArabic});
+  EventCardBody(
+      {Key? key,
+      required this.event,
+      required this.isArabic,
+      this.currentEventStatus})
+      : super(key: key);
   String formatTime(String dateTimeString) {
     DateTime dateTime = DateTime.parse(dateTimeString);
     String formattedTime = DateFormat.Hm().format(dateTime);
@@ -83,20 +89,20 @@ class EventCardBody extends StatelessWidget {
               ),
               child: Stack(
                 children: [
-                  Positioned.fill(
-                    bottom: 0,
-                    child: WaveCard(
-                      context: context,
-                      backgroundColor: color,
-                    ),
-                  ),
+                  // Positioned.fill(
+                  //   bottom: 0,
+                  //   child: WaveCard(
+                  //     context: context,
+                  //     backgroundColor: color,
+                  //   ),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.all(15.0),
                     child: SizedBox(
                       width: double.infinity,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Container(
                             height: 50,
@@ -144,36 +150,76 @@ class EventCardBody extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Wrap(
-                            alignment: WrapAlignment.spaceBetween,
-                            children: [
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      Theme.of(context).disabledColor,
-                                ),
-                                onPressed: () {},
-                                child: const Text(
-                                  'Invitations',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                              ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor:
-                                      Theme.of(context).disabledColor,
-                                ),
-                                onPressed: () {
-                                  context.router
-                                      .push(FilterHostsRoute(event: event));
-                                },
-                                child: const Text(
-                                  'Host',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                              ),
-                            ],
-                          ),
+                          if (currentEventStatus == EventStatus.pending ||
+                              currentEventStatus == EventStatus.Accepted)
+                            event.guests != null
+                                ? ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor:
+                                          Theme.of(context).disabledColor,
+                                    ),
+                                    onPressed: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            title: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text('Guests'),
+                                                IconButton(
+                                                  onPressed: () {
+                                                    context.router.pop();
+                                                  },
+                                                  icon: Icon(
+                                                      Icons.cancel_outlined),
+                                                ),
+                                              ],
+                                            ),
+                                            titlePadding: const EdgeInsets.only(
+                                                left: 25, right: 10, top: 15),
+                                            scrollable: true,
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.stretch,
+                                              children:
+                                                  event.guests!.map((user) {
+                                                return ListTile(
+                                                  leading: CircleAvatar(
+                                                    backgroundColor:
+                                                        Theme.of(context)
+                                                            .primaryColor,
+                                                    child: Icon(
+                                                      Icons.person_2_rounded,
+                                                      color: Theme.of(context)
+                                                          .colorScheme
+                                                          .onPrimary,
+                                                    ),
+                                                  ),
+                                                  title: Text(
+                                                      user.name ?? "undefined"),
+                                                  subtitle: Text(
+                                                    user.phoneNumber ??
+                                                        "undefined",
+                                                  ),
+                                                );
+                                              }).toList(),
+                                            ),
+                                            contentPadding:
+                                                const EdgeInsets.all(10),
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: const Text(
+                                      'Invitations',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  )
+                                : const Text('no guests  ')
                         ],
                       ),
                     ),

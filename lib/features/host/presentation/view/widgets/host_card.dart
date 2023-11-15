@@ -1,8 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/router/app_router.dart';
 import '../../../../event/domain/entities/event_entity.dart';
-import '../../../../event/presentation/logic/cubit/request_cubit.dart';
 import '../../../domain/entities/host_entity.dart';
 
 class HostCard extends StatelessWidget {
@@ -50,22 +50,8 @@ class HostCard extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const SizedBox(height: 8),
-                            Text(
-                              'Category: ${host.category ?? ''}', // Display host category
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              'services: ${host.services ?? ''}', // Display host province
-                            ),
-                            SizedBox(height: 8),
-                            Text(
-                              'services: ${host.serviceDescription ?? ''}', // Display host province
-                            ),
-                          ],
+                        child: Text(
+                          'Category: ${host.category ?? ''}', // Display host category
                         ),
                       ),
                       Padding(
@@ -73,8 +59,9 @@ class HostCard extends StatelessWidget {
                         child: ElevatedButton(
                             onPressed: () {
                               event.host = host;
-                              context.read<RequestCubit>()
-                                ..createRequestUseCase(event);
+                              context.router
+                                  .push(ServicesFormRoute(event: event));
+                           
                             },
                             child: const Text('Request')),
                       )

@@ -1,22 +1,22 @@
 import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../../event/data/models/event_model.dart';
+import '../../../event/domain/entities/event_entity.dart';
 import '../../../invitaions/data/models/invite_model.dart';
 import '../../domain/entities/user_entity.dart';
 
-// ignore: must_be_immutable
 class UserModel extends UserEntity {
-  UserModel(
-      {super.id,
-      super.token,
-      super.name,
-      super.phoneNumber,
-      super.province,
-      super.FCMtokens,
-      super.following,
-      super.events,
-      super.invites,
-   });
+  UserModel({
+    super.id,
+    super.token,                                                                                   
+    super.name,
+    super.phoneNumber,
+    super.province,
+    super.FCMtokens,
+    super.following,
+    super.events,
+    super.invites,
+  });
 
   static UserModel? getUserData() {
     UserModel? user;
@@ -28,6 +28,10 @@ class UserModel extends UserEntity {
   }
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    List<EventEntity>? events = (json['eventsPlanned'] as List<dynamic>?)
+            ?.map((e) => EventModel.fromJson(e).toEntity())
+            .toList() ??
+        [];
     return UserModel(
       id: json['id'] ?? '',
       name: json['name'],
@@ -39,15 +43,11 @@ class UserModel extends UserEntity {
               ?.map((e) => UserModel.fromJson(e).toEntity())
               .toList() ??
           [],
-      events: (json['events'] as List<dynamic>?)
-              ?.map((e) => EventModel.fromJson(e).toEntity())
-              .toList() ??
-          [],
+      events: events,
       invites: (json['invites'] as List<dynamic>?)
               ?.map((e) => InviteModel.fromJson(e).toEntity())
               .toList() ??
           [],
-     
     );
   }
   Map<String, dynamic> toJson() {
@@ -70,7 +70,6 @@ class UserModel extends UserEntity {
               ?.map((invites) => InviteModel.fromEntity(invites).toJson())
               .toList() ??
           [],
-   
     };
   }
 
@@ -85,7 +84,6 @@ class UserModel extends UserEntity {
       following: entity.following,
       events: entity.events,
       invites: entity.invites,
-      
     );
   }
 
@@ -100,7 +98,6 @@ class UserModel extends UserEntity {
       events: events,
       FCMtokens: FCMtokens,
       invites: invites,
-
     );
   }
 }

@@ -4,8 +4,6 @@ import '../../../../core/error/failure.dart';
 import '../entities/event_entity.dart';
 
 abstract class EventRepository {
-  Future<Either<Failure, List<EventEntity>>> getAllEvents();
-  Future<Either<Failure, String>> updateEvent(EventEntity event);
-  Future<Either<Failure, String>> cancelEvent(EventEntity event);
-  Future<Either<Failure, String>> addDraft(EventEntity draft);
+  Future<Either<Failure, String>> create(EventEntity event);
+  Future<Either<Failure, String>> delete(String id);
 }

@@ -5,10 +5,9 @@ part of 'event_cubit.dart';
 sealed class EventState with _$EventState {
   const factory EventState.initial() = _Initial;
   const factory EventState.loading() = _Loading;
-  const factory EventState.loaded({required List<EventEntity> events}) =
-      _Loaded;
-  const factory EventState.updated({required String message}) = _Updated;
-    const factory EventState.added({required String message}) = _Added;
+
+  const factory EventState.created({required String message}) = _Created;
+
   const factory EventState.deleted({required String message}) = _Deleted;
   const factory EventState.error({required String message}) = _Error;
 }

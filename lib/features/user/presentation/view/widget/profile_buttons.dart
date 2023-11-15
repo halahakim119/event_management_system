@@ -55,7 +55,7 @@ class ProfileBody extends StatelessWidget {
           const SizedBox(height: 10),
           WidgetAnimator(
               incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(
-                  delay: const Duration(milliseconds: 1100),
+                  delay: const Duration(milliseconds: 900),
                   opacity: 0.5,
                   duration: const Duration(milliseconds: 1000)),
               child: BlocBuilder<ThemeCubit, ThemeMode>(
@@ -83,37 +83,7 @@ class ProfileBody extends StatelessWidget {
           const SizedBox(height: 10),
           WidgetAnimator(
               incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(
-                  delay: const Duration(milliseconds: 1400),
-                  opacity: 0.5,
-                  duration: const Duration(milliseconds: 1000)),
-              child: BlocBuilder<ThemeCubit, ThemeMode>(
-                builder: (context, state) {
-                  return GestureDetector(
-                    onTap: () {
-                      context.router.push(const DraftListRoute());
-                    },
-                    child: Container(
-                      height: 50,
-                      decoration: BoxDecoration(
-                          color: Theme.of(context).highlightColor,
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15),
-                              bottomLeft: Radius.circular(15),
-                              bottomRight: Radius.circular(15))),
-                      child: const Center(
-                          child: Text(
-                        'Drafts',
-                        textAlign: TextAlign.center,
-                      )),
-                    ),
-                  );
-                },
-              )),
-          const SizedBox(height: 10),
-          WidgetAnimator(
-              incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(
-                  delay: const Duration(milliseconds: 1700),
+                  delay: const Duration(milliseconds: 1300),
                   opacity: 0.5,
                   duration: const Duration(milliseconds: 1000)),
               child: BlocBuilder<ThemeCubit, ThemeMode>(
@@ -138,7 +108,7 @@ class ProfileBody extends StatelessWidget {
           const SizedBox(height: 10),
           WidgetAnimator(
               incomingEffect: WidgetTransitionEffects.incomingSlideInFromLeft(
-                  delay: const Duration(milliseconds: 2000),
+                  delay: const Duration(milliseconds: 1700),
                   opacity: 0.5,
                   duration: const Duration(milliseconds: 1000)),
               child: BlocBuilder<ThemeCubit, ThemeMode>(

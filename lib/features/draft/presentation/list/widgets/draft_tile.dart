@@ -1,22 +1,28 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:event_management_system/core/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/injection/modules/dependency_injection.dart';
+import '../../../../../core/router/app_router.dart';
+import '../../../../event/domain/entities/event_entity.dart';
 import '../../../../event/presentation/view/widgets/check_boxes_card.dart';
 import '../../../../event/presentation/view/widgets/wave_card.dart';
 import '../../../application/draft_bloc/draft_bloc.dart';
 import '../../../domain/entities/draft/draft.dart';
 
-class DraftTile extends StatelessWidget {
+class DraftTile extends StatefulWidget {
   const DraftTile({
     super.key,
     required this.draft,
   });
-
   final Draft draft;
+
+  @override
+  State<DraftTile> createState() => _DraftTileState();
+}
+
+class _DraftTileState extends State<DraftTile> {
   String formatTime(String dateTimeString) {
     DateTime dateTime = DateTime.parse(dateTimeString);
     String formattedTime = DateFormat.Hm().format(dateTime);
@@ -32,7 +38,7 @@ class DraftTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isArabic = context.locale.languageCode == 'ar';
-    String? waveColor = draft.dressCode;
+    String? waveColor = widget.draft.dressCode;
     Color? color;
     if (waveColor != null) {
       var colorString = waveColor.replaceAll("Color(", "").replaceAll(")", "");
@@ -57,7 +63,9 @@ class DraftTile extends StatelessWidget {
               child: Text(
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
-                  draft.type == null ? "no type" : draft.type!.toUpperCase()),
+                  widget.draft.type == null
+                      ? "no type"
+                      : widget.draft.type!.toUpperCase()),
             ),
             Container(
               decoration: BoxDecoration(
@@ -73,7 +81,8 @@ class DraftTile extends StatelessWidget {
                 children: [
                   IconButton(
                       onPressed: () {
-                        context.router.push(EditDraftRoute(draft: draft));
+                        context.router
+                            .push(EditDraftRoute(draft: widget.draft));
                       },
                       icon: Icon(
                         Icons.edit_outlined,
@@ -106,7 +115,7 @@ class DraftTile extends StatelessWidget {
                                           onPressed: () {
                                             context.read<DraftBloc>().add(
                                                   DraftDeleteRequested(
-                                                      id: draft.id!),
+                                                      id: widget.draft.id!),
                                                 );
                                             context.router.pop();
                                           },
@@ -165,7 +174,7 @@ class DraftTile extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             Text(
-                              formatTime(draft.startsAt!),
+                              formatTime(widget.draft.startsAt!),
                               style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
@@ -174,7 +183,7 @@ class DraftTile extends StatelessWidget {
                               style: TextStyle(fontSize: 14),
                             ),
                             Text(
-                              formatTime(draft.endsAt!),
+                              formatTime(widget.draft.endsAt!),
                               style: const TextStyle(
                                   fontSize: 16, fontWeight: FontWeight.bold),
                             ),
@@ -215,7 +224,7 @@ class DraftTile extends StatelessWidget {
                                               BorderRadius.circular(15),
                                         ),
                                         child: Text(
-                                          draft.title?.toUpperCase() ??
+                                          widget.draft.title?.toUpperCase() ??
                                               'No title',
                                           textAlign: TextAlign.center,
                                           maxLines: 2,
@@ -226,9 +235,9 @@ class DraftTile extends StatelessWidget {
                                         ),
                                       ),
                                       CheckBoxesCard(
-                                        food: draft.food,
-                                        adultsOnly: draft.adultsOnly,
-                                        alcohol: draft.alcohol,
+                                        food: widget.draft.food,
+                                        adultsOnly: widget.draft.adultsOnly,
+                                        alcohol: widget.draft.alcohol,
                                       ),
                                       Container(
                                         margin: const EdgeInsets.symmetric(
@@ -247,13 +256,15 @@ class DraftTile extends StatelessWidget {
                                               MainAxisAlignment.spaceEvenly,
                                           children: [
                                             Text(
-                                              formatDate(draft.startingDate!),
+                                              formatDate(
+                                                  widget.draft.startingDate!),
                                               style: const TextStyle(
                                                   color: Colors.white),
                                               textAlign: TextAlign.center,
                                             ),
                                             Text(
-                                              formatDate(draft.endingDate!),
+                                              formatDate(
+                                                  widget.draft.endingDate!),
                                               style: const TextStyle(
                                                   color: Colors.white),
                                               textAlign: TextAlign.center,
@@ -303,8 +314,8 @@ class DraftTile extends StatelessWidget {
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
                                                               .stretch,
-                                                      children: draft
-                                                          .guestsNumbers!
+                                                      children: widget
+                                                          .draft.guestsNumbers!
                                                           .map((user) {
                                                         return ListTile(
                                                           leading: CircleAvatar(
@@ -350,8 +361,38 @@ class DraftTile extends StatelessWidget {
                                                   .disabledColor,
                                             ),
                                             onPressed: () {
-                                              // context.router
-                                              //     .push(FilterHostsRoute(event: event));
+                                              List<String>? numbers = widget
+                                                  .draft.guestsNumbers
+                                                  ?.map((guest) =>
+                                                      guest.phoneNumber!)
+                                                  .toList();
+
+                                              EventEntity event = EventEntity(
+                                                adultsOnly:
+                                                    widget.draft.adultsOnly,
+                                                alcohol: widget.draft.alcohol,
+                                                description:
+                                                    widget.draft.description,
+                                                dressCode:
+                                                    widget.draft.dressCode,
+                                                endingDate:
+                                                    widget.draft.endingDate,
+                                                endsAt: widget.draft.endsAt,
+                                       
+                                                food: widget.draft.food,
+                                                guestsNumber:
+                                                    widget.draft.guestsNumber,
+                                                guestsNumbers: numbers,
+                                                postType: widget.draft.postType,
+                                                startingDate:
+                                                    widget.draft.startingDate,
+                                                startsAt: widget.draft.startsAt,
+                                                title: widget.draft.title,
+                                                type: widget.draft.type,
+                                              );
+                                              context.router.push(
+                                                  FilterHostsRoute(
+                                                      event: event));
                                             },
                                             child: const Text(
                                               'Host',
@@ -386,11 +427,11 @@ class DraftTile extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "POST : ${draft.postType == null ? "" : draft.postType!.toUpperCase()}",
+                            "POST : ${widget.draft.postType == null ? "" : widget.draft.postType!.toUpperCase()}",
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "SEAT NO. : ${draft.guestsNumber == null ? "" : draft.guestsNumber.toString()}",
+                            "SEAT NO. : ${widget.draft.guestsNumber == null ? "" : widget.draft.guestsNumber.toString()}",
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -404,7 +445,7 @@ class DraftTile extends StatelessWidget {
                           children: [
                             isArabic
                                 ? TextSpan(
-                                    text: draft.description ?? "",
+                                    text: widget.draft.description ?? "",
                                     style: TextStyle(
                                       color: Theme.of(context)
                                           .textTheme
@@ -429,7 +470,7 @@ class DraftTile extends StatelessWidget {
                             const TextSpan(text: "  "),
                             !isArabic
                                 ? TextSpan(
-                                    text: draft.description ?? "",
+                                    text: widget.draft.description ?? "",
                                     style: TextStyle(
                                       color: Theme.of(context)
                                           .textTheme

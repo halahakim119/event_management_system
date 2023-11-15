@@ -4,7 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../core/injection/injection_container.dart';
 import '../../../../event/domain/entities/event_entity.dart';
-import '../../../../event/presentation/logic/cubit/request_cubit.dart';
+import '../../../../event/presentation/logic/cubit/event_cubit.dart';
+import '../../../domain/entities/filter_host_entity.dart';
 import '../../../domain/entities/host_entity.dart';
 import '../../logic/cubit/hosts_cubit.dart';
 import '../widgets/host_card.dart';
@@ -31,14 +32,14 @@ class _FilterHostsScreenState extends State<FilterHostsScreen> {
       body: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) =>
-                sl<HostsCubit>()..filterHosts(filterHostEntity: null),
+            create: (context) => sl<HostsCubit>()
+              ..filterHosts(filterHostEntity: FilterHostEntity(count: 0)),
           ),
           BlocProvider(
-            create: (context) => sl<RequestCubit>(),
+            create: (context) => sl<EventCubit>(),
           ),
         ],
-        child: BlocConsumer<RequestCubit, RequestState>(
+        child: BlocConsumer<EventCubit, EventState>(
           listener: (context, state) {
             state.maybeWhen(
               orElse: () {},
@@ -116,27 +117,30 @@ class _FilterHostsScreenState extends State<FilterHostsScreen> {
                 );
               },
               builder: (context, state) {
-                return SingleChildScrollView(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      children: [
-                        const HostFilter(),
-                        state.when(
-                          initial: () => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                          loading: () => const Center(
-                            child: CircularProgressIndicator(),
-                          ),
-                          loaded: (hosts) {
-                            hostsData = hosts;
-                            return HostCard(
-                                hostsData: hostsData!, event: widget.event);
-                          },
-                          error: (message) => Center(child: Text(message)),
-                        )
-                      ],
-                    ));
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Column(
+                    children: [
+                      const HostFilter(),
+                      state.when(
+                        initial: () => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        loading: () => const Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                        loaded: (hosts) {
+                          hostsData = hosts;
+                          return Expanded(
+                            child: HostCard(
+                                hostsData: hostsData!, event: widget.event),
+                          );
+                        },
+                        error: (message) => Center(child: Text(message)),
+                      )
+                    ],
+                  ),
+                );
               },
             );
           },

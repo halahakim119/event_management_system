@@ -7,9 +7,6 @@ import 'package:http/http.dart' as http;
 
 import '../../../../core/error/exception.dart';
 import '../../../../core/error/failure.dart';
-import '../../../event/data/models/event_model.dart';
-import '../../../invitaions/data/models/invite_model.dart';
-import '../../domain/entities/user_entity.dart';
 import '../models/user_model.dart';
 
 abstract class UserDataSource {
@@ -39,49 +36,9 @@ class UserDataSourceImpl implements UserDataSource {
       final jsonResponse = jsonDecode(response.body);
       if (response.statusCode == 200 && jsonResponse.containsKey('data')) {
         final userDataJson = jsonResponse['data'] as Map<String, dynamic>;
-        // Retrieve existing user data from Hive
-        final existingUser = UserModel.getUserData();
-        // Update the desired fields
-        existingUser?.name = userDataJson['name'];
-        existingUser?.phoneNumber = userDataJson['phoneNumber'];
-        existingUser?.province = userDataJson['province'];
-        if (userDataJson['following'] is List) {
-          // Ensure 'following' is a List
-          existingUser?.following =
-              userDataJson['following'].cast<UserEntity>();
-        }
-        if (userDataJson['invites'] is List) {
-          // Ensure 'invites' is a List
-          existingUser?.invites = (userDataJson['invites'] as List<dynamic>)
-              .map((invites) => InviteModel.fromJson(invites).toEntity())
-              .toList();
-        }
-        final initEvents = userDataJson['init'] as List<dynamic>? ?? [];
-        final plannedEvents =
-            userDataJson['eventsPlanned'] as List<dynamic>? ?? [];
-        final requests = userDataJson['requests'] as List<dynamic>? ?? [];
+        UserModel user =UserModel.fromJson(userDataJson);
 
-        final events = [
-          ...initEvents
-              .map((eventJson) => EventModel.fromJson(eventJson).toEntity())
-              .toList(),
-          ...requests
-              .map((eventJson) => EventModel.fromJson(eventJson).toEntity())
-              .toList(),
-          ...plannedEvents
-              .map((eventJson) => EventModel.fromJson(eventJson).toEntity())
-              .toList(),
-        ];
-
-        existingUser?.events = events;
-
-        log("userJson.toString()");
-        log(existingUser!.events.toString());
-
-        // Assuming you store the retrieved user data in the box
-        userBox.putAt(0, existingUser);
-
-        return Right(existingUser);
+        return Right(user);
       } else if (response.statusCode == 400) {
         if (jsonResponse.containsKey('ERROR')) {
           final errorMessage = jsonResponse['ERROR'];

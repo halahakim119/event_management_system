@@ -13,7 +13,7 @@ class HostEntity extends Equatable {
   String? category;
   String? about;
   List<ServiceEntity>? services;
-  double? basePrice;
+  int? basePrice;
   String? serviceDescription;
   List<UserEntity>? followers;
   List<EventEntity>? events;

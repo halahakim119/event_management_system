@@ -42,8 +42,8 @@ class HostModel extends HostEntity {
       events: (json['events'] as List<dynamic>?)
           ?.map((event) => EventModel.fromJson(event).toEntity())
           .toList(),
-      locationDescription: json['locationDescription'] ?? '',
-      locationLink: json['locationLink'] ?? '',
+      locationDescription: json['locationDescription'],
+      locationLink: json['locationLink'],
     );
   }
 
@@ -90,18 +90,19 @@ class HostModel extends HostEntity {
 
   HostEntity toEntity() {
     return HostEntity(
-      id: id,
-      basePrice: basePrice,
-      phoneNumber: phoneNumber,
-      name: name,
-      province: province,
-      photos: photos,
-      category: category,
-      about: about,
-      services: services,
-      serviceDescription: serviceDescription,
-      followers: followers,
-      events: events,
-    );
+        id: id,
+        basePrice: basePrice,
+        phoneNumber: phoneNumber,
+        name: name,
+        province: province,
+        photos: photos,
+        category: category,
+        about: about,
+        services: services,
+        serviceDescription: serviceDescription,
+        followers: followers,
+        events: events,
+        locationDescription: locationDescription,
+        locationLink: locationLink);
   }
 }

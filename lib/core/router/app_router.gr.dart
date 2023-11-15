@@ -27,12 +27,6 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const AddDraftScreen(),
       );
     },
-    AddEventFormRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const AddEventFormScreen(),
-      );
-    },
     AuthRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -43,12 +37,6 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const DraftListScreen(),
-      );
-    },
-    DraftsRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const DraftsScreen(),
       );
     },
     EditDraftRoute.name: (routeData) {
@@ -165,6 +153,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SearchScreen(),
       );
     },
+    ServicesFormRoute.name: (routeData) {
+      final args = routeData.argsAs<ServicesFormRouteArgs>();
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: ServicesFormScreen(
+          key: args.key,
+          event: args.event,
+        ),
+      );
+    },
     SettingsRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -227,20 +225,6 @@ class AddDraftRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [AddEventFormScreen]
-class AddEventFormRoute extends PageRouteInfo<void> {
-  const AddEventFormRoute({List<PageRouteInfo>? children})
-      : super(
-          AddEventFormRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AddEventFormRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
 /// [AuthScreen]
 class AuthRoute extends PageRouteInfo<void> {
   const AuthRoute({List<PageRouteInfo>? children})
@@ -264,20 +248,6 @@ class DraftListRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'DraftListRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [DraftsScreen]
-class DraftsRoute extends PageRouteInfo<void> {
-  const DraftsRoute({List<PageRouteInfo>? children})
-      : super(
-          DraftsRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'DraftsRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }
@@ -635,6 +605,44 @@ class SearchRoute extends PageRouteInfo<void> {
   static const String name = 'SearchRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ServicesFormScreen]
+class ServicesFormRoute extends PageRouteInfo<ServicesFormRouteArgs> {
+  ServicesFormRoute({
+    Key? key,
+    required EventEntity event,
+    List<PageRouteInfo>? children,
+  }) : super(
+          ServicesFormRoute.name,
+          args: ServicesFormRouteArgs(
+            key: key,
+            event: event,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'ServicesFormRoute';
+
+  static const PageInfo<ServicesFormRouteArgs> page =
+      PageInfo<ServicesFormRouteArgs>(name);
+}
+
+class ServicesFormRouteArgs {
+  const ServicesFormRouteArgs({
+    this.key,
+    required this.event,
+  });
+
+  final Key? key;
+
+  final EventEntity event;
+
+  @override
+  String toString() {
+    return 'ServicesFormRouteArgs{key: $key, event: $event}';
+  }
 }
 
 /// generated route for

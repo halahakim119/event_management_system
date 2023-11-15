@@ -51,6 +51,7 @@ dependencies:
   widget_and_text_animator: ^1.0.0
   loading_animation_widget: ^1.2.0+4
   wave: ^0.2.2
+  google_nav_bar: ^5.0.6
 
   # routing
   auto_route: ^7.8.3
@@ -77,6 +78,8 @@ dependencies:
   permission_handler: ^11.0.0
   uuid: ^4.1.0
   injectable: ^2.1.0
+  url_launcher: ^6.1.14
+  numberpicker: ^2.1.2
 
   # storage
   hive: ^2.2.3

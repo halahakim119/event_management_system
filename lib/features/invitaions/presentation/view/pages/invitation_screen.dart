@@ -41,14 +41,16 @@ class _InvitationScreenState extends State<InvitationScreen> {
 
   void addToGuestList(ParticipantModel phoneNumber) {
     setState(() {
-      guestNumbers?.add(phoneNumber);
+      guestNumbers ??= []; // Initialize if null
+      guestNumbers!.add(phoneNumber);
       print(guestNumbers);
     });
   }
 
   void removeFromGuestList(ParticipantModel phoneNumber) {
     setState(() {
-      guestNumbers?.remove(phoneNumber);
+      guestNumbers ??= []; // Initialize if null
+      guestNumbers!.remove(phoneNumber);
       print(guestNumbers);
     });
   }
@@ -76,6 +78,7 @@ class _InvitationScreenState extends State<InvitationScreen> {
                 contact.phones.isNotEmpty ? contact.phones[0].number : "")
             .where((phoneNumber) => phoneNumber.isNotEmpty)
             .toList();
+    guestNumbers ??= []; // Initialize if null
     return contacts == null
         ? const Center(
             child: CircularProgressIndicator(),

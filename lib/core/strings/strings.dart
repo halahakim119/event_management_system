@@ -47,6 +47,6 @@ List<String> getHostCategorys() {
   ];
 }
 
-
-
 String baseUrl = 'http://35.180.62.182';
+
+enum EventStatus { Accepted, pending, eventEditByHost, canceledByHost, Denied }

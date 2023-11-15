@@ -8,6 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import '../../core/injection/injection_container.dart';
 import '../../core/router/app_router.dart';
+import '../draft/data/dtos/draft/draft_dto.dart';
 import '../theme/presentation/theme_cubit.dart';
 import '../user/data/models/user_model.dart';
 import '../user/presentation/logic/bloc/user_bloc.dart';
@@ -141,6 +142,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 : TextButton(
                     onPressed: () {
                       _logout();
+
                       Navigator.pop(context);
                     },
                     child: const Text("Log out"),
@@ -231,7 +233,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   void _logout() async {
     final userBox = Hive.box<UserModel>('userBox');
+    final draftBox = Hive.box<DraftDto>('draftBox');
     await userBox.clear();
+    await draftBox.clear();
   }
 
   void _deleteAccount() async {

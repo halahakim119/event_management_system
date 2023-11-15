@@ -116,7 +116,7 @@ class AuthenticationRemoteDataSourceImpl
 
       final userJson = jsonResponse['user'] as Map<String, dynamic>;
       final userData = UserModel.fromJson(userJson);
-      log(userJson.toString());
+  
 
       await _userBox.put('userBox', userData);
       userModelData = UserModel.getUserData();
@@ -126,6 +126,7 @@ class AuthenticationRemoteDataSourceImpl
         String? userId = userModelData!.id;
 
         sl<UserBloc>()..add(GetUserEvent(userId!));
+        log(userId);
 
         return Right(userData);
       }
